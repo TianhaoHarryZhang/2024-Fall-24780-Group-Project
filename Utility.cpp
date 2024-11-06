@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstring>
 #include "ysglfontdata.h"
 #include "utility.h"
 #include "fssimplewindow.h"
