@@ -5,6 +5,7 @@
 #include "yssimplesound.h"
 #include "ysglfontdata.h"
 #include "yspngenc.h"
+#include "utility.h"
 
 
 enum Scene_State
@@ -36,6 +37,8 @@ int main(void)
 	FsChangeToProgramDir();
 
 	YsRawPngDecoder main_scene;
+
+	Message message;
 
 	Scene_State scene_state = IN_MAIN_SCENE;
 
@@ -104,7 +107,44 @@ int main(void)
 		        }
 
 
+
+
+		/*DYNAMIC MESSAGE TYPING*/
+		if (message.typing_dynamic_message)
+		{
+			message.num_words_typed += 1;
+
+    		if (message.num_words_typed > std::strlen(message.message_to_type))
+    		{
+    			message.typing_dynamic_message = false;
+    			message.num_words_typed = 0;
+    			
+    			//chat_box.show_typed_message = true;
+    			//player.Stop(type);
+
+    		}
+    		else
+    		{
+    			//void type_character(char* message_pointer, float start_x, float start_y, int start, int numChars);
+    			message.type_character(message.message_to_type, 100,100, 0, message.num_words_typed);
+    			//chat_box.move_cursor();
+
+    		}
+		}
+
+
 		FsSwapBuffers();
+
+
+
+		if (message.typing_dynamic_message)
+		{
+			FsSleep(100);
+		}
+		else
+		{
+			FsSleep(500);
+		}
 	}
 
 	return 0;
