@@ -4,12 +4,12 @@
 
 Medicine::Medicine(std::string name = NULL, int cure = 0) : name(name), cure(cure) {}
 
-std::string Medicine::getName() const
+std::string Medicine::getName()
 {
     return name;
 }
 
-int Medicine::getCure() const
+int Medicine::getCure()
 {
     return cure;
 }
@@ -21,6 +21,7 @@ void Medicine::useMedicine()
 
 void Medicine::displayMedicine()
 {
+    // display the name and cure value of the medicine
     std::cout << "Name: " << name << std::endl;
     std::cout << "Cure: " << cure << std::endl;
 }
@@ -51,6 +52,7 @@ void MedicinePocket::useMedicine(int index)
 
 void MedicinePocket::displayMedicines()
 {
+
     for (int i = 0; i < size; i++)
     {
         medicines[i].displayMedicine();

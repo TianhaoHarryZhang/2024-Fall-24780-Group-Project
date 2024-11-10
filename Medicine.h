@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 
-const int MAX_MEDICINE = 2;
+const int MAX_MEDICINE = 3;
 
 class Medicine
 {
@@ -13,9 +13,9 @@ private:
 public:
     Medicine(std::string name, int cure);
 
-    std::string getName() const;
+    std::string getName();
 
-    int getCure() const;
+    int getCure();
 
     void useMedicine();
 
@@ -30,9 +30,9 @@ private:
     // size of the list
     int size;
     // list of medicine names
-    std::string medicineNames[MAX_MEDICINE] = {"Potion", "Super Potion"};
+    std::string medicineNames[MAX_MEDICINE] = {"Healixir", "Serene Sap", "Restoraid"};
     // list of cure values
-    int cureValues[MAX_MEDICINE] = {20, 50};
+    int cureValues[MAX_MEDICINE] = {10, 20, 40};
 
 public:
     MedicinePocket();
