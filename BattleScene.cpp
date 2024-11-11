@@ -20,3 +20,18 @@ void PokemonUI::renderTextBox(const std::string& message, int positionX, int pos
               << " and height " << height << ".\n";
     std::cout << "Message: " << message << std::endl;
 }
+
+int main() {
+    while (true) {
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        int terminate = 0;
+
+
+
+
+        FsSwapBuffers();
+    }
+
+
+    retun 0;
+}
