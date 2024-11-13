@@ -1,70 +1,52 @@
 #include <iostream>
-#include <string>
 #include "Pokemon.h"
 
-struct Skill {
-    std::string name;
-    float damage;
+// Constructor for Skill
+Skill::Skill(std::string name, float damage)
+    : name(name), damage(damage) {}
 
-    Skill(std::string name, float damage)
-        : name(name), damage(damage) {}
-};
+// Constructor for Pokemon
+Pokemon::Pokemon(std::string name, std::string level, float hp, Skill skill1, Skill skill2)
+    : name(name), level(level), hp(hp), skill1(skill1), skill2(skill2) {}
 
-class Pokemon {
-public:
-    // Public attributes
-    std::string name;
-    std::string level;
-    float hp;
+// Render function
+void Pokemon::render(int positionX, int positionY, float scale, int direction) {
+    std::cout << "Rendering " << name << " at (" << positionX << ", " << positionY << "), "
+              << "scale: " << scale << ", direction: " << direction << std::endl;
+}
 
-    // Skills
-    Skill skill1;
-    Skill skill2;
+// Attack animation function
+void Pokemon::attackAnimation() {
+    std::cout << name << " performs an attack animation!" << std::endl;
+}
 
-    // Constructor
-    Pokemon(std::string name, std::string level, float hp, Skill skill1, Skill skill2)
-        : name(name), level(level), hp(hp), skill1(skill1), skill2(skill2) {}
+// Take damage function
+void Pokemon::takeDamage(float damage) {
+    hp -= damage;
+    if (hp < 0) hp = 0;
+    std::cout << name << " takes " << damage << " damage! Current HP: " << hp << std::endl;
+    damageAnimation();
+}
 
-    // Public methods
-    void render(int positionX, int positionY, float scale, int direction) {
-        // Render the Pokémon based on its position, scale, and direction.
-        std::cout << "Rendering " << name << " at (" << positionX << ", " << positionY << "), "
-                  << "scale: " << scale << ", direction: " << direction << std::endl;
+// Damage animation function
+void Pokemon::damageAnimation() {
+    std::cout << name << " displays a damage animation!" << std::endl;
+}
+
+// Use skill function
+void Pokemon::useSkill(int skillIndex) {
+    if (skillIndex == 1) {
+        std::cout << name << " uses " << skill1.name << " causing " << skill1.damage << " damage!" << std::endl;
+        renderSkillEffect(skill1);
+    } else if (skillIndex == 2) {
+        std::cout << name << " uses " << skill2.name << " causing " << skill2.damage << " damage!" << std::endl;
+        renderSkillEffect(skill2);
+    } else {
+        std::cout << "Invalid skill index." << std::endl;
     }
+}
 
-    void attackAnimation() {
-        // Placeholder for attack animation
-        std::cout << name << " performs an attack animation!" << std::endl;
-    }
-
-    void takeDamage(float damage) {
-        hp -= damage;
-        if (hp < 0) hp = 0;
-        std::cout << name << " takes " << damage << " damage! Current HP: " << hp << std::endl;
-        damageAnimation();
-    }
-
-    void damageAnimation() {
-        // Placeholder for damage animation
-        std::cout << name << " displays a damage animation!" << std::endl;
-    }
-
-    void useSkill(int skillIndex) {
-        // Uses a skill based on skillIndex (1 for skill1, 2 for skill2)
-        if (skillIndex == 1) {
-            std::cout << name << " uses " << skill1.name << " causing " << skill1.damage << " damage!" << std::endl;
-            renderSkillEffect(skill1);
-        } else if (skillIndex == 2) {
-            std::cout << name << " uses " << skill2.name << " causing " << skill2.damage << " damage!" << std::endl;
-            renderSkillEffect(skill2);
-        } else {
-            std::cout << "Invalid skill index." << std::endl;
-        }
-    }
-
-private:
-    void renderSkillEffect(const Skill& skill) {
-        // Render the effect of the skill
-        std::cout << "Rendering effect of skill " << skill.name << std::endl;
-    }
-};
+// Render skill effect function
+void Pokemon::renderSkillEffect(const Skill& skill) {
+    std::cout << "Rendering effect of skill " << skill.name << std::endl;
+}
