@@ -1,17 +1,19 @@
 #include <iostream>
 #include <string>
+#include "fssimplewindow.h"
+#include "yspng.h"
+#include "yssimplesound.h"
+#include "ysglfontdata.h"
+#include "yspngenc.h"
 
 const int MAX_MEDICINE = 3;
 
 class Medicine
 {
-
-private:
+public:
     std::string name;
     int cure;
-
-public:
-    Medicine(std::string name, int cure);
+    // Medicine(std::string name = NULL, int cure = 0);
 
     std::string getName();
 
@@ -26,20 +28,18 @@ class MedicinePocket
 {
 private:
     // list of medicines
-    Medicine *medicines;
+    Medicine medicines[MAX_MEDICINE];
     // size of the list
     int size;
     // list of medicine names
-    std::string medicineNames[MAX_MEDICINE] = {"Healixir", "Serene Sap", "Restoraid"};
+    std::string medicineNames[MAX_MEDICINE] = {"Medicine1", "Medicine2", "Medicine3"};
     // list of cure values
     int cureValues[MAX_MEDICINE] = {10, 20, 40};
 
 public:
     MedicinePocket();
 
-    ~MedicinePocket();
+    int useMedicine(int index);
 
-    void useMedicine(int index);
-
-    void displayMedicines();
+    void displayMedicines(void *medicine_scene);
 };
