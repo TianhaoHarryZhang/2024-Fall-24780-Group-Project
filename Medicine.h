@@ -13,7 +13,6 @@ class Medicine
 public:
     std::string name;
     int cure;
-    // Medicine(std::string name = NULL, int cure = 0);
 
     std::string getName();
 

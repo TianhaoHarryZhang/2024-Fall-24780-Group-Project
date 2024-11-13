@@ -1,9 +1,5 @@
 #include "Medicine.h"
 
-// Medicine::Medicine(std::string name, int cure) : name(name), cure(cure)
-// {
-// }
-
 std::string Medicine::getName()
 {
     return name;

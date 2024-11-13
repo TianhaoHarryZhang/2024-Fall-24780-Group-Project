@@ -59,7 +59,6 @@ int main(void)
 	MedicinePocket medicine_pocket;
 
 	Scene_State scene_state = IN_MAIN_SCENE;
-	scene_state = IN_MEDICINE_POCKET;
 
 	if (YSOK == main_scene.Decode("images/main_background.png"))
 	{
@@ -102,10 +101,9 @@ int main(void)
 		{
 
 		case IN_MAIN_SCENE:
-			// FsRegisterOnPaintCallBack(Render, &main_scene);
 			//  draw the background image
 
-			glDrawPixels(main_scene.wid, main_scene.hei, GL_RGBA, GL_UNSIGNED_BYTE, main_scene.rgba);
+			// glDrawPixels(main_scene.wid, main_scene.hei, GL_RGBA, GL_UNSIGNED_BYTE, main_scene.rgba);
 
 			// // move the trainer
 			// if (trainer.isMoving == true)
