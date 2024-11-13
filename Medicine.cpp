@@ -48,6 +48,7 @@ int MedicinePocket::useMedicine(int index)
         int cure = medicines[index].getCure();
         return cure;
     }
+    return 0;
 }
 
 void MedicinePocket::displayMedicines(void *medicine_scene)
