@@ -24,25 +24,7 @@ void PokemonUI::renderTextBox(const std::string& message, int positionX, int pos
 int main() {
     while (true) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
         int terminate = 0;
-        int lb, mb, rb, mx, my;
-        int exit_x, exit_y, exit_h, exit_w;
-        int attack_x, attack_y, attack_h, attack_w;
-        int bag_x, bag_y, bag_h, bag_w;
-
-        FsGetMouseState(lb, mb, rb, mx, my);
-
-        // Load battle scene here
-        
-
-        // Check if any button is pressed
-        if (lb == 1) {
-            if (mx > exit_x && mx < exit_x + exit_w && my > exit_y && my < exit_y + exit_h) {
-                terminate = 1;
-            }
-            else if (mx > attack_x && mx < attack_x + attack_w && my > attack_y && my < attack_y + attack_h) {
-                // Put attack animation here
 
             }
             else if (mx > bag_x && mx < bag_x + bag_w && my > bag_y && my < bag_y + bag_h) {
@@ -55,9 +37,9 @@ int main() {
             break;
         }
 
-        FsSwapBuffers();
-    }
+//         FsSwapBuffers();
+//     }
 
 
-    retun 0;
-}
+//     retun 0;
+// }
