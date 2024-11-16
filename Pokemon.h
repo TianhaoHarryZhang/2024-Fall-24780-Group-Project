@@ -16,6 +16,7 @@ public:
     std::string name;
     std::string level;
     float hp;
+    float maxHp;
 
     // Skills
     Skill skill1;
