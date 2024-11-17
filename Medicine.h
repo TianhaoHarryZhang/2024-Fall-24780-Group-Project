@@ -20,7 +20,7 @@ public:
 
     void useMedicine();
 
-    void displayMedicine();
+    void displayMedicine(int i);
 };
 
 class MedicinePocket
