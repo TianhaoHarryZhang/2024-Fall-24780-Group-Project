@@ -41,8 +41,23 @@ int main() {
     bool playerRound = true; // Player always go first
     int pokemonSelect = 1; // Default Pokemon is the first pokemon
     
+    FsChangeToProgramDir();
+    YsRawPngDecoder battleBackground;
+
+    if (YSOK == battleBackground.Decode("battle_scene_new.png"))
+    {
+        printf("Wid %d Hei %d\n", png.wid, png.hei);
+    }
+    else
+    {
+        printf("Failed to open file.\n");
+        return 1;
+    }
+
+    FsOpenWindow(16, 16, 1225, 700, 1);
 
     while (true) {
+        FsPollDevice();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
         FsGetMouseState(lb, mb, rb, mx, my);
@@ -53,7 +68,7 @@ int main() {
         currentPokemon->render(playerPokemon_x, playerPokemon_y, playerPokemon_scale, playerPokemon_direction);
         UI.renderHPBar(NPCpokemon.hp, NPCpokemon.maxHp, hp_NPC_x, hp_NPC_y, hp_NPC_h, hp_NPC_w)
         NPCpokemon.render(NPCpokemon_x, NPCpokemon_y, NPCpokemon_scale, NPCpokemon_direction);
-
+        
         // Check if it is player's round
         if (playerRound == true){
             // Check if any button is pressed
@@ -71,12 +86,12 @@ int main() {
                 else if (mx > attack2_x && mx < attack2_x + attack_w && my > attack2_y && my < attack2_y + attack_h) {
                     playerRound = !playerRound; // Flip the round to NPC
                     currentPokemon->attackAnimation();
-            }
+                }
                 // Backpack pressed
-            else if (mx > bag_x && mx < bag_x + bag_w && my > bag_y && my < bag_y + bag_h) {
-
+                else if (mx > bag_x && mx < bag_x + bag_w && my > bag_y && my < bag_y + bag_h) {
+                    
+                }
             }
-        }
         }
         // NPC's round
         else {
@@ -95,7 +110,7 @@ int main() {
             currentPokemon = &pokemon2;
         }
 
-         FsSwapBuffers();
+        FsSwapBuffers();
      }
 
 
