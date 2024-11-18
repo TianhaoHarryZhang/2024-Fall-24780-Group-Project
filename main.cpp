@@ -60,6 +60,7 @@ int main(void)
 	MedicinePocket medicine_pocket;
 
 	Scene_State scene_state = IN_MAIN_SCENE;
+	// scene_state = IN_MEDICINE_POCKET;
 
 	if (YSOK == main_scene.Decode("images/main_background.png"))
 	{
@@ -192,7 +193,7 @@ int main(void)
 		case IN_MEDICINE_POCKET:
 
 			medicine_pocket.displayMedicines(&medicine_scene);
-			// everything that happens in the medicine pocket
+
 			break;
 		case TRANSIT_FROM_MAIN_TO_BATTLE:
 
