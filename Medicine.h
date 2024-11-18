@@ -19,8 +19,6 @@ public:
     int getCure();
 
     void useMedicine();
-
-    void displayMedicine(int i);
 };
 
 class MedicinePocket
