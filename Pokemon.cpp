@@ -1,18 +1,36 @@
 #include <iostream>
 #include "Pokemon.h"
+#include "yspng.h"
+#include "fssimplewindow.h"
 
 // Constructor for Skill
 Skill::Skill(std::string name, float damage)
     : name(name), damage(damage) {}
 
 // Constructor for Pokemon
-Pokemon::Pokemon(std::string name, std::string level, float hp, Skill skill1, Skill skill2)
-    : name(name), level(level), hp(hp), skill1(skill1), skill2(skill2) {}
+Pokemon::Pokemon(std::string name, std::string level, float hp, float maxHP, Skill skill1, Skill skill2, std::string fname)
+    : name(name), level(level), hp(hp), maxHp(maxHP), skill1(skill1), skill2(skill2), fname(fname) {}
 
 // Render function
 void Pokemon::render(int positionX, int positionY, float scale, int direction) {
-    std::cout << "Rendering " << name << " at (" << positionX << ", " << positionY << "), "
-              << "scale: " << scale << ", direction: " << direction << std::endl;
+    YsRawPngDecoder pokemon_fig;
+    std::string fname_total;
+    if (direction == 1){
+        fname_total = "images/monster/" + fname + "_right.png";
+    }else if (direction == 2)
+    {
+        fname_total = "images/monster/" + fname + "_left.png";
+    }
+    
+    const char* cstr_fname_total = fname_total.c_str();
+    if (YSOK != pokemon_fig.Decode(cstr_fname_total)) {
+        std::cout << "Failed to open file." << std::endl;
+        return;
+    }
+    pokemon_fig.Flip();
+    glRasterPos2i(positionX, positionY);
+    glPixelZoom(scale, scale);
+    glDrawPixels(pokemon_fig.wid, pokemon_fig.hei, GL_RGBA, GL_UNSIGNED_BYTE, pokemon_fig.rgba);
 }
 
 // Attack animation function

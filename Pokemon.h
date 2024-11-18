@@ -15,6 +15,7 @@ public:
     // Attributes
     std::string name;
     std::string level;
+    std::string fname;
     float hp;
     float maxHp;
 
@@ -23,7 +24,7 @@ public:
     Skill skill2;
 
     // Constructor
-    Pokemon(std::string name, std::string level, float hp, Skill skill1, Skill skill2);
+    Pokemon(std::string name, std::string level, float hp, float maxHP, Skill skill1, Skill skill2, std::string fname);
 
     // Methods
     void render(int positionX, int positionY, float scale, int direction);
