@@ -45,19 +45,14 @@ int main() {
     while (true) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
-
         FsGetMouseState(lb, mb, rb, mx, my);
 
         // Load battle scene here
         // Render pokeemon and their hp bar
-        
-
         UI.renderHPBar(currentPokemon->hp, currentPokemon->maxHp, hp_player_x, hp_player_y, hp_player_h, hp_player_w);
         currentPokemon->render(playerPokemon_x, playerPokemon_y, playerPokemon_scale, playerPokemon_direction);
         UI.renderHPBar(NPCpokemon.hp, NPCpokemon.maxHp, hp_NPC_x, hp_NPC_y, hp_NPC_h, hp_NPC_w)
         NPCpokemon.render(NPCpokemon_x, NPCpokemon_y, NPCpokemon_scale, NPCpokemon_direction);
-
-
 
         // Check if it is player's round
         if (playerRound == true){
@@ -70,15 +65,15 @@ int main() {
                 // First skill pressed
                 else if (mx > attack1_x && mx < attack1_x + attack_w && my > attack1_y && my < attack1_y + attack_h) {
                     playerRound = !playerRound; // Flip the round to NPC
-
+                    currentPokemon->attackAnimation();
                 }
                 // Second skill pressed
                 else if (mx > attack2_x && mx < attack2_x + attack_w && my > attack2_y && my < attack2_y + attack_h) {
                     playerRound = !playerRound; // Flip the round to NPC
+                    currentPokemon->attackAnimation();
             }
                 // Backpack pressed
             else if (mx > bag_x && mx < bag_x + bag_w && my > bag_y && my < bag_y + bag_h) {
-                // Put backpack scene here
 
             }
         }
