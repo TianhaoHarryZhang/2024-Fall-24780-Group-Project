@@ -6,6 +6,8 @@
 #include "ysglfontdata.h"
 #include "yspngenc.h"
 #include "utility.h"
+#include "Trainer.h"
+
 
 
 enum Scene_State
@@ -38,7 +40,7 @@ int main(void)
 
 	YsRawPngDecoder main_scene;
 
-	Trainer trainer;
+	Trainer trainer("Brock", 100, 100);
 
 	Message message;
 
@@ -132,8 +134,10 @@ int main(void)
 		        			{
 		        				trainer.move_south();
 		        			}
-
 		        		}
+
+						trainer.drawTrainer();
+
 		        	}
 
 		        	if (key == FSKEY_SPACE)
