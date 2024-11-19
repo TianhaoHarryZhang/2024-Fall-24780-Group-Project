@@ -1,5 +1,5 @@
 
-
+void generate_number_png(int number, int width, int height, int font_size);
 
 class Message
 {
