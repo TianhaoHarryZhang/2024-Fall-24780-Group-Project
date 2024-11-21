@@ -1,8 +1,19 @@
 #include <iostream>
 #include <cstring>
+#include <stdlib.h>
+#include <cstdio>
 #include "ysglfontdata.h"
 #include "utility.h"
 #include "fssimplewindow.h"
+
+void generate_number_png(int number, int width, int height, int font_size)
+{
+	char command[50];
+
+	snprintf(command, sizeof(command), "python number.py %d %d %d %d", number, width, height, font_size);
+
+    system(command);
+}
 
 //render text message
 void Message::renderText(float x, float y, const char text[], int R, int G, int B){
