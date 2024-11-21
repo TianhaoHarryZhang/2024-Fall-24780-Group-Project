@@ -183,8 +183,6 @@ int battle() {
         currentPokemon->render(playerPokemon_x, playerPokemon_y, playerPokemon_scale, playerPokemon_direction);
         currentNPCPokemon->render(NPCpokemon_x, NPCpokemon_y, NPCpokemon_scale, NPCpokemon_direction);
 
-
-
         // Check if it is player's round
         if (playerRound == true){
             // Check if any button is pressed
