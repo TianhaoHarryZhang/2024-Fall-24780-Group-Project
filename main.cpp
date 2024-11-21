@@ -60,7 +60,7 @@ int main(void)
 	MedicinePocket medicine_pocket;
 
 	Scene_State scene_state = IN_MAIN_SCENE;
-	scene_state = IN_ANIMAL_POCKET;
+	scene_state = IN_MEDICINE_POCKET;
 
 	if (YSOK == main_scene.Decode("images/main_background.png"))
 	{
