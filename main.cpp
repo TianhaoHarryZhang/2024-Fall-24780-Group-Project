@@ -51,11 +51,11 @@ int main(void)
 {
 	FsChangeToProgramDir();
 
-	YsRawPngDecoder main_scene, medicine_scene;
-
-	Trainer trainer;
+	YsRawPngDecoder main_scene, blur_scene;
 
 	Message message;
+
+	Trainer trainer("Ash", 100, 100);
 
 	MedicinePocket medicine_pocket;
 
@@ -73,10 +73,10 @@ int main(void)
 		return 1;
 	}
 
-	if (YSOK == medicine_scene.Decode("images/blur_background.png"))
+	if (YSOK == blur_scene.Decode("images/blur_background.png"))
 	{
-		printf("Wid %d Hei %d\n", medicine_scene.wid, medicine_scene.hei);
-		medicine_scene.Flip();
+		printf("Wid %d Hei %d\n", blur_scene.wid, blur_scene.hei);
+		blur_scene.Flip();
 	}
 	else
 	{
@@ -184,7 +184,7 @@ int main(void)
 
 		case IN_ANIMAL_POCKET:
 
-			// view_animal_pocket();
+			trainer.displayPokemon(&blur_scene);
 
 			// everything that happens in the animal pocket
 
@@ -192,7 +192,7 @@ int main(void)
 
 		case IN_MEDICINE_POCKET:
 
-			medicine_pocket.displayMedicines(&medicine_scene);
+			medicine_pocket.displayMedicines(&blur_scene);
 
 			break;
 		case TRANSIT_FROM_MAIN_TO_BATTLE:

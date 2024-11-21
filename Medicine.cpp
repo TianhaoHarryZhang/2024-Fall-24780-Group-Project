@@ -15,25 +15,6 @@ void Medicine::useMedicine()
     cure = 0;
 }
 
-void Medicine::displayMedicine(int i)
-{
-    // display the name and cure value of the medicine
-    YsRawPngDecoder png;
-    std::string filename = "images/medicine/potion" + std::to_string(i + 1) + ".png";
-    if (YSOK != png.Decode(filename.c_str()))
-    {
-        printf("Failed to open file.\n");
-        return;
-    }
-
-    glRasterPos2i(png.wid + 10, png.hei - 1);
-    glDrawPixels(png.wid, png.hei, GL_RGBA, GL_UNSIGNED_BYTE, png.rgba);
-    // std::cout << "Name: " << name << std::endl;
-    // std::cout << "Cure: " << cure << std::endl;
-
-    // printf("Name: %s Width: %d Height: %d\n", name.c_str(), potion1.wid, potion2.hei);
-}
-
 // MedicinePocket
 MedicinePocket::MedicinePocket() : size(MAX_MEDICINE)
 {
@@ -82,18 +63,48 @@ void MedicinePocket::displayMedicines(void *medicine_scene)
             break;
         }
 
+        int mouseEvent;
+        int lb, mb, rb, mx, my;
+        int cure = 0;
+        mouseEvent = FsGetMouseEvent(lb, mb, rb, mx, my);
+        if (FSMOUSEEVENT_LBUTTONDOWN == mouseEvent)
+        {
+            printf("Mouse down at %d %d\n", mx, my);
+            if (140 < mx && mx < 391 && 162 < my && my < 521)
+            {
+                cure = useMedicine(0);
+            }
+            else if (490 < mx && mx < 741 && 162 < my && my < 521)
+            {
+                cure = useMedicine(1);
+            }
+            else if (840 < mx && mx < 1090 && 162 < my && my < 521)
+            {
+                cure = useMedicine(2);
+            }
+            printf("Cure: %d\n", cure);
+        }
         // display the medicine image on the screen
+        // width range 140 < x < 767 (width of the image is 627, ratio 0.4; 627 * 0.4 = 250)
+        // height range 520 < y < 1413 (height of the image is 893, ratio 0.4; 893 * 0.4 = 357)
         glRasterPos2i(140, 520); // Example position for potion1
         glPixelZoom(0.4, 0.4);
         glDrawPixels(potion1.wid, potion1.hei, GL_RGBA, GL_UNSIGNED_BYTE, potion1.rgba);
+        // printf("Potion1 Width: %d Height: %d\n", potion1.wid, potion1.hei);
 
+        // width range 490 < x < 1117 (width of the image is 627, ratio 0.4; 627 * 0.4 = 250)
+        // height range 520 < y < 1413 (height of the image is 893, ratio 0.4; 893 * 0.4 = 357)
         glRasterPos2i(490, 520); // Example position for potion2
         glPixelZoom(0.4, 0.4);
         glDrawPixels(potion2.wid, potion2.hei, GL_RGBA, GL_UNSIGNED_BYTE, potion2.rgba);
+        // printf("Potion2 Width: %d Height: %d\n", potion2.wid, potion2.hei);
 
+        // width range 840 < x < 1463 (width of the image is 623, ratio 0.4; 623 * 0.4 = 249)
+        // height range 520 < y < 1413 (height of the image is 893, ratio 0.4; 893 * 0.4 = 357)
         glRasterPos2i(840, 520); // Example position for potion3
         glPixelZoom(0.4, 0.4);
         glDrawPixels(potion3.wid, potion3.hei, GL_RGBA, GL_UNSIGNED_BYTE, potion3.rgba);
+        // printf("Potion3 Width: %d Height: %d\n", potion3.wid, potion3.hei);
 
         glPixelZoom(1, 1);
         glRasterPos2i(0, png->hei - 1);
