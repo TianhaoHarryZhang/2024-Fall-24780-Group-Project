@@ -6,11 +6,11 @@
 #include "utility.h"
 #include "fssimplewindow.h"
 
-void generate_number_png(int number, int width, int height, int font_size)
+void generate_number_png(int number, int width, int height, int font_size, int R, int G, int B, char* filename)
 {
 	char command[50];
 
-	snprintf(command, sizeof(command), "python number.py %d %d %d %d", number, width, height, font_size);
+	snprintf(command, sizeof(command), "python number.py %d %d %d %d %d %d %d %s", number, width, height, font_size, R, G, B, filename);
 
     system(command);
 }
