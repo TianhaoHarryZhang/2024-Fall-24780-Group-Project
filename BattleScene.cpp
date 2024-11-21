@@ -43,7 +43,10 @@ void PokemonUI::renderHPBar(float hp, float maxHp, int positionX, int positionY,
 void PokemonUI::renderOptions(int positionX, int positionY, std::string filename) {
     // Display basic options for Pokémon battle
     YsRawPngDecoder Bag, Fight, Pokemon, Run;
-    if (YSOK != Bag.Decode("images/BattleScene/BattleScene_BagButton.png") or YSOK != Fight.Decode("images/BattleScene/BattleScene_FightButton.png") or YSOK != Pokemon.Decode("images/BattleScene/BattleScene_PokemonButton.png") or YSOK != Run.Decode("images/BattleScene/BattleScene_RunButton.png")) {
+    if (YSOK != Bag.Decode("images/common/bag_box.png") or \
+    YSOK != Fight.Decode("images/common/fight_button.png") or \
+    YSOK != Pokemon.Decode("images/common/pokemon_box.png") or \
+    YSOK != Run.Decode("images/BattleScene/BattleScene_RunButton.png")) {
         printf("Failed to open file.\n");
         return;
     }
@@ -52,19 +55,20 @@ void PokemonUI::renderOptions(int positionX, int positionY, std::string filename
     Pokemon.Flip();
     Run.Flip();
 
-    glRasterPos2i(210, 700-1);
-    glPixelZoom(0.3, 0.3);
-    glDrawPixels(Run.wid, Run.hei, GL_RGBA, GL_UNSIGNED_BYTE, Run.rgba);
+    // glRasterPos2i(720, 500);
+    // glPixelZoom(0.3, 0.3);
+    // glDrawPixels(Run.wid, Run.hei, GL_RGBA, GL_UNSIGNED_BYTE, Run.rgba);
 
-    glRasterPos2i(465, 700-1);
+    glRasterPos2i(720, 525);
     glPixelZoom(0.3, 0.3);
     glDrawPixels(Bag.wid, Bag.hei, GL_RGBA, GL_UNSIGNED_BYTE, Bag.rgba);
+    std::cout << Bag.hei << std::endl;
 
-    glRasterPos2i(720, 700-1);
+    glRasterPos2i(720, 610);
     glPixelZoom(0.3, 0.3);
     glDrawPixels(Fight.wid, Fight.hei, GL_RGBA, GL_UNSIGNED_BYTE, Fight.rgba);
 
-    glRasterPos2i(975, 700-1);
+    glRasterPos2i(720, 700-1);
     glPixelZoom(0.3, 0.3);
     glDrawPixels(Pokemon.wid, Pokemon.hei, GL_RGBA, GL_UNSIGNED_BYTE, Pokemon.rgba);
 
@@ -79,11 +83,14 @@ void PokemonUI::renderTextBox(const std::string& message, int positionX, int pos
     }
     textBox.Flip();
     glRasterPos2i(10, 700-1);
-    glPixelZoom(0.4, 0.4);
+    float ratioX = 0.8;
+    float ratioY = 0.8;
+    glPixelZoom(ratioX, ratioY);
     glDrawPixels(textBox.wid, textBox.hei, GL_RGBA, GL_UNSIGNED_BYTE, textBox.rgba);
 
     Message messageout;
-    messageout.renderText(int(textBox.wid/2*0.4) - 55, 700-int(textBox.hei/2*0.4) + 10, "TEST MSG", 0, 0, 0);
+    const char* cstr_messgae = message.c_str();
+    messageout.renderText(int(textBox.wid/2*ratioX) - 55, 700-int(textBox.hei/2*ratioY) + 10, cstr_messgae, 0, 0, 0);
 
 }
 
@@ -137,28 +144,29 @@ int battle() {
     bool playerRound = true; // Player always go first
     bool pokemonSelect = true; // Default Pokemon is the first pokemon
 
-    hp_player_x = 300;
-    hp_player_y = 550;
+    hp_player_x = 275;
+    hp_player_y = 400;
     hp_player_h = 10;
     hp_player_w = 150;
 
-    playerPokemon_x = 300;
-    playerPokemon_y = 550;
-    playerPokemon_scale = 1.0;
+    // Poekmon loacation
+    playerPokemon_x = hp_player_x;
+    playerPokemon_y = hp_player_y;
+    playerPokemon_scale = 0.8;
     playerPokemon_direction = 1;
 
-    hp_NPC_x = 900;
-    hp_NPC_y = 175;
+    hp_NPC_x = 800;
+    hp_NPC_y = 275;
     hp_NPC_h = 10;
     hp_NPC_w = 150;
 
-    NPCpokemon_x = 900;
-    NPCpokemon_y = 175;
-    NPCpokemon_scale = 1.0;
+    NPCpokemon_x = hp_NPC_x;
+    NPCpokemon_y = hp_NPC_y;
+    NPCpokemon_scale = 0.8;
     NPCpokemon_direction = 2;
 
 
-    FsOpenWindow(16, 16, 1225, 700, 1);
+    // FsOpenWindow(16, 16, 1225, 700, 1);
 
     while (true) {
         FsPollDevice();
@@ -172,13 +180,13 @@ int battle() {
         // Load battle scene here
         // Render pokeemon and their hp bar
         
-        // UI.renderBK();
+        UI.renderBK();
         UI.renderHPBar(currentPokemon->hp, currentPokemon->maxHp, hp_player_x, hp_player_y, hp_player_w, hp_player_h);
-        UI.renderHPBar(NPCpokemon->hp, NPCpokemon->maxHp, hp_NPC_x, hp_NPC_y, hp_NPC_w, hp_NPC_h);
+        UI.renderHPBar(currentNPCPokemon->hp, currentNPCPokemon->maxHp, hp_NPC_x, hp_NPC_y, hp_NPC_w, hp_NPC_h);
         UI.renderName(currentPokemon->name, hp_player_x, hp_player_y + hp_player_h + 30);
-        UI.renderName(NPCpokemon->name, hp_NPC_x, hp_NPC_y + hp_NPC_h + 30);
+        UI.renderName(currentNPCPokemon->name, hp_NPC_x, hp_NPC_y + hp_NPC_h + 30);
         UI.renderOptions(0, 0, "images/BattleScene/BattleScene_BagButton.png");
-        UI.renderTextBox("Charizard used Fire Blast!", 0, 0, 0, 0);
+        UI.renderTextBox("TEST MSG", 0, 0, 0, 0);
 
         currentPokemon->render(playerPokemon_x, playerPokemon_y, playerPokemon_scale, playerPokemon_direction);
         currentNPCPokemon->render(NPCpokemon_x, NPCpokemon_y, NPCpokemon_scale, NPCpokemon_direction);
@@ -195,13 +203,15 @@ int battle() {
                 else if (mx > attack1_x && mx < attack1_x + attack_w && my > attack1_y && my < attack1_y + attack_h) {
                     playerRound = !playerRound; // Flip the round to NPC
                     currentPokemon->attackAnimation();
-                    currentNPCPokemon->damageAnimation();
+                    currentPokemon->useSkill(1);
+                    currentNPCPokemon->takeDamage(currentPokemon->skill1.damage);
                 }
                 // Second skill pressed
                 else if (mx > attack2_x && mx < attack2_x + attack_w && my > attack2_y && my < attack2_y + attack_h) {
                     playerRound = !playerRound; // Flip the round to NPC
                     currentPokemon->attackAnimation();
-                    currentNPCPokemon->damageAnimation();
+                    currentPokemon->useSkill(2);
+                    currentNPCPokemon->takeDamage(currentPokemon->skill2.damage);
                 }
                 // Backpack pressed
                 else if (mx > bag_x && mx < bag_x + bag_w && my > bag_y && my < bag_y + bag_h) {
@@ -213,7 +223,7 @@ int battle() {
         else {
             playerRound = !playerRound;
             currentNPCPokemon->attackAnimation();
-            currentPokemon->damageAnimation();
+            currentPokemon->takeDamage(currentNPCPokemon->skill1.damage);
         }
 
         if (terminate == true) {
@@ -221,7 +231,7 @@ int battle() {
         }
 
         // Check if any of the pokemons are out of hp
-        if (NPCpokemon->hp == 0) {
+        if (currentNPCPokemon->hp == 0) {
             // NPC out of pokemon, victory
             terminate = true;
             victory = true;
@@ -246,6 +256,5 @@ int battle() {
         FsSwapBuffers();
     }
 
-
-     return 0;
+    return 0;
 }
