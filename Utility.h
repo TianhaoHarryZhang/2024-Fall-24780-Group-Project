@@ -22,7 +22,7 @@ enum Scene_State
 };
 
 
-void generate_number_png(int number, int width, int height, int font_size);
+void generate_number_png(int number, int width, int height, int font_size, int R, int G, int B, char* filename);
 
 class Message
 {
