@@ -1,5 +1,28 @@
+enum Scene_State
+{
+	IN_MAIN_SCENE,
 
-void generate_number_png(int number, int width, int height, int font_size);
+	IN_BATTLE_SCENE,
+
+	IN_ANIMAL_POCKET,
+
+	IN_MEDICINE_POCKET,
+
+	TRANSIT_FROM_MAIN_TO_BATTLE,
+
+	TRANSIT_FROM_BATTLE_TO_MAIN,
+
+	TRANSIT_FROM_BATTLE_TO_ANIMAL_POCKET,
+
+	TRANSIT_FROM_BATTLE_TO_MEDICINE_POCKET,
+
+	TRANSIT_FROM_MAIN_TO_ANIMAL_POCKET,
+
+	TRANSIT_FROM_MAIN_TO_MEDICINE_POCKET
+};
+
+
+void generate_number_png(int number, int width, int height, int font_size, int R, int G, int B, char* filename);
 
 class Message
 {
