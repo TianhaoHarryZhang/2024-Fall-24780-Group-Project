@@ -10,6 +10,7 @@
 #include "Trainer.h"
 #include "Medicine.h"
 #include "BattleScene.h"
+#include "Scene.h"
 
 void Render(void *incoming)
 {
@@ -37,8 +38,10 @@ int main(void)
 
 	MedicinePocket medicine_pocket;
 
+	PokemonUI UI;
+
 	Scene_State scene_state = IN_MAIN_SCENE;
-	scene_state = IN_ANIMAL_POCKET;
+	scene_state = IN_BATTLE_SCENE;
 
 	if (YSOK == main_scene.Decode("images/main_background.png"))
 	{
@@ -154,7 +157,7 @@ int main(void)
 
 		case IN_BATTLE_SCENE:
 
-			battle();
+			UI.battle(&scene_state);
 
 			// everything that happens in the battle scene
 
