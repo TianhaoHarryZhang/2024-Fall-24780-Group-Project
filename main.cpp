@@ -9,6 +9,7 @@
 #include "utility.h"
 #include "Trainer.h"
 #include "Medicine.h"
+#include "BattleScene.h"
 
 
 
@@ -40,6 +41,7 @@ int main(void)
 
 	Scene_State scene_state = IN_MAIN_SCENE;
 	// scene_state = IN_MEDICINE_POCKET;
+	scene_state = IN_BATTLE_SCENE;
 
 	if (YSOK == main_scene.Decode("images/main_background.png"))
 	{
@@ -155,7 +157,7 @@ int main(void)
 
 		case IN_BATTLE_SCENE:
 
-			// battle();
+			battle();
 
 			// everything that happens in the battle scene
 
