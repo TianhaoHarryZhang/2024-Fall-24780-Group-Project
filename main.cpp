@@ -9,6 +9,7 @@
 #include "utility.h"
 #include "Trainer.h"
 #include "Medicine.h"
+#include "BattleScene.h"
 
 void Render(void *incoming)
 {
@@ -153,7 +154,7 @@ int main(void)
 
 		case IN_BATTLE_SCENE:
 
-			// battle();
+			battle();
 
 			// everything that happens in the battle scene
 
