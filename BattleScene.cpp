@@ -118,6 +118,24 @@ void PokemonUI::renderBK() {
     glDrawPixels(bk.wid, bk.hei, GL_RGBA, GL_UNSIGNED_BYTE, bk.rgba);
 }
 
+// The entire attack process, includes the animation and damage calculation
+void attack(int numSkill, bool& playerRound, Pokemon* attacker, Pokemon* defender) {
+    playerRound = !playerRound; // Flip the round
+
+    attacker->attackAnimation();
+    if (numSkill == 1) {
+        attacker->useSkill(1);
+    }
+    else if (numSkill == 2) {
+        attacker->useSkill(2);
+    }
+    else if (numSkill == 0) {
+        attacker->useSkill(1);
+    }
+    
+    defender->takeDamage(attacker->skill1.damage);
+    defender->damageAnimation();
+}
 
 int battle() {
     //  Pokemon(std::string name, std::string level, float hp, Skill skill1, Skill skill2);
@@ -134,6 +152,7 @@ int battle() {
     int lb, mb, rb, mx, my; // Store the position and state of the mouse
     int exit_x, exit_y, exit_h, exit_w; // Rendering attribute for the exit button
     int attack1_x, attack1_y, attack2_x, attack2_y, attack_h, attack_w; // Rendering attribute for the attack button
+    int fight_x, fight_y, fight_h, fight_w; // Rendering attribute for the fight button
     int bag_x, bag_y, bag_h, bag_w; // Rendering attribute for the backpack button
     int hp_player_x, hp_player_y, hp_player_h, hp_player_w; // Player pokemon's hp bar positon
     int hp_NPC_x, hp_NPC_y, hp_NPC_h, hp_NPC_w; // NPC pokemon's hp bar positon
@@ -199,12 +218,13 @@ int battle() {
                 if (mx > exit_x && mx < exit_x + exit_w && my > exit_y && my < exit_y + exit_h) {
                     terminate = true;
                 }
-                // First skill pressed
-                else if (mx > attack1_x && mx < attack1_x + attack_w && my > attack1_y && my < attack1_y + attack_h) {
-                    playerRound = !playerRound; // Flip the round to NPC
-                    currentPokemon->attackAnimation();
-                    currentPokemon->useSkill(1);
-                    currentNPCPokemon->takeDamage(currentPokemon->skill1.damage);
+                // Fight button pressed
+                else if (mx > fight_x && mx < fight_x + fight_w && my > fight_y && my < fight_y + fight_h) {
+                    if (skill == 1) {
+                        attack(1, playerRound, currentPokemon, currentNPCPokemon);  
+                    }
+                    else {
+                        attack(2, playerRound, currentPokemon, currentNPCPokemon);
                 }
                 // Second skill pressed
                 else if (mx > attack2_x && mx < attack2_x + attack_w && my > attack2_y && my < attack2_y + attack_h) {
@@ -221,9 +241,7 @@ int battle() {
         }
         // NPC's round
         else {
-            playerRound = !playerRound;
-            currentNPCPokemon->attackAnimation();
-            currentPokemon->takeDamage(currentNPCPokemon->skill1.damage);
+            attack(0, playerRound, currentNPCPokemon, currentPokemon);
         }
 
         if (terminate == true) {
