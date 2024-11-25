@@ -259,6 +259,13 @@ int PokemonUI::battle(Scene_State *scene_state)
     // FsOpenWindow(16, 16, 1225, 700, 1);
     bool in_skill_selection = false;
     bool skill_selected = false;
+    bool user_pokemon_in_animation = false;
+    bool NPC_pokemon_in_animation = false;
+    bool user_pokemon_in_skill_animation = false;
+    bool NPC_pokemon_in_skill_animation = false;
+
+    int animation_counter = 0;
+    int skill_animation_counter = 0;
 
     while (true)
     {
@@ -290,8 +297,29 @@ int PokemonUI::battle(Scene_State *scene_state)
         // UI.renderOptions(0, 0, "images/BattleScene/BattleScene_BagButton.png");
         UI.renderTextBox("TEST MSG", 0, 0, 0, 0);
 
-        currentPokemon->render(playerPokemon_x, playerPokemon_y, playerPokemon_scale, playerPokemon_direction);
-        currentNPCPokemon->render(NPCpokemon_x, NPCpokemon_y, NPCpokemon_scale, NPCpokemon_direction);
+        if (user_pokemon_in_animation)
+        {
+            currentPokemon->attackAnimation(playerPokemon_x, playerPokemon_y, playerPokemon_scale, playerPokemon_direction, &animation_counter, &user_pokemon_in_animation);
+        } else {
+            currentPokemon->render(playerPokemon_x, playerPokemon_y, playerPokemon_scale, playerPokemon_direction);
+        }
+
+        if (NPC_pokemon_in_animation)
+        {
+            currentNPCPokemon->attackAnimation(NPCpokemon_x, NPCpokemon_y, NPCpokemon_scale, NPCpokemon_direction, &animation_counter, &NPC_pokemon_in_animation);
+        } else {
+            currentNPCPokemon->render(NPCpokemon_x, NPCpokemon_y, NPCpokemon_scale, NPCpokemon_direction);
+        }
+
+        if (user_pokemon_in_skill_animation){
+            // TODO Should know which skill is selected, now default to skill1
+            currentPokemon->renderSkillEffect(currentPokemon->skill2, playerPokemon_x, playerPokemon_y, &skill_animation_counter, &user_pokemon_in_skill_animation);
+        }
+        if (NPC_pokemon_in_skill_animation){
+            // TODO Should know which skill is selected, now default to skill1
+            currentNPCPokemon->renderSkillEffect(currentNPCPokemon->skill1, NPCpokemon_x, NPCpokemon_y, &skill_animation_counter, &NPC_pokemon_in_skill_animation);
+        }
+
         // Check if it is player's round
         if (playerRound == true)
         {
@@ -343,6 +371,9 @@ int PokemonUI::battle(Scene_State *scene_state)
                 }
                 if (in_skill_selection == true)
                 {
+                    user_pokemon_in_animation = true;
+                    user_pokemon_in_skill_animation = true;
+                    // currentPokemon->useSkill(1);
                     // TODO: Check if the skill is selected, if selected, conduct skill animation change in_skill_slertion to false
                 }
             }
@@ -351,7 +382,7 @@ int PokemonUI::battle(Scene_State *scene_state)
         else
         {
             playerRound = !playerRound;
-            currentNPCPokemon->attackAnimation();
+            NPC_pokemon_in_animation = true;
             currentPokemon->takeDamage(currentNPCPokemon->skill1.damage);
         }
 
