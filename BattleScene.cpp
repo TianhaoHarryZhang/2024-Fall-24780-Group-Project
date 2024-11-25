@@ -48,11 +48,10 @@ void PokemonUI::renderHPBar(float hp, float maxHp, int positionX, int positionY,
 void PokemonUI::renderOptions(int positionX, int positionY, std::string filename)
 {
     // Display basic options for Pokémon battle
-    YsRawPngDecoder Bag, Fight, Pokemon, Run;
+    YsRawPngDecoder Bag, Fight, Pokemon;
     if (YSOK != Bag.Decode("images/common/bag_box.png") or
         YSOK != Fight.Decode("images/common/fight_button.png") or
-        YSOK != Pokemon.Decode("images/common/pokemon_box.png") or
-        YSOK != Run.Decode("images/BattleScene/BattleScene_RunButton.png"))
+        YSOK != Pokemon.Decode("images/common/pokemon_box.png"))
     {
         printf("Failed to open file.\n");
         return;
@@ -60,24 +59,79 @@ void PokemonUI::renderOptions(int positionX, int positionY, std::string filename
     Bag.Flip();
     Fight.Flip();
     Pokemon.Flip();
-    Run.Flip();
-
-    // glRasterPos2i(720, 500);
-    // glPixelZoom(0.3, 0.3);
-    // glDrawPixels(Run.wid, Run.hei, GL_RGBA, GL_UNSIGNED_BYTE, Run.rgba);
 
     glRasterPos2i(720, 525);
     glPixelZoom(0.3, 0.3);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glDrawPixels(Bag.wid, Bag.hei, GL_RGBA, GL_UNSIGNED_BYTE, Bag.rgba);
-    printf("Bag Width: %d Height: %d\n", Bag.wid, Bag.hei);
+    glDisable(GL_BLEND);
+    glDisable(GL_DEPTH_TEST);
 
     glRasterPos2i(720, 610);
     glPixelZoom(0.3, 0.3);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glDrawPixels(Fight.wid, Fight.hei, GL_RGBA, GL_UNSIGNED_BYTE, Fight.rgba);
+    glDisable(GL_BLEND);
+    glDisable(GL_DEPTH_TEST);
 
     glRasterPos2i(720, 700 - 1);
     glPixelZoom(0.3, 0.3);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glDrawPixels(Pokemon.wid, Pokemon.hei, GL_RGBA, GL_UNSIGNED_BYTE, Pokemon.rgba);
+    glDisable(GL_BLEND);
+    glDisable(GL_DEPTH_TEST);
+}
+
+void PokemonUI::renderSkillSelection(Pokemon *pokemon)
+{
+    YsRawPngDecoder skill1, skill2;
+    if (YSOK != skill1.Decode("images/BattleScene/BattleScene_TextBox.png") or
+        YSOK != skill2.Decode("images/BattleScene/BattleScene_TextBox.png"))
+    {
+        printf("Failed to open file.\n");
+        return;
+    }
+    skill1.Flip();
+    skill2.Flip();
+    // Render params
+    int positionX1 = 720;
+    int positionY1 = 560;
+    int positionX2 = 720;
+    int positionY2 = 670;
+    float ratioX1 = 0.6;
+    float ratioY1 = 0.3;
+    float ratioX2 = 0.6;
+    float ratioY2 = 0.3;
+
+    // Render skill 1
+    glRasterPos2i(positionX1, positionY1);
+    glPixelZoom(ratioX1, ratioY1);
+    glDrawPixels(skill1.wid, skill1.hei, GL_RGBA, GL_UNSIGNED_BYTE, skill1.rgba);
+    // Render skill 2
+    glRasterPos2i(positionX2, positionY2);
+    glPixelZoom(ratioX2, ratioY2);
+    glDrawPixels(skill2.wid, skill2.hei, GL_RGBA, GL_UNSIGNED_BYTE, skill2.rgba);
+
+    // Display the skills of the Pokémon
+    Message messageout;
+    const char *cstr_skill1 = pokemon->skill1.name.c_str();
+    const char *cstr_skill2 = pokemon->skill2.name.c_str();
+    int ctsr_skill1_len = strlen(cstr_skill1);
+    int ctsr_skill2_len = strlen(cstr_skill2);
+    float skill1_center_bias_x = (16 * ctsr_skill1_len) / 2;
+    float skill2_center_bias_x = (16 * ctsr_skill2_len) / 2;
+    float skill1_center_bias_y = 10; 
+    float skill2_center_bias_y = 10;
+
+    messageout.renderText(int(positionX1 + (skill1.wid*ratioX1/2) - skill1_center_bias_x), int(positionY1 - (skill1.hei*ratioY1/2) + skill1_center_bias_y), cstr_skill1, 0, 0, 0);
+    messageout.renderText(int(positionX2 + (skill2.wid*ratioX2/2) - skill2_center_bias_x), int(positionY2 - (skill2.hei*ratioY2/2) + skill2_center_bias_y), cstr_skill2, 0, 0, 0);
+
 }
 
 void PokemonUI::renderTextBox(const std::string &message, int positionX, int positionY, int width, int height)
@@ -143,7 +197,9 @@ int PokemonUI::battle(Scene_State *scene_state)
     bool victory = false;
     int lb, mb, rb, mx, my;                                             // Store the position and state of the mouse
     int exit_x, exit_y, exit_h, exit_w;                                 // Rendering attribute for the exit button
-    int attack1_x, attack1_y, attack2_x, attack2_y, attack_h, attack_w; // Rendering attribute for the attack button
+    int attack_x, attack_y, attack_h, attack_w; // Rendering attribute for the attack button
+    int skill1_x, skill1_y, skill1_h, skill1_w; // Rendering attribute for the skill1 button
+    int skill2_x, skill2_y, skill2_h, skill2_w; // Rendering attribute for the skill2 button
     int bag_x, bag_y, bag_h, bag_w;                                     // Rendering attribute for the backpack button
     int hp_player_x, hp_player_y, hp_player_h, hp_player_w;             // Player pokemon's hp bar positon
     int hp_NPC_x, hp_NPC_y, hp_NPC_h, hp_NPC_w;                         // NPC pokemon's hp bar positon
@@ -180,9 +236,17 @@ int PokemonUI::battle(Scene_State *scene_state)
     // width range 720 < x < 1106 (width of the image is 1287, ratio 0.3; 1287 * 0.3 = 386)
     // height range 455 < y < 525  (height of the image is 233, ratio 0.3; 233 * 0.3 = 70)
     bag_x = 720;
-    bag_y = 455;
+    bag_y = 525;
     bag_w = 386;
     bag_h = 70;
+
+    // Fight button location: 720, 610 1287*0.3, 233*0.3
+    // width range 720 < x < 1106 (width of the image is 1287, ratio 0.3; 1287 * 0.3 = 386)
+    // height range 540 < y <610 (height of the image is 233, ratio 0.3; 233 * 0.3 = 70)
+    attack_x = 720;
+    attack_y = 610;
+    attack_w = 386;
+    attack_h = 70;
 
     // fight button location: 720, 610 1287*0.3, 233*0.3
     // width range 720 < x < 1106 (width of the image is 1287, ratio 0.3; 1287 * 0.3 = 386)
@@ -193,6 +257,8 @@ int PokemonUI::battle(Scene_State *scene_state)
     // height range 700 < y < 933 (height of the image is 233, ratio 0.3; 233 * 0.3 = 70)
 
     // FsOpenWindow(16, 16, 1225, 700, 1);
+    bool in_skill_selection = false;
+    bool skill_selected = false;
 
     while (true)
     {
@@ -213,12 +279,19 @@ int PokemonUI::battle(Scene_State *scene_state)
         UI.renderHPBar(currentNPCPokemon->hp, currentNPCPokemon->maxHp, hp_NPC_x, hp_NPC_y, hp_NPC_w, hp_NPC_h);
         UI.renderName(currentPokemon->name, hp_player_x, hp_player_y + hp_player_h + 30);
         UI.renderName(currentNPCPokemon->name, hp_NPC_x, hp_NPC_y + hp_NPC_h + 30);
-        UI.renderOptions(0, 0, "images/BattleScene/BattleScene_BagButton.png");
+        if (in_skill_selection)
+        {
+            UI.renderSkillSelection(currentPokemon);
+        }
+        else
+        {
+            UI.renderOptions(0, 0, "images/BattleScene/BattleScene_BagButton.png");
+        }
+        // UI.renderOptions(0, 0, "images/BattleScene/BattleScene_BagButton.png");
         UI.renderTextBox("TEST MSG", 0, 0, 0, 0);
 
         currentPokemon->render(playerPokemon_x, playerPokemon_y, playerPokemon_scale, playerPokemon_direction);
         currentNPCPokemon->render(NPCpokemon_x, NPCpokemon_y, NPCpokemon_scale, NPCpokemon_direction);
-
         // Check if it is player's round
         if (playerRound == true)
         {
@@ -256,11 +329,21 @@ int PokemonUI::battle(Scene_State *scene_state)
             {
                 printf("Button pressed at %d %d\n", mx, my);
 
-                if (mx > bag_x && mx < (bag_x + bag_w) && my > bag_y && my < (bag_y + bag_h))
+                if (mx > bag_x && mx < (bag_x + bag_w) && my < bag_y && my > (bag_y - bag_h))
                 {
                     printf("Bag button pressed\n");
                     *scene_state = IN_MEDICINE_POCKET;
                     break;
+                }
+                if (in_skill_selection == false && (mx > attack_x && mx < (attack_x + attack_w) && my < attack_y && my > (attack_y - attack_h)))
+                {
+                    std::cout << "Attack button pressed" << std::endl;
+                    // Attack button pressed, switch to skill selection
+                    in_skill_selection = true;        
+                }
+                if (in_skill_selection == true)
+                {
+                    // TODO: Check if the skill is selected, if selected, conduct skill animation change in_skill_slertion to false
                 }
             }
         }

@@ -1,6 +1,7 @@
 #ifndef BATTLE_SCENE_H
 #define BATTLE_SCENE_H
 #include "Scene.h"
+#include "Pokemon.h"
 #include <string>
 
 class PokemonUI
@@ -18,6 +19,8 @@ public:
     void renderName(std::string name, int positionX, int positionY);
 
     void renderBK();
+
+    void renderSkillSelection(Pokemon *pokemon);
 
     int battle(Scene_State *scene_state);
 };

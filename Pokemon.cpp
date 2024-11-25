@@ -28,9 +28,14 @@ void Pokemon::render(int positionX, int positionY, float scale, int direction) {
         return;
     }
     pokemon_fig.Flip();
-    glRasterPos2i(positionX, positionY);
     glPixelZoom(scale, scale);
+    glRasterPos2i(positionX, positionY);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glDrawPixels(pokemon_fig.wid, pokemon_fig.hei, GL_RGBA, GL_UNSIGNED_BYTE, pokemon_fig.rgba);
+    glDisable(GL_BLEND);
+    glDisable(GL_DEPTH_TEST);
 }
 
 // Attack animation function
