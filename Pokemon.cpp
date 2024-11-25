@@ -39,8 +39,16 @@ void Pokemon::render(int positionX, int positionY, float scale, int direction) {
 }
 
 // Attack animation function
-void Pokemon::attackAnimation() {
-    std::cout << name << " performs an attack animation!" << std::endl;
+void Pokemon::attackAnimation(int positionX, int positionY, float scale, int direction, int *animation_counter, bool *in_animation) {
+    // std::cout << name << " performs an attack animation!" << std::endl;
+    if (*animation_counter < 20) {
+        int randX = rand() % 20 - 10;
+        positionX += randX;
+        Pokemon::render(positionX, positionY, scale, direction);
+        (*animation_counter)++;
+    } else{
+        *in_animation = false;
+    }
 }
 
 // Take damage function
@@ -53,23 +61,78 @@ void Pokemon::takeDamage(float damage) {
 
 // Damage animation function
 void Pokemon::damageAnimation() {
-    std::cout << name << " displays a damage animation!" << std::endl;
+    std::cout << name << " displays a damage animation (Not implemented)!" << std::endl;
 }
 
 // Use skill function
 void Pokemon::useSkill(int skillIndex) {
     if (skillIndex == 1) {
         std::cout << name << " uses " << skill1.name << " causing " << skill1.damage << " damage!" << std::endl;
-        renderSkillEffect(skill1);
     } else if (skillIndex == 2) {
         std::cout << name << " uses " << skill2.name << " causing " << skill2.damage << " damage!" << std::endl;
-        renderSkillEffect(skill2);
     } else {
         std::cout << "Invalid skill index." << std::endl;
     }
 }
 
 // Render skill effect function
-void Pokemon::renderSkillEffect(const Skill& skill) {
-    std::cout << "Rendering effect of skill " << skill.name << std::endl;
+void Pokemon::renderSkillEffect(const Skill& skill, int positionX, int positionY, int *skill_animation_counter, bool *in_skill_animation) {
+    if (skill.name == "Bite") {
+        if (*skill_animation_counter < 20) {
+            std::cout << "Bite effect is displayed!" << std::endl;
+            YsRawPngDecoder bite_up, bite_down;
+            if (YSOK != bite_up.Decode("images/BattleScene/Skills/Bite_up.png") or YSOK != bite_down.Decode("images/BattleScene/Skills/Bite_down.png")) {
+                std::cout << "Failed to open file." << std::endl;
+                return;
+            }
+            bite_up.Flip();
+            bite_down.Flip();
+            glPixelZoom(0.5, 0.5);
+            positionX = positionX + 150;
+            positionY = positionY - 50;
+            glRasterPos2i(positionX, positionY);
+            glEnable(GL_DEPTH_TEST);
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            glDrawPixels(bite_up.wid, bite_up.hei, GL_RGBA, GL_UNSIGNED_BYTE, bite_up.rgba);
+            glDisable(GL_BLEND);
+            glDisable(GL_DEPTH_TEST);
+
+            glRasterPos2i(positionX, positionY + 100);
+            glEnable(GL_DEPTH_TEST);
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            glDrawPixels(bite_down.wid, bite_down.hei, GL_RGBA, GL_UNSIGNED_BYTE, bite_down.rgba);
+            glDisable(GL_BLEND);
+            glDisable(GL_DEPTH_TEST);
+            (*skill_animation_counter)++;
+        } else {
+            *in_skill_animation = false;
+        }
+    } else if (skill.name == "Scratch") {
+        if (*skill_animation_counter < 20) {
+            std::cout << "Scratch effect is displayed!" << std::endl;
+            YsRawPngDecoder scratch;
+            if (YSOK != scratch.Decode("images/BattleScene/Skills/Scratch.png")) {
+                std::cout << "Failed to open file." << std::endl;
+                return;
+            }
+            scratch.Flip();
+            glPixelZoom(0.2, 0.2);
+            positionX = positionX + 150;
+            positionY = positionY - 50;
+            glRasterPos2i(positionX, positionY);
+            glEnable(GL_DEPTH_TEST);
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            glDrawPixels(scratch.wid, scratch.hei, GL_RGBA, GL_UNSIGNED_BYTE, scratch.rgba);
+            glDisable(GL_BLEND);
+            glDisable(GL_DEPTH_TEST);
+            (*skill_animation_counter)++;
+        } else {
+            *in_skill_animation = false;
+        }
+    } else {
+        std::cout << "Skill effect is not implemented!" << std::endl;
+    }
 }

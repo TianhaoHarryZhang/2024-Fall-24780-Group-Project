@@ -28,13 +28,13 @@ public:
 
     // Methods
     void render(int positionX, int positionY, float scale, int direction);
-    void attackAnimation();
+    void attackAnimation(int positionX, int positionY, float scale, int direction, int *animation_counter, bool *in_animation);
     void takeDamage(float damage);
     void useSkill(int skillIndex);
+    void renderSkillEffect(const Skill& skill, int positionX, int positionY, int *skill_animation_counter, bool *in_skill_animation);
 
 private:
     void damageAnimation();
-    void renderSkillEffect(const Skill& skill);
 };
 
 #endif // POKEMON_H
