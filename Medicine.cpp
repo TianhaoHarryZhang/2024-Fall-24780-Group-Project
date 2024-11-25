@@ -112,6 +112,8 @@ void MedicinePocket::displayMedicines(void *medicine_scene)
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glDrawPixels(png->wid, png->hei, GL_RGBA, GL_UNSIGNED_BYTE, png->rgba);
+        glDisable(GL_BLEND);
+        glDisable(GL_DEPTH_TEST);
 
         FsSwapBuffers();
         FsSleep(10);
