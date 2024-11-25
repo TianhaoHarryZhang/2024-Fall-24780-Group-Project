@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "Trainer.h"
+#include "Utility.h"
 
 Trainer::Trainer(const char *name, float x, float y) : People(name), x(x), y(y), needHeal(false) {}
 
@@ -70,9 +71,20 @@ void Trainer::displayPokemon(void *pokemon_scene)
 		}
 
 		glColor3ub(0, 0, 0);
-		glRasterPos2d(380, 445);
-		// TODO: get pokemon's HP
-		YsGlDrawFontBitmap16x20("60");
+		// glRasterPos2d(380, 445);
+		//  TODO: get pokemon's HP
+		//  YsGlDrawFontBitmap16x20("60");
+		generate_number_png(60, 16, 20, 20, 0, 0, 0, "images/number1");
+		YsRawPngDecoder number1;
+		if (YSOK != number1.Decode("images/number1.png"))
+		{
+			printf("Failed to open file.\n");
+			return;
+		}
+		number1.Flip();
+		glPixelZoom(1, 1);
+		glRasterPos2i(380, 445);
+		glDrawPixels(number1.wid, number1.hei, GL_RGBA, GL_UNSIGNED_BYTE, number1.rgba);
 		// width range  300 < x < 550 (width of the image is 623, ratio 0.4; 627 * 0.4 = 250)
 		// height range 520 < y < 1413 (height of the image is 898, ratio 0.4; 893 * 0.4 = 359)
 		glRasterPos2i(300, 520); // Example position for animal1
@@ -82,9 +94,19 @@ void Trainer::displayPokemon(void *pokemon_scene)
 		glColor3ub(0, 0, 0);
 		glRasterPos2d(780, 445);
 		// TODO: get pokemon's HP
-		YsGlDrawFontBitmap16x20("80");
+		// YsGlDrawFontBitmap16x20("80");
 		// printf("Potion1 Width: %d Height: %d\n", animal1.wid, animal1.hei);
-
+		generate_number_png(60, 16, 20, 20, 0, 0, 0, "images/number2");
+		YsRawPngDecoder number2;
+		if (YSOK != number2.Decode("images/number2.png"))
+		{
+			printf("Failed to open file.\n");
+			return;
+		}
+		number2.Flip();
+		glPixelZoom(1, 1);
+		glRasterPos2d(780, 445);
+		glDrawPixels(number2.wid, number2.hei, GL_RGBA, GL_UNSIGNED_BYTE, number2.rgba);
 		// width range 700 < x < 950 (width of the image is 627, ratio 0.4; 627 * 0.4 = 250)
 		// height range 520 < y < 1415 (height of the image is 898, ratio 0.4; 898 * 0.4 = 359)
 		glRasterPos2i(700, 520); // Example position for potion2

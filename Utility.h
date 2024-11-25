@@ -1,54 +1,20 @@
-enum Scene_State
-{
-	IN_MAIN_SCENE,
-
-	IN_BATTLE_SCENE,
-
-	IN_ANIMAL_POCKET,
-
-	IN_MEDICINE_POCKET,
-
-	TRANSIT_FROM_MAIN_TO_BATTLE,
-
-	TRANSIT_FROM_BATTLE_TO_MAIN,
-
-	TRANSIT_FROM_BATTLE_TO_ANIMAL_POCKET,
-
-	TRANSIT_FROM_BATTLE_TO_MEDICINE_POCKET,
-
-	TRANSIT_FROM_MAIN_TO_ANIMAL_POCKET,
-
-	TRANSIT_FROM_MAIN_TO_MEDICINE_POCKET
-};
-
-
-void generate_number_png(int number, int width, int height, int font_size, int R, int G, int B, char* filename);
+void generate_number_png(int number, int width, int height, int font_size, int R, int G, int B, char *filename);
 
 class Message
 {
 
 public:
-
 	bool typing_dynamic_message = false;
 
 	int num_words_typed = 0;
 
-	char* message_to_type = nullptr;
+	char *message_to_type = nullptr;
 
 	void renderText(float x, float y, const char text[], int R, int G, int B);
 
 	void print_static_message(const char message[], float start_x, float start_y, float step_x, float step_y, int width);
 
-	void type_character(char* message_pointer, float start_x, float start_y, int start, int numChars);
+	void type_character(char *message_pointer, float start_x, float start_y, int start, int numChars);
 
-	void getSubset(char* source, int m, int numChars, char* result);
-
-
+	void getSubset(char *source, int m, int numChars, char *result);
 };
-
-
-
-
-
-
-
