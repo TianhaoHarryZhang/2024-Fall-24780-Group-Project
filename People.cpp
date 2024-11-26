@@ -2,10 +2,12 @@
 #include "People.h"
 #include <string.h>
 
-People::People(const char* characterName, float x = 0.0, float y = 0.0) : x(x), y(y), messageCount(0)
+People::People(const char* characterName, float x, float y)
+    : x(x), y(y), messageCount(0) // Default arguments removed here
 {
-	strncpy(name, characterName, sizeof(name) - 1);
-	name[sizeof(name) - 1] = "\0"
+    // Safely copy characterName into the name array
+    strncpy(name, characterName, sizeof(name) - 1);
+    name[sizeof(name) - 1] = '\0'; // Null-terminate
 }
 
 const char* People::getName() const {
@@ -13,5 +15,5 @@ const char* People::getName() const {
 }
 
 void People::addMessage(const char* message) {
-    //insert code to process conversation messages
+    // Insert code to process conversation messages
 }

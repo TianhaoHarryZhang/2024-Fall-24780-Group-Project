@@ -1,4 +1,9 @@
 #include <stdio.h>
+#include "fssimplewindow.h"
+#include "yspng.h"
+#include "yssimplesound.h"
+#include "ysglfontdata.h"
+#include "yspngenc.h"
 #include "Trainer.h" 
 
 Trainer::Trainer(const char* name, float x, float y) : People(name), x(x), y(y), facing_direction(2), needHeal(false)
@@ -15,7 +20,6 @@ void Trainer::loadTrainer_png(const char* filePath)
 	else
 	{
 		printf("Failed to open file.\n");
-		return 1;
 	}
 }
 
@@ -46,36 +50,52 @@ void Trainer::face_south()
 void Trainer::drawTrainer()
 {
 	glRasterPos2i(static_cast<int>(x), static_cast<int>(y));
-	glDrawPixels(Trainer_png.wid, Trainer_png.hei, GL_RGBA, GL_UNSIGNED_BYTE, currentImage.rgba);
+	glDrawPixels(Trainer_png.wid, Trainer_png.hei, GL_RGBA, GL_UNSIGNED_BYTE, Trainer_png.rgba);
 }
 
 bool Trainer::isMoving()
 {
-
+	return moving;
 }
 
 void Trainer::move_west()
 {
-	x -= 10;
-	//once dimensions are established, add code to prevent trainer from exiting map boundaries
+	if (!inConversation)
+	{
+		x -= 10;
+		moving = true;
+		//once dimensions are established, add code to prevent trainer from exiting map boundaries
+	}
 }
 
 void Trainer::move_east()
 {
-	x += 10;
-	//once dimensions are established, add code to prevent trainer from exiting map boundaries
+	if (!inConversation)
+	{
+		x += 10;
+		moving = true;
+		//once dimensions are established, add code to prevent trainer from exiting map boundaries
+	}
 }
 
 void Trainer::move_north()
 {
-	y += 10;
-	//once dimensions are established, add code to prevent trainer from exiting map boundaries
+	if (!inConversation)
+	{
+		y += 10;
+		moving = true;
+		//once dimensions are established, add code to prevent trainer from exiting map boundaries
+	}
 }
 
 void Trainer::move_south()
 {
-	y -= 10;
-	//once dimensions are established, add code to prevent trainer from exiting map boundaries
+	if (!inConversation)
+	{
+		y -= 10;
+		moving = true;
+		//once dimensions are established, add code to prevent trainer from exiting map boundaries
+	}
 }
 
 bool Trainer::heal()
@@ -83,6 +103,7 @@ bool Trainer::heal()
 	//toggle healing action
 	needHeal = !needHeal;
 	//add code to increase health points to full
+	return needHeal;
 }
 
 void Trainer::interactWith(People& otherCharacter)
@@ -90,4 +111,8 @@ void Trainer::interactWith(People& otherCharacter)
 	//add code to initiate conversation
 
 	//add code for conversation
+	inConversation = true;
+	moving = false;
+
+	inConversation = false;
 }

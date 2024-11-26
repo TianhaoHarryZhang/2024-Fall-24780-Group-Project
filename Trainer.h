@@ -9,13 +9,15 @@ private:
 
     float x, y;
     YsRawPngDecoder Trainer_png;
+    bool inConversation;
 
 public:
 
     Trainer(const char* name, float x = 0.0, float y = 0.0);
-    bool isMoving;
-    int facing_direction;
+    bool moving;
+    bool isMoving();
 
+    int facing_direction;
     void loadTrainer_png(const char* filePath);
     void face_west();
     void face_east();
@@ -29,6 +31,7 @@ public:
     void move_south();
 
     bool needHeal;
+    bool heal();
 
     void interactWith(People& otherCharacter);
 };
