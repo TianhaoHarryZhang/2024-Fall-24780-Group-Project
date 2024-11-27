@@ -34,7 +34,7 @@ int main(void)
 
 	Message message;
 
-	Trainer trainer("Ash", 100, 100);
+	Trainer trainer("Ash", 500, 300);
 
 	//MedicinePocket medicine_pocket;
 
@@ -43,27 +43,27 @@ int main(void)
 	Scene_State scene_state = IN_MAIN_SCENE;
 	scene_state = IN_MAIN_SCENE;
 
-	if (YSOK == main_scene.Decode("images/main_background.png"))
+	if (YSOK == main_scene.Decode("images/new_version.png"))
 	{
 		printf("Wid %d Hei %d\n", main_scene.wid, main_scene.hei);
 		main_scene.Flip();
 	}
 	else
 	{
-		printf("Failed to open file.\n");
+		printf("Failed to open file (test).\n");
 		return 1;
 	}
 
-	if (YSOK == blur_scene.Decode("images/blur_background.png"))
-	{
-		printf("Wid %d Hei %d\n", blur_scene.wid, blur_scene.hei);
-		blur_scene.Flip();
-	}
-	else
-	{
-		printf("Failed to open file.\n");
-		return 1;
-	}
+	//if (YSOK == blur_scene.Decode("images/blur_background.png"))
+	//{
+	//	printf("Wid %d Hei %d\n", blur_scene.wid, blur_scene.hei);
+	//	blur_scene.Flip();
+	//}
+	//else
+	//{
+	//	printf("Failed to open file.\n");
+	//	return 1;
+	//}
 
 	FsOpenWindow(0, 0, main_scene.wid, main_scene.hei, 1);
 
@@ -85,8 +85,10 @@ int main(void)
 
 		case IN_MAIN_SCENE:
 			//  draw the background image
+			glRasterPos2i(0, main_scene.hei - 1);
+			glDrawPixels(main_scene.wid, main_scene.hei, GL_RGBA, GL_UNSIGNED_BYTE, main_scene.rgba);
 
-			 glDrawPixels(main_scene.wid, main_scene.hei, GL_RGBA, GL_UNSIGNED_BYTE, main_scene.rgba);
+			trainer.drawTrainer();
 
 			 // move the trainer
 			 if (trainer.moving == true)
@@ -138,8 +140,6 @@ int main(void)
 			 			trainer.move_south();
 			 		}
 			 	}
-
-				trainer.drawTrainer();
 			 }
 
 			 //if (key == FSKEY_SPACE)
@@ -208,7 +208,7 @@ int main(void)
 	//		}
 	//	}
 
-	//	FsSwapBuffers();
+		FsSwapBuffers();
 
 	//	if (message.typing_dynamic_message)
 	//	{

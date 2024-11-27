@@ -39,5 +39,5 @@ public:
 
     void interactWith(People& otherCharacter);
 
-	void displayPokemon(void *pokemon_scene);
+	//void displayPokemon(void *pokemon_scene);
 };

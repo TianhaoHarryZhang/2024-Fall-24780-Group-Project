@@ -6,7 +6,7 @@
 #include "Trainer.h"
 #include "Utility.h"
 
-Trainer::Trainer(const char* name, float x, float y) : People(name), x(x), y(y), facing_direction(2), needHeal(false)
+Trainer::Trainer(const char* name, float x, float y) : People(name), x(x), y(y), facing_direction(2), needHeal(false), inConversation(false)
 {
 	loadTrainer_png("images/trainer/trainer_front.png");
 }
@@ -16,6 +16,7 @@ void Trainer::loadTrainer_png(const char* filePath)
 	if (YSOK == Trainer_png.Decode(filePath))
 	{
 		printf("Wid %d Hei %d\n", Trainer_png.wid, Trainer_png.hei);
+		Trainer_png.Flip();
 	}
 	else
 	{
@@ -48,9 +49,14 @@ void Trainer::face_south()
 }
 
 void Trainer::drawTrainer()
-{
+{	
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glRasterPos2i(static_cast<int>(x), static_cast<int>(y));
 	glDrawPixels(Trainer_png.wid, Trainer_png.hei, GL_RGBA, GL_UNSIGNED_BYTE, Trainer_png.rgba);
+	glDisable(GL_BLEND);
+	glDisable(GL_DEPTH_TEST);
 }
 
 bool Trainer::isMoving()
