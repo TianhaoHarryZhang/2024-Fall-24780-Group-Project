@@ -34,7 +34,7 @@ int main(void)
 
 	Message message;
 
-	Trainer trainer("Ash", 500, 300);
+	Trainer trainer("Ash", 500, 600);
 
 	//MedicinePocket medicine_pocket;
 
@@ -87,6 +87,9 @@ int main(void)
 			//  draw the background image
 			glRasterPos2i(0, main_scene.hei - 1);
 			glDrawPixels(main_scene.wid, main_scene.hei, GL_RGBA, GL_UNSIGNED_BYTE, main_scene.rgba);
+			int w = main_scene.wid;
+			int h = main_scene.hei;
+			trainer.drawGrid(w, h, 34);	//draw grid for testing
 
 			 // move the trainer
 			 if (trainer.moving == true)
@@ -99,7 +102,7 @@ int main(void)
 			 		}
 			 		else
 			 		{
-			 			trainer.move_west();
+			 			trainer.move_west(w);
 			 		}
 			 	}
 
@@ -111,7 +114,7 @@ int main(void)
 			 		}
 			 		else
 			 		{
-			 			trainer.move_east();
+			 			trainer.move_east(w);
 			 		}
 			 	}
 
@@ -123,7 +126,7 @@ int main(void)
 			 		}
 			 		else
 			 		{
-			 			trainer.move_north();
+			 			trainer.move_north(h);
 			 		}
 			 	}
 
@@ -135,7 +138,7 @@ int main(void)
 			 		}
 			 		else
 			 		{
-			 			trainer.move_south();
+			 			trainer.move_south(h);
 			 		}
 			 	}
 				trainer.drawTrainer();

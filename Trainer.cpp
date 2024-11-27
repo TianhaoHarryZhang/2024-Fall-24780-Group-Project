@@ -6,6 +6,27 @@
 #include "Trainer.h"
 #include "Utility.h"
 
+void Trainer::drawGrid(int map_wid, int map_hei, int grid_size)
+{
+	glColor3ub(0, 0, 0);
+	for (int x = 0; x <= map_wid; x += grid_size)
+	{
+		glBegin(GL_LINES);
+		glVertex2i(x, 0);
+		glVertex2i(x, map_hei);
+		glEnd();
+	}
+
+	for (int y = 0; y <= map_hei; y += grid_size)
+	{
+		glBegin(GL_LINES);
+		glVertex2i(0, y);
+		glVertex2i(map_wid, y);
+		glEnd();
+	}
+}
+
+
 Trainer::Trainer(const char* name, float x, float y) : People(name), x(x), y(y), facing_direction(2), moving(true), needHeal(false), inConversation(false)
 {
 	loadTrainer_png("images/trainer/trainer_front.png");
@@ -64,9 +85,9 @@ bool Trainer::isMoving()
 	return moving;
 }
 
-void Trainer::move_west()
-{
-	if (!inConversation)
+void Trainer::move_west(int map_wid)
+{	
+	if (!inConversation && x > 0)
 	{
 		x -= 10;
 		moving = true;
@@ -74,9 +95,9 @@ void Trainer::move_west()
 	}
 }
 
-void Trainer::move_east()
+void Trainer::move_east(int map_wid)
 {
-	if (!inConversation)
+	if (!inConversation && x + Trainer_png.wid < map_wid)
 	{
 		x += 10;
 		moving = true;
@@ -84,9 +105,9 @@ void Trainer::move_east()
 	}
 }
 
-void Trainer::move_north()
+void Trainer::move_north(int map_hei)
 {
-	if (!inConversation)
+	if (!inConversation && y - Trainer_png.hei > 0)
 	{
 		y -= 10;
 		moving = true;
@@ -94,9 +115,9 @@ void Trainer::move_north()
 	}
 }
 
-void Trainer::move_south()
+void Trainer::move_south(int map_hei)
 {
-	if (!inConversation)
+	if (!inConversation && y + Trainer_png.hei/4 < map_hei)
 	{
 		y += 10;
 		moving = true;
