@@ -197,6 +197,7 @@ int PokemonUI::battle(Scene_State *scene_state)
     bool victory = false;
     int lb, mb, rb, mx, my;                                             // Store the position and state of the mouse
     int exit_x, exit_y, exit_h, exit_w;                                 // Rendering attribute for the exit button
+    int pokemon_button_x, pokemon_button_y, pokemon_button_h, pokemon_button_w; // Rendering attribute for the pokemon button
     int attack_x, attack_y, attack_h, attack_w; // Rendering attribute for the attack button
     int skill1_x, skill1_y, skill1_h, skill1_w; // Rendering attribute for the skill1 button
     int skill2_x, skill2_y, skill2_h, skill2_w; // Rendering attribute for the skill2 button
@@ -211,8 +212,8 @@ int PokemonUI::battle(Scene_State *scene_state)
     bool pokemonSelect = true;                            // Default Pokemon is the first pokemon
     int mouseEvent;                                       // Store the mouse event
 
-    hp_player_x = 275;
-    hp_player_y = 400;
+    hp_player_x = 255;
+    hp_player_y = 375;
     hp_player_h = 10;
     hp_player_w = 150;
 
@@ -247,6 +248,14 @@ int PokemonUI::battle(Scene_State *scene_state)
     attack_y = 610;
     attack_w = 386;
     attack_h = 70;
+
+    // Pokemon button location: 720, 699
+    // width range 720 < x < 1106 (width of the image is 1287, ratio 0.3; 1287 * 0.3 = 386)
+    // height range 629 < y < 699 (height of the image is 233, ratio 0.3; 233 * 0.3 = 70)
+    pokemon_button_x = 720;
+    pokemon_button_y = 699;
+    pokemon_button_w = 386;
+    pokemon_button_h = 70;
 
     // fight button location: 720, 610 1287*0.3, 233*0.3
     // width range 720 < x < 1106 (width of the image is 1287, ratio 0.3; 1287 * 0.3 = 386)
@@ -361,6 +370,12 @@ int PokemonUI::battle(Scene_State *scene_state)
                 {
                     printf("Bag button pressed\n");
                     *scene_state = IN_MEDICINE_POCKET;
+                    break;
+                }
+                if (mx > pokemon_button_x && mx < (pokemon_button_x + pokemon_button_w) && my < pokemon_button_y && my > (pokemon_button_y - pokemon_button_h))
+                {
+                    printf("Pokemon button pressed\n");
+                    *scene_state = IN_ANIMAL_POCKET;
                     break;
                 }
                 if (in_skill_selection == false && (mx > attack_x && mx < (attack_x + attack_w) && my < attack_y && my > (attack_y - attack_h)))
