@@ -8,8 +8,8 @@
 #include "yspngenc.h"
 #include "utility.h"
 #include "Trainer.h"
-#include "Medicine.h"
-#include "BattleScene.h"
+//#include "Medicine.h"
+//#include "BattleScene.h"
 #include "Scene.h"
 
 void Render(void *incoming)
@@ -36,12 +36,12 @@ int main(void)
 
 	Trainer trainer("Ash", 100, 100);
 
-	MedicinePocket medicine_pocket;
+	//MedicinePocket medicine_pocket;
 
-	PokemonUI UI;
+	//PokemonUI UI;
 
 	Scene_State scene_state = IN_MAIN_SCENE;
-	scene_state = IN_BATTLE_SCENE;
+	scene_state = IN_MAIN_SCENE;
 
 	if (YSOK == main_scene.Decode("images/main_background.png"))
 	{
@@ -86,136 +86,140 @@ int main(void)
 		case IN_MAIN_SCENE:
 			//  draw the background image
 
-			// glDrawPixels(main_scene.wid, main_scene.hei, GL_RGBA, GL_UNSIGNED_BYTE, main_scene.rgba);
+			 glDrawPixels(main_scene.wid, main_scene.hei, GL_RGBA, GL_UNSIGNED_BYTE, main_scene.rgba);
 
-			// // move the trainer
-			// if (trainer.isMoving == true)
-			// {
-			// 	if (key == FSKEY_LEFT)
-			// 	{
-			// 		if (trainer.facing_direction != 3)
-			// 		{
-			// 			trainer.face_west(); // 1: north, 2: south, 3: west, 4:east
-			// 		}
-			// 		else
-			// 		{
-			// 			trainer.move_west();
-			// 		}
-			// 	}
+			 // move the trainer
+			 if (trainer.moving == true)
+			 {
+			 	if (key == FSKEY_LEFT)
+			 	{
+			 		if (trainer.facing_direction != 3)
+			 		{
+			 			trainer.face_west(); // 1: north, 2: south, 3: west, 4:east
+			 		}
+			 		else
+			 		{
+			 			trainer.move_west();
+			 		}
+			 	}
 
-			// 	if (key == FSKEY_RIGHT)
-			// 	{
-			// 		if (trainer.facing_direction != 4)
-			// 		{
-			// 			trainer.face_east(); // 1: north, 2: south, 3: west, 4:east
-			// 		}
-			// 		else
-			// 		{
-			// 			trainer.move_east();
-			// 		}
-			// 	}
+			 	if (key == FSKEY_RIGHT)
+			 	{
+			 		if (trainer.facing_direction != 4)
+			 		{
+			 			trainer.face_east(); // 1: north, 2: south, 3: west, 4:east
+			 		}
+			 		else
+			 		{
+			 			trainer.move_east();
+			 		}
+			 	}
 
-			// 	if (key == FSKEY_UP)
-			// 	{
-			// 		if (trainer.facing_direction != 1)
-			// 		{
-			// 			trainer.face_north(); // 1: north, 2: south, 3: west, 4:east
-			// 		}
-			// 		else
-			// 		{
-			// 			trainer.move_north();
-			// 		}
-			// 	}
+			 	if (key == FSKEY_UP)
+			 	{
+			 		if (trainer.facing_direction != 1)
+			 		{
+			 			trainer.face_north(); // 1: north, 2: south, 3: west, 4:east
+			 		}
+			 		else
+			 		{
+			 			trainer.move_north();
+			 		}
+			 	}
 
-			// 	if (key == FSKEY_DOWN)
-			// 	{
-			// 		if (trainer.facing_direction != 2)
-			// 		{
-			// 			trainer.face_south(); // 1: north, 2: south, 3: west, 4:east
-			// 		}
-			// 		else
-			// 		{
-			// 			trainer.move_south();
-			// 		}
-			// 	}
-			// }
+			 	if (key == FSKEY_DOWN)
+			 	{
+			 		if (trainer.facing_direction != 2)
+			 		{
+			 			trainer.face_south(); // 1: north, 2: south, 3: west, 4:east
+			 		}
+			 		else
+			 		{
+			 			trainer.move_south();
+			 		}
+			 	}
 
-			// if (key == FSKEY_SPACE)
-			// {
-			// 	trainer.isMoving == false; // disable moving during the conversation
+				trainer.drawTrainer();
+			 }
 
-			// 	People *people = identify_people_faced_by_trainer(trainer);
+			 //if (key == FSKEY_SPACE)
+			 //{
+			 //	trainer.moving == false; // disable moving during the conversation
 
-			// 	trainer.conversation(people); // Inside the trainer class definition, there should be a while loop for the conversation
+			 //	People *people = identify_people_faced_by_trainer(trainer);
 
-			// 	if (people->name == "computer trainer")
-			// 	{
-			// 		scene_state = IN_BATTLE_SCENE;
-			// 	}
-			// }
+			 //	trainer.conversation(people); // Inside the trainer class definition, there should be a while loop for the conversation
+
+			 //	if (people->name == "computer trainer")
+			 //	{
+			 //		scene_state = IN_BATTLE_SCENE;
+			 //	}
+			 //}
 			break;
 
-		case IN_BATTLE_SCENE:
+	//	case IN_BATTLE_SCENE:
 
-			UI.battle(&scene_state);
+	//		UI.battle(&scene_state);
 
-			// everything that happens in the battle scene
+	//		// everything that happens in the battle scene
 
-			break;
+	//		break;
 
-		case IN_ANIMAL_POCKET:
+	//	case IN_ANIMAL_POCKET:
 
-			trainer.displayPokemon(&blur_scene);
+	//		trainer.displayPokemon(&blur_scene);
 
-			// everything that happens in the animal pocket
+	//		// everything that happens in the animal pocket
 
-			break;
+	//		break;
 
-		case IN_MEDICINE_POCKET:
+	//	case IN_MEDICINE_POCKET:
 
-			medicine_pocket.displayMedicines(&blur_scene);
+	//		medicine_pocket.displayMedicines(&blur_scene);
 
-			break;
-		case TRANSIT_FROM_MAIN_TO_BATTLE:
+	//		break;
+	//	case TRANSIT_FROM_MAIN_TO_BATTLE:
 
-			// there should be some animation here
+	//		// there should be some animation here
 
-			break;
+	//		break;
 		}
 
-		/*DYNAMIC MESSAGE TYPING*/
-		/*Need to move this part to a member function of Trainer class*/
+	//	/*DYNAMIC MESSAGE TYPING*/
+	//	/*Need to move this part to a member function of Trainer class*/
 
-		if (message.typing_dynamic_message)
-		{
-			message.num_words_typed += 1;
+	//	if (message.typing_dynamic_message)
+	//	{
+	//		message.num_words_typed += 1;
 
-			if (message.num_words_typed > std::strlen(message.message_to_type))
-			{
-				message.typing_dynamic_message = false;
-				message.num_words_typed = 0;
+	//		if (message.num_words_typed > std::strlen(message.message_to_type))
+	//		{
+	//			message.typing_dynamic_message = false;
+	//			message.num_words_typed = 0;
 
-				// chat_box.show_typed_message = true;
-				// player.Stop(type);
-			}
-			else
-			{
-				// void type_character(char* message_pointer, float start_x, float start_y, int start, int numChars);
-				message.type_character(message.message_to_type, 100, 100, 0, message.num_words_typed);
-				// chat_box.move_cursor();
-			}
-		}
+	//			// chat_box.show_typed_message = true;
+	//			// player.Stop(type);
+	//		}
+	//		else
+	//		{
+	//			// void type_character(char* message_pointer, float start_x, float start_y, int start, int numChars);
+	//			message.type_character(message.message_to_type, 100, 100, 0, message.num_words_typed);
+	//			// chat_box.move_cursor();
+	//		}
+	//	}
 
-		FsSwapBuffers();
+	//	FsSwapBuffers();
 
-		if (message.typing_dynamic_message)
-		{
-			FsSleep(100);
-		}
-		else
-		{
-			FsSleep(500);
-		}
+	//	if (message.typing_dynamic_message)
+	//	{
+	//		FsSleep(100);
+	//	}
+	//	else
+	//	{
+	//		FsSleep(500);
+	//	}
+
+		FsSleep(500);
 	}
 
 	return 0;

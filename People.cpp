@@ -15,5 +15,12 @@ const char* People::getName() const {
 }
 
 void People::addMessage(const char* message) {
-    // Insert code to process conversation messages
+    if (messageCount < 10) {
+        strncpy(conversationMessages[messageCount], message, sizeof(conversationMessages[messageCount]) - 1);
+        conversationMessages[messageCount][sizeof(conversationMessages[messageCount]) - 1] = '\0';
+        ++messageCount;
+    }
+    else {
+        printf("Exceeds message limit\n");
+    }
 }
