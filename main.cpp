@@ -40,8 +40,8 @@ int main(void)
 
 	PokemonUI UI;
 
-	Scene_State scene_state = IN_MAIN_SCENE;
-	scene_state = IN_BATTLE_SCENE;
+	Scene_State scene_state = IN_LOAD_SCENE;
+	//scene_state = IN_BATTLE_SCENE;
 
 	if (YSOK == main_scene.Decode("images/main_background.png"))
 	{
@@ -82,6 +82,10 @@ int main(void)
 
 		switch (scene_state)
 		{
+
+		case IN_LOAD_SCENE:
+
+			game_loading(&scene_state);
 
 		case IN_MAIN_SCENE:
 			//  draw the background image
