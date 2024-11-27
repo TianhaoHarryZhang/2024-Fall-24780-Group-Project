@@ -88,8 +88,6 @@ int main(void)
 			glRasterPos2i(0, main_scene.hei - 1);
 			glDrawPixels(main_scene.wid, main_scene.hei, GL_RGBA, GL_UNSIGNED_BYTE, main_scene.rgba);
 
-			trainer.drawTrainer();
-
 			 // move the trainer
 			 if (trainer.moving == true)
 			 {
@@ -140,6 +138,7 @@ int main(void)
 			 			trainer.move_south();
 			 		}
 			 	}
+				trainer.drawTrainer();
 			 }
 
 			 //if (key == FSKEY_SPACE)

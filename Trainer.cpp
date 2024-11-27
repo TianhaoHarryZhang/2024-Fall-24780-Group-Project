@@ -6,7 +6,7 @@
 #include "Trainer.h"
 #include "Utility.h"
 
-Trainer::Trainer(const char* name, float x, float y) : People(name), x(x), y(y), facing_direction(2), needHeal(false), inConversation(false)
+Trainer::Trainer(const char* name, float x, float y) : People(name), x(x), y(y), facing_direction(2), moving(true), needHeal(false), inConversation(false)
 {
 	loadTrainer_png("images/trainer/trainer_front.png");
 }
@@ -15,7 +15,7 @@ void Trainer::loadTrainer_png(const char* filePath)
 {
 	if (YSOK == Trainer_png.Decode(filePath))
 	{
-		printf("Wid %d Hei %d\n", Trainer_png.wid, Trainer_png.hei);
+		//printf("Wid %d Hei %d\n", Trainer_png.wid, Trainer_png.hei);
 		Trainer_png.Flip();
 	}
 	else
@@ -88,7 +88,7 @@ void Trainer::move_north()
 {
 	if (!inConversation)
 	{
-		y += 10;
+		y -= 10;
 		moving = true;
 		//once dimensions are established, add code to prevent trainer from exiting map boundaries
 	}
@@ -98,7 +98,7 @@ void Trainer::move_south()
 {
 	if (!inConversation)
 	{
-		y -= 10;
+		y += 10;
 		moving = true;
 		//once dimensions are established, add code to prevent trainer from exiting map boundaries
 	}
