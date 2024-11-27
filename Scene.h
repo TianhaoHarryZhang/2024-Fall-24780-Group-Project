@@ -1,6 +1,8 @@
 #pragma once
 enum Scene_State
 {
+    IN_LOAD_SCENE,
+
     IN_MAIN_SCENE,
 
     IN_BATTLE_SCENE,

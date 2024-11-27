@@ -1,4 +1,8 @@
+#include "Scene.h"
+
 void generate_number_png(int number, int width, int height, int font_size, int R, int G, int B, char *filename);
+
+void game_loading (Scene_State* scene_state);
 
 class Message
 {
