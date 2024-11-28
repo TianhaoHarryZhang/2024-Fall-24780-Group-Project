@@ -25,7 +25,7 @@ void Trainer::interactWith(People &otherCharacter)
 	// add code for conversation
 }
 
-void Trainer::displayPokemon(void *pokemon_scene)
+void Trainer::displayPokemon(void *pokemon_scene, YsSoundPlayer *player, YsSoundPlayer::SoundData *sound)
 {
 	YsRawPngDecoder *png = (YsRawPngDecoder *)pokemon_scene;
 	// make an array of medicine images
@@ -48,7 +48,7 @@ void Trainer::displayPokemon(void *pokemon_scene)
 
 		if (FSKEY_ESC == key)
 		{
-			break;
+			exit(0);
 		}
 
 		int mouseEvent;
@@ -62,11 +62,15 @@ void Trainer::displayPokemon(void *pokemon_scene)
 			{
 				// TODO: get the pokemon's name and the HP
 				printf("Animal1 clicked\n");
+				// play sound
+				player->PlayOneShot(*sound);
 			}
 			else if (mx > 700 && mx < 950 && my > 161 && my < 521)
 			{
 				// TODO: get the pokemon's name and the HP
 				printf("Animal2 clicked\n");
+				// play sound
+				player->PlayOneShot(*sound);
 			}
 		}
 
