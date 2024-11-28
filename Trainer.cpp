@@ -6,26 +6,30 @@
 #include "Trainer.h"
 #include "Utility.h"
 
-void Trainer::drawGrid(int map_wid, int map_hei, int grid_size)
-{
-	glColor3ub(0, 0, 0);
-	for (int x = 0; x <= map_wid; x += grid_size)
-	{
-		glBegin(GL_LINES);
-		glVertex2i(x, 0);
-		glVertex2i(x, map_hei);
-		glEnd();
-	}
-
-	for (int y = 0; y <= map_hei; y += grid_size)
-	{
-		glBegin(GL_LINES);
-		glVertex2i(0, y);
-		glVertex2i(map_wid, y);
-		glEnd();
-	}
-}
-
+const int Trainer::grid[22][38] = {
+	{0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+	{0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+	{0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0},
+	{0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0},
+	{0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0},
+	{1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0},
+	{1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0},
+	{1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0},
+	{0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0},
+	{1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+	{1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+	{1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+	{0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+	{0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+	{0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0},
+	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0},
+	{1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0},
+	{0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0},
+	{0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0},
+	{0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0},
+	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+};
 
 Trainer::Trainer(const char* name, float x, float y) : People(name), x(x), y(y), facing_direction(2), moving(true), needHeal(false), inConversation(false)
 {
@@ -36,7 +40,6 @@ void Trainer::loadTrainer_png(const char* filePath)
 {
 	if (YSOK == Trainer_png.Decode(filePath))
 	{
-		//printf("Wid %d Hei %d\n", Trainer_png.wid, Trainer_png.hei);
 		Trainer_png.Flip();
 	}
 	else
@@ -85,45 +88,82 @@ bool Trainer::isMoving()
 	return moving;
 }
 
-void Trainer::move_west(int map_wid)
-{	
+void Trainer::move_west(int map_wid, int grid_size)
+{
 	if (!inConversation && x > 0)
 	{
-		x -= 10;
-		moving = true;
-		//once dimensions are established, add code to prevent trainer from exiting map boundaries
+		int currentGridX = static_cast<int>(x / grid_size);
+		int currentGridY = static_cast<int>(y / grid_size);
+
+		float targetX = x - grid_size / 2;
+		int targetGridX = static_cast<int>(targetX / grid_size);
+		int targetGridY = currentGridY;
+
+		if (targetGridX >= 0 && grid[targetGridY][targetGridX] == 1)
+		{
+			x = targetX;
+			moving = true;
+		}
 	}
 }
 
-void Trainer::move_east(int map_wid)
+void Trainer::move_east(int map_wid, int grid_size)
 {
 	if (!inConversation && x + Trainer_png.wid < map_wid)
 	{
-		x += 10;
-		moving = true;
-		//once dimensions are established, add code to prevent trainer from exiting map boundaries
+		int currentGridX = static_cast<int>(x / grid_size);
+		int currentGridY = static_cast<int>(y / grid_size);
+
+		float targetX = x + grid_size / 2;
+		int targetGridX = static_cast<int>(targetX / grid_size);
+		int targetGridY = currentGridY;
+
+		if (targetGridX < 38 && grid[targetGridY][targetGridX] == 1)
+		{
+			x = targetX;
+			moving = true;
+		}
 	}
 }
 
-void Trainer::move_north(int map_hei)
+void Trainer::move_north(int map_hei, int grid_size)
 {
 	if (!inConversation && y - Trainer_png.hei > 0)
 	{
-		y -= 10;
-		moving = true;
-		//once dimensions are established, add code to prevent trainer from exiting map boundaries
+		int currentGridX = static_cast<int>(x / grid_size);
+		int currentGridY = static_cast<int>(y / grid_size);
+
+		float targetY = y - grid_size / 2;
+		int targetGridX = currentGridX;
+		int targetGridY = static_cast<int>(targetY / grid_size);
+
+		if (targetGridY >= 0 && grid[targetGridY][targetGridX] == 1)
+		{
+			y = targetY;
+			moving = true;
+		}
 	}
 }
 
-void Trainer::move_south(int map_hei)
+void Trainer::move_south(int map_hei, int grid_size)
 {
-	if (!inConversation && y + Trainer_png.hei/4 < map_hei)
+	if (!inConversation && y + Trainer_png.hei / 4 < map_hei)
 	{
-		y += 10;
-		moving = true;
-		//once dimensions are established, add code to prevent trainer from exiting map boundaries
+		int currentGridX = static_cast<int>(x / grid_size);
+		int currentGridY = static_cast<int>(y / grid_size);
+
+		float targetY = y + grid_size / 2;
+		int targetGridX = currentGridX;
+		int targetGridY = static_cast<int>(targetY / grid_size);
+
+		if (targetGridY < 22 && grid[targetGridY][targetGridX] == 1)
+		{
+			y = targetY;
+			moving = true;
+		}
 	}
 }
+
 
 bool Trainer::heal()
 {
