@@ -34,7 +34,7 @@ int main(void)
 
 	Message message;
 
-	Trainer trainer("Ash", 100, 100);
+	Trainer trainer("Ash", 68, 34);
 
 	MedicinePocket medicine_pocket;
 
@@ -54,7 +54,7 @@ int main(void)
 	Scene_State scene_state = IN_LOAD_SCENE;
 	// scene_state = IN_BATTLE_SCENE;
 
-	if (YSOK == main_scene.Decode("images/main_background.png"))
+	if (YSOK == main_scene.Decode("images/new_version.png"))
 	{
 		printf("Wid %d Hei %d\n", main_scene.wid, main_scene.hei);
 		main_scene.Flip();
@@ -100,60 +100,64 @@ int main(void)
 
 		case IN_MAIN_SCENE:
 			//  draw the background image
+			glRasterPos2i(0, main_scene.hei - 1);
+			glDrawPixels(main_scene.wid, main_scene.hei, GL_RGBA, GL_UNSIGNED_BYTE, main_scene.rgba);
+			int w = main_scene.wid;
+			int h = main_scene.hei;
+			int grid_size = 34;
 
-			// glDrawPixels(main_scene.wid, main_scene.hei, GL_RGBA, GL_UNSIGNED_BYTE, main_scene.rgba);
+			// move the trainer
+			if (trainer.moving == true)
+			{
+				if (key == FSKEY_LEFT)
+				{
+					if (trainer.facing_direction != 3)
+					{
+						trainer.face_west(); // 1: north, 2: south, 3: west, 4:east
+					}
+					else
+					{
+						trainer.move_west(w, grid_size);
+					}
+				}
 
-			// // move the trainer
-			// if (trainer.isMoving == true)
-			// {
-			// 	if (key == FSKEY_LEFT)
-			// 	{
-			// 		if (trainer.facing_direction != 3)
-			// 		{
-			// 			trainer.face_west(); // 1: north, 2: south, 3: west, 4:east
-			// 		}
-			// 		else
-			// 		{
-			// 			trainer.move_west();
-			// 		}
-			// 	}
+				if (key == FSKEY_RIGHT)
+				{
+					if (trainer.facing_direction != 4)
+					{
+						trainer.face_east(); // 1: north, 2: south, 3: west, 4:east
+					}
+					else
+					{
+						trainer.move_east(w, grid_size);
+					}
+				}
 
-			// 	if (key == FSKEY_RIGHT)
-			// 	{
-			// 		if (trainer.facing_direction != 4)
-			// 		{
-			// 			trainer.face_east(); // 1: north, 2: south, 3: west, 4:east
-			// 		}
-			// 		else
-			// 		{
-			// 			trainer.move_east();
-			// 		}
-			// 	}
+				if (key == FSKEY_UP)
+				{
+					if (trainer.facing_direction != 1)
+					{
+						trainer.face_north(); // 1: north, 2: south, 3: west, 4:east
+					}
+					else
+					{
+						trainer.move_north(h, grid_size);
+					}
+				}
 
-			// 	if (key == FSKEY_UP)
-			// 	{
-			// 		if (trainer.facing_direction != 1)
-			// 		{
-			// 			trainer.face_north(); // 1: north, 2: south, 3: west, 4:east
-			// 		}
-			// 		else
-			// 		{
-			// 			trainer.move_north();
-			// 		}
-			// 	}
-
-			// 	if (key == FSKEY_DOWN)
-			// 	{
-			// 		if (trainer.facing_direction != 2)
-			// 		{
-			// 			trainer.face_south(); // 1: north, 2: south, 3: west, 4:east
-			// 		}
-			// 		else
-			// 		{
-			// 			trainer.move_south();
-			// 		}
-			// 	}
-			// }
+				if (key == FSKEY_DOWN)
+				{
+					if (trainer.facing_direction != 2)
+					{
+						trainer.face_south(); // 1: north, 2: south, 3: west, 4:east
+					}
+					else
+					{
+						trainer.move_south(h, grid_size);
+					}
+				}
+				trainer.drawTrainer();
+			}
 
 			// if (key == FSKEY_SPACE)
 			// {

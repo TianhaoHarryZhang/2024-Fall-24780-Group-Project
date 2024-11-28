@@ -1,28 +1,187 @@
 #include <stdio.h>
+#include "fssimplewindow.h"
+#include "yspng.h"
+#include "ysglfontdata.h"
+#include "yspngenc.h"
 #include "Trainer.h"
 #include "Utility.h"
 
-Trainer::Trainer(const char *name, float x, float y) : People(name), x(x), y(y), needHeal(false) {}
+const int Trainer::grid[22][38] = {
+	{0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+	{0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+	{0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0},
+	{0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0},
+	{0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0},
+	{1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0},
+	{1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0},
+	{1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0},
+	{0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0},
+	{1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+	{1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+	{1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+	{0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+	{0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+	{0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0},
+	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0},
+	{1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0},
+	{0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0},
+	{0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0},
+	{0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0},
+	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+};
 
-void Trainer::move(float dx, float dy)
+Trainer::Trainer(const char* name, float x, float y) : People(name), x(x), y(y), facing_direction(2), moving(true), needHeal(false), inConversation(false)
 {
-	x += dx;
-	y += dy;
-	// once dimensions are established, add code to prevent trainer from exiting map boundaries
+	loadTrainer_png("images/trainer/trainer_front.png");
 }
+
+void Trainer::loadTrainer_png(const char* filePath)
+{
+	if (YSOK == Trainer_png.Decode(filePath))
+	{
+		Trainer_png.Flip();
+	}
+	else
+	{
+		printf("Failed to open file.\n");
+	}
+}
+
+void Trainer::face_west()
+{
+	facing_direction = 3;
+	loadTrainer_png("images/trainer/trainer_left.png");
+}
+
+void Trainer::face_east()
+{
+	facing_direction = 4;
+	loadTrainer_png("images/trainer/trainer_right.png");
+}
+
+void Trainer::face_north()
+{
+	facing_direction = 1;
+	loadTrainer_png("images/trainer/trainer_back.png");
+}
+
+void Trainer::face_south()
+{
+	facing_direction = 2;
+	loadTrainer_png("images/trainer/trainer_front.png");
+}
+
+void Trainer::drawTrainer()
+{
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glRasterPos2i(static_cast<int>(x), static_cast<int>(y));
+	glDrawPixels(Trainer_png.wid, Trainer_png.hei, GL_RGBA, GL_UNSIGNED_BYTE, Trainer_png.rgba);
+	glDisable(GL_BLEND);
+	glDisable(GL_DEPTH_TEST);
+}
+
+bool Trainer::isMoving()
+{
+	return moving;
+}
+
+void Trainer::move_west(int map_wid, int grid_size)
+{
+	if (!inConversation && x > 0)
+	{
+		int currentGridX = static_cast<int>(x / grid_size);
+		int currentGridY = static_cast<int>(y / grid_size);
+
+		float targetX = x - grid_size / 2;
+		int targetGridX = static_cast<int>(targetX / grid_size);
+		int targetGridY = currentGridY;
+
+		if (targetGridX >= 0 && grid[targetGridY][targetGridX] == 1)
+		{
+			x = targetX;
+			moving = true;
+		}
+	}
+}
+
+void Trainer::move_east(int map_wid, int grid_size)
+{
+	if (!inConversation && x + Trainer_png.wid < map_wid)
+	{
+		int currentGridX = static_cast<int>(x / grid_size);
+		int currentGridY = static_cast<int>(y / grid_size);
+
+		float targetX = x + grid_size / 2;
+		int targetGridX = static_cast<int>(targetX / grid_size);
+		int targetGridY = currentGridY;
+
+		if (targetGridX < 38 && grid[targetGridY][targetGridX] == 1)
+		{
+			x = targetX;
+			moving = true;
+		}
+	}
+}
+
+void Trainer::move_north(int map_hei, int grid_size)
+{
+	if (!inConversation && y - Trainer_png.hei > 0)
+	{
+		int currentGridX = static_cast<int>(x / grid_size);
+		int currentGridY = static_cast<int>(y / grid_size);
+
+		float targetY = y - grid_size / 2;
+		int targetGridX = currentGridX;
+		int targetGridY = static_cast<int>(targetY / grid_size);
+
+		if (targetGridY >= 0 && grid[targetGridY][targetGridX] == 1)
+		{
+			y = targetY;
+			moving = true;
+		}
+	}
+}
+
+void Trainer::move_south(int map_hei, int grid_size)
+{
+	if (!inConversation && y + Trainer_png.hei / 4 < map_hei)
+	{
+		int currentGridX = static_cast<int>(x / grid_size);
+		int currentGridY = static_cast<int>(y / grid_size);
+
+		float targetY = y + grid_size / 2;
+		int targetGridX = currentGridX;
+		int targetGridY = static_cast<int>(targetY / grid_size);
+
+		if (targetGridY < 22 && grid[targetGridY][targetGridX] == 1)
+		{
+			y = targetY;
+			moving = true;
+		}
+	}
+}
+
 
 bool Trainer::heal()
 {
-	// toggle healing action
+	//toggle healing action
 	needHeal = !needHeal;
-	// add code to increase health points to full
+	//add code to increase health points to full
+	return needHeal;
 }
 
-void Trainer::interactWith(People &otherCharacter)
+void Trainer::interactWith(People& otherCharacter)
 {
-	// add code to initiate conversation
+	//add code to initiate conversation
 
-	// add code for conversation
+	//add code for conversation
+	inConversation = true;
+	moving = false;
+
+	inConversation = false;
 }
 
 void Trainer::displayPokemon(void *pokemon_scene, YsSoundPlayer *player, YsSoundPlayer::SoundData *sound)
