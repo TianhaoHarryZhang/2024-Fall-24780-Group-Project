@@ -1,5 +1,6 @@
 #ifndef BATTLE_SCENE_H
 #define BATTLE_SCENE_H
+#include "yssimplesound.h"
 #include "Scene.h"
 #include "Pokemon.h"
 #include <string>
@@ -22,7 +23,7 @@ public:
 
     void renderSkillSelection(Pokemon *pokemon);
 
-    int battle(Scene_State *scene_state);
+    int battle(Scene_State *scene_state, YsSoundPlayer *player, YsSoundPlayer::SoundData *sound);
 };
 
 #endif

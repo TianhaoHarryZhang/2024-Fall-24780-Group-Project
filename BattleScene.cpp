@@ -182,7 +182,7 @@ void PokemonUI::renderBK()
     glDrawPixels(bk.wid, bk.hei, GL_RGBA, GL_UNSIGNED_BYTE, bk.rgba);
 }
 
-int PokemonUI::battle(Scene_State *scene_state)
+int PokemonUI::battle(Scene_State *scene_state, YsSoundPlayer *player, YsSoundPlayer::SoundData *sound)
 {
     //  Pokemon(std::string name, std::string level, float hp, Skill skill1, Skill skill2);
     Pokemon pokemon1("Dog", "Lv. 1", 100, 100, Skill("Bite", 10), Skill("Scratch", 8), "dog");
@@ -281,7 +281,7 @@ int PokemonUI::battle(Scene_State *scene_state)
         FsPollDevice();
         if (FsInkey() == FSKEY_ESC)
         {
-            break;
+            exit(0);
         }
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -370,12 +370,16 @@ int PokemonUI::battle(Scene_State *scene_state)
                 {
                     printf("Bag button pressed\n");
                     *scene_state = IN_MEDICINE_POCKET;
+                    // play sound
+                    player->PlayOneShot(*sound);
                     break;
                 }
                 if (mx > pokemon_button_x && mx < (pokemon_button_x + pokemon_button_w) && my < pokemon_button_y && my > (pokemon_button_y - pokemon_button_h))
                 {
                     printf("Pokemon button pressed\n");
                     *scene_state = IN_ANIMAL_POCKET;
+                    // play sound
+                    player->PlayOneShot(*sound);
                     break;
                 }
                 if (in_skill_selection == false && (mx > attack_x && mx < (attack_x + attack_w) && my < attack_y && my > (attack_y - attack_h)))
@@ -383,6 +387,8 @@ int PokemonUI::battle(Scene_State *scene_state)
                     std::cout << "Attack button pressed" << std::endl;
                     // Attack button pressed, switch to skill selection
                     in_skill_selection = true;        
+                    // play sound
+                    player->PlayOneShot(*sound);
                 }
                 if (in_skill_selection == true)
                 {
@@ -390,6 +396,8 @@ int PokemonUI::battle(Scene_State *scene_state)
                     user_pokemon_in_skill_animation = true;
                     // currentPokemon->useSkill(1);
                     // TODO: Check if the skill is selected, if selected, conduct skill animation change in_skill_slertion to false
+                    // play sound
+                    player->PlayOneShot(*sound);
                 }
             }
         }

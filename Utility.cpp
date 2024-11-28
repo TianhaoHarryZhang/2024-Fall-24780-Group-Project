@@ -8,6 +8,7 @@
 #include "yspng.h"
 #include "yspngenc.h"
 #include "Scene.h"
+#include "yssimplesound.h"
 
 
 void game_loading (Scene_State* scene_state)
@@ -103,6 +104,13 @@ void generate_number_png(int number, int width, int height, int font_size, int R
     system(command);
 }
 
+void load_sound(YsSoundPlayer::SoundData &sound, const char *filename) {
+    if(YSOK!=sound.LoadWav(filename))
+    {
+        std::cout << "Error!  Cannot load file: " << filename << std::endl;
+    }
+}
+
 //render text message
 void Message::renderText(float x, float y, const char text[], int R, int G, int B){
 
@@ -182,5 +190,4 @@ void Message::getSubset(char* source, int m, int numChars, char* result)
     // Add null terminator to the end of the substring
     result[numChars] = '\0';
 }
-
 

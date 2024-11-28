@@ -38,5 +38,5 @@ public:
 
     int useMedicine(int index);
 
-    void displayMedicines(void *medicine_scene);
+    void displayMedicines(void *medicine_scene, YsSoundPlayer *player, YsSoundPlayer::SoundData *sound);
 };
