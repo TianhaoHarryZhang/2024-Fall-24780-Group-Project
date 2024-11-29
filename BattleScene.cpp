@@ -362,6 +362,11 @@ int PokemonUI::battle(Scene_State *scene_state, YsSoundPlayer *player, YsSoundPl
             {
                 printf("Button pressed at %d %d\n", mx, my);
 
+                if (mx > exit_x && mx < exit_x + exit_w && my > exit_y && my < exit_y + exit_h)
+                {
+                    terminate = true;
+                }
+
                 if (mx > bag_x && mx < (bag_x + bag_w) && my < bag_y && my > (bag_y - bag_h))
                 {
                     printf("Bag button pressed\n");
@@ -395,6 +400,7 @@ int PokemonUI::battle(Scene_State *scene_state, YsSoundPlayer *player, YsSoundPl
                     // play sound
                     player->PlayOneShot(*sound);
 
+                    // This will reset the state of back to that the attack button has not been pressed
                     if (mx > back_x && mx < (back_x + back_w) && my < back_y && my >(back_y - back_h)) {
                         user_pokemon_in_animation = false;
                         user_pokemon_in_skill_animation = false;
