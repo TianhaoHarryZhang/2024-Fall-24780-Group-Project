@@ -204,6 +204,7 @@ int PokemonUI::battle(Scene_State *scene_state, YsSoundPlayer *player, YsSoundPl
     int bag_x, bag_y, bag_h, bag_w;                                     // Rendering attribute for the backpack button
     int hp_player_x, hp_player_y, hp_player_h, hp_player_w;             // Player pokemon's hp bar positon
     int hp_NPC_x, hp_NPC_y, hp_NPC_h, hp_NPC_w;                         // NPC pokemon's hp bar positon
+    int back_x, back_y, back_h, back_w;         // Rendering attribute for the back button
     int playerPokemon_x, playerPokemon_y, playerPokemon_direction;
     float playerPokemon_scale;                            // Player pokemon's rendering attribute
     int NPCpokemon_x, NPCpokemon_y, NPCpokemon_direction; // NPC pokemon's rendering attribute
@@ -355,11 +356,6 @@ int PokemonUI::battle(Scene_State *scene_state, YsSoundPlayer *player, YsSoundPl
             //         currentPokemon->attackAnimation();
             //         currentPokemon->useSkill(2);
             //         currentNPCPokemon->takeDamage(currentPokemon->skill2.damage);
-            //     }
-            //     // Backpack pressed
-            //     else if (mx > bag_x && mx < bag_x + bag_w && my > bag_y && my < bag_y + bag_h)
-            //     {
-            //         printf("Bag button pressed\n");
             //     }
             // }
             if (mouseEvent == FSMOUSEEVENT_LBUTTONDOWN)
