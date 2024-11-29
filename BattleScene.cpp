@@ -394,6 +394,12 @@ int PokemonUI::battle(Scene_State *scene_state, YsSoundPlayer *player, YsSoundPl
                     // TODO: Check if the skill is selected, if selected, conduct skill animation change in_skill_slertion to false
                     // play sound
                     player->PlayOneShot(*sound);
+
+                    if (mx > back_x && mx < (back_x + back_w) && my < back_y && my >(back_y - back_h)) {
+                        user_pokemon_in_animation = false;
+                        user_pokemon_in_skill_animation = false;
+                        in_skill_selection == false;
+                    }
                 }
             }
         }
