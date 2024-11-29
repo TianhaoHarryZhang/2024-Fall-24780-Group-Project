@@ -334,13 +334,6 @@ int PokemonUI::battle(Scene_State *scene_state, YsSoundPlayer *player, YsSoundPl
         if (playerRound == true)
         {
             // Check if any button is pressed
-            // if (lb == 1)
-            // {
-            //     // Exit button pressed
-            //     if (mx > exit_x && mx < exit_x + exit_w && my > exit_y && my < exit_y + exit_h)
-            //     {
-            //         terminate = true;
-            //     }
             //     // First skill pressed
             //     else if (mx > attack1_x && mx < attack1_x + attack_w && my > attack1_y && my < attack1_y + attack_h)
             //     {
@@ -362,12 +355,14 @@ int PokemonUI::battle(Scene_State *scene_state, YsSoundPlayer *player, YsSoundPl
             {
                 printf("Button pressed at %d %d\n", mx, my);
 
+                // check if the user is in skill selection first
+                if (in_skill_selection == false){
+                    // exit button pressed
                 if (mx > exit_x && mx < exit_x + exit_w && my > exit_y && my < exit_y + exit_h)
                 {
                     terminate = true;
                 }
-
-                if (mx > bag_x && mx < (bag_x + bag_w) && my < bag_y && my > (bag_y - bag_h))
+                    else if (mx > bag_x && mx < (bag_x + bag_w) && my < bag_y && my > (bag_y - bag_h)) // bag button pressed
                 {
                     printf("Bag button pressed\n");
                     *scene_state = IN_MEDICINE_POCKET;
@@ -375,7 +370,7 @@ int PokemonUI::battle(Scene_State *scene_state, YsSoundPlayer *player, YsSoundPl
                     player->PlayOneShot(*sound);
                     break;
                 }
-                if (mx > pokemon_button_x && mx < (pokemon_button_x + pokemon_button_w) && my < pokemon_button_y && my > (pokemon_button_y - pokemon_button_h))
+                    else if (mx > pokemon_button_x && mx < (pokemon_button_x + pokemon_button_w) && my < pokemon_button_y && my > (pokemon_button_y - pokemon_button_h)) // change pokemon button pressed
                 {
                     printf("Pokemon button pressed\n");
                     *scene_state = IN_ANIMAL_POCKET;
@@ -383,7 +378,7 @@ int PokemonUI::battle(Scene_State *scene_state, YsSoundPlayer *player, YsSoundPl
                     player->PlayOneShot(*sound);
                     break;
                 }
-                if (in_skill_selection == false && (mx > attack_x && mx < (attack_x + attack_w) && my < attack_y && my > (attack_y - attack_h)))
+                    else if ((mx > attack_x && mx < (attack_x + attack_w) && my < attack_y && my > (attack_y - attack_h))) // attack button pressed
                 {
                     std::cout << "Attack button pressed" << std::endl;
                     // Attack button pressed, switch to skill selection
@@ -391,7 +386,7 @@ int PokemonUI::battle(Scene_State *scene_state, YsSoundPlayer *player, YsSoundPl
                     // play sound
                     player->PlayOneShot(*sound);
                 }
-                if (in_skill_selection == true)
+                else
                 {
                     user_pokemon_in_animation = true;
                     user_pokemon_in_skill_animation = true;
