@@ -358,34 +358,34 @@ int PokemonUI::battle(Scene_State *scene_state, YsSoundPlayer *player, YsSoundPl
                 // check if the user is in skill selection first
                 if (in_skill_selection == false){
                     // exit button pressed
-                if (mx > exit_x && mx < exit_x + exit_w && my > exit_y && my < exit_y + exit_h)
-                {
-                    terminate = true;
-                }
+                    if (mx > exit_x && mx < exit_x + exit_w && my > exit_y && my < exit_y + exit_h)
+                    {
+                        terminate = true;
+                    } 
                     else if (mx > bag_x && mx < (bag_x + bag_w) && my < bag_y && my > (bag_y - bag_h)) // bag button pressed
-                {
-                    printf("Bag button pressed\n");
-                    *scene_state = IN_MEDICINE_POCKET;
-                    // play sound
-                    player->PlayOneShot(*sound);
-                    break;
-                }
+                    {
+                        printf("Bag button pressed\n");
+                        *scene_state = IN_MEDICINE_POCKET;
+                        // play sound
+                        player->PlayOneShot(*sound);
+                        break;
+                    }
                     else if (mx > pokemon_button_x && mx < (pokemon_button_x + pokemon_button_w) && my < pokemon_button_y && my > (pokemon_button_y - pokemon_button_h)) // change pokemon button pressed
-                {
-                    printf("Pokemon button pressed\n");
-                    *scene_state = IN_ANIMAL_POCKET;
-                    // play sound
-                    player->PlayOneShot(*sound);
-                    break;
-                }
+                    {
+                        printf("Pokemon button pressed\n");
+                        *scene_state = IN_ANIMAL_POCKET;
+                        // play sound
+                        player->PlayOneShot(*sound);
+                        break;
+                    }
                     else if ((mx > attack_x && mx < (attack_x + attack_w) && my < attack_y && my > (attack_y - attack_h))) // attack button pressed
-                {
-                    std::cout << "Attack button pressed" << std::endl;
-                    // Attack button pressed, switch to skill selection
-                    in_skill_selection = true;        
-                    // play sound
-                    player->PlayOneShot(*sound);
-                }
+                    {
+                        std::cout << "Attack button pressed" << std::endl;
+                        // Attack button pressed, switch to skill selection
+                        in_skill_selection = true;        
+                        // play sound
+                        player->PlayOneShot(*sound);
+                    }
                 else
                 {
                     user_pokemon_in_animation = true;
