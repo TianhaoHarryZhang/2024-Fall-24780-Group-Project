@@ -1,6 +1,8 @@
 #ifndef BATTLE_SCENE_H
 #define BATTLE_SCENE_H
+#include "yssimplesound.h"
 #include "Scene.h"
+#include "Pokemon.h"
 #include <string>
 
 class PokemonUI
@@ -19,7 +21,9 @@ public:
 
     void renderBK();
 
-    int battle(Scene_State *scene_state);
+    void renderSkillSelection(Pokemon *pokemon);
+
+    int battle(Scene_State *scene_state, YsSoundPlayer *player, YsSoundPlayer::SoundData *sound);
 };
 
 #endif

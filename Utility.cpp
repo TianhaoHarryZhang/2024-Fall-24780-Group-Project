@@ -5,6 +5,95 @@
 #include "ysglfontdata.h"
 #include "utility.h"
 #include "fssimplewindow.h"
+#include "yspng.h"
+#include "yspngenc.h"
+#include "Scene.h"
+#include "yssimplesound.h"
+
+
+void game_loading (Scene_State* scene_state)
+{
+	YsRawPngDecoder loading_image, running_trainer;
+
+	if (YSOK != loading_image.Decode("images/loading/Loading.png") || YSOK != running_trainer.Decode("images/loading/running_trainer.png"))
+    {
+        printf("Failed to open game-loading image files.\n");
+        *scene_state = IN_MAIN_SCENE;
+        return;
+    }
+    else
+    {
+    	loading_image.Flip();
+    	running_trainer.Flip();
+    }
+
+
+    int n = 0;
+
+    float x = 5.f;
+
+    for (;;)
+    {
+    	FsPollDevice();
+    	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    	
+    	if (FsInkey() == FSKEY_ESC)
+        {
+            break;
+        }
+
+    	//display game-loading temporary image
+		glRasterPos2d(0.0, (double)(loading_image.hei - 1));
+		glDrawPixels(loading_image.wid, loading_image.hei, GL_RGBA, GL_UNSIGNED_BYTE, loading_image.rgba);
+
+
+		//display a white progress bar
+    	glColor3f(1.0f, 1.0f, 1.0f);
+    	// Window size: Wid 1225 Hei 700
+    	glBegin(GL_TRIANGLE_STRIP);
+        glVertex2f(0.f, 700.f); // Bottom-left corner
+        glVertex2f(1225.f, 700.f); // Bottom-right corner
+        glVertex2f(0.f, 650.f); // Top-left corner
+        glVertex2f(1225.f, 650.f); // Top-right corner
+    	glEnd();
+    	glFlush(); 
+
+
+    	//display running trainer image
+		glRasterPos2d(x, (double)(695.f));
+		glDrawPixels(running_trainer.wid, running_trainer.hei, GL_RGBA, GL_UNSIGNED_BYTE, running_trainer.rgba);
+
+
+
+		//display a green progress bar of completion
+    	glColor3f(0.f, 1.0f, 0.f);
+    	// Window size: Wid 1225 Hei 700
+    	glBegin(GL_TRIANGLE_STRIP);
+        glVertex2f(0.f, 700.f); // Bottom-left corner
+        glVertex2f(x, 700.f); // Bottom-right corner
+        glVertex2f(0.f, 650.f); // Top-left corner
+        glVertex2f(x, 650.f); // Top-right corner
+    	glEnd();
+    	glFlush(); // Ensure all commands are executed
+
+
+    	FsSwapBuffers();
+
+    	if (n==2000) //
+    	{
+    		break;
+    	}
+
+    	n += 1;
+    	x += 0.605f;
+    }
+
+    *scene_state = IN_MAIN_SCENE;
+
+	return;
+}
+
+
 
 void generate_number_png(int number, int width, int height, int font_size, int R, int G, int B, char* filename)
 {
@@ -13,6 +102,13 @@ void generate_number_png(int number, int width, int height, int font_size, int R
 	snprintf(command, sizeof(command), "python number.py %d %d %d %d %d %d %d %s", number, width, height, font_size, R, G, B, filename);
 
     system(command);
+}
+
+void load_sound(YsSoundPlayer::SoundData &sound, const char *filename) {
+    if(YSOK!=sound.LoadWav(filename))
+    {
+        std::cout << "Error!  Cannot load file: " << filename << std::endl;
+    }
 }
 
 //render text message
@@ -94,5 +190,4 @@ void Message::getSubset(char* source, int m, int numChars, char* result)
     // Add null terminator to the end of the substring
     result[numChars] = '\0';
 }
-
 

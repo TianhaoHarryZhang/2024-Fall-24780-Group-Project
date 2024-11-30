@@ -40,8 +40,19 @@ int main(void)
 
 	PokemonUI UI;
 
-	Scene_State scene_state = IN_MAIN_SCENE;
-	scene_state = IN_BATTLE_SCENE;
+	YsSoundPlayer player;
+	player.MakeCurrent();
+	player.Start();
+	FsChangeToProgramDir();
+
+	YsSoundPlayer::SoundData bkground, notification;
+	load_sound(bkground, "audio/Background.wav");
+	load_sound(notification, "audio/Notification_1.wav");
+
+	player.PlayBackground(bkground);
+
+	Scene_State scene_state = IN_LOAD_SCENE;
+	// scene_state = IN_BATTLE_SCENE;
 
 	if (YSOK == main_scene.Decode("images/main_background.png"))
 	{
@@ -82,6 +93,10 @@ int main(void)
 
 		switch (scene_state)
 		{
+
+		case IN_LOAD_SCENE:
+
+			game_loading(&scene_state);
 
 		case IN_MAIN_SCENE:
 			//  draw the background image
@@ -157,7 +172,7 @@ int main(void)
 
 		case IN_BATTLE_SCENE:
 
-			UI.battle(&scene_state);
+			UI.battle(&scene_state, &player, &notification);
 
 			// everything that happens in the battle scene
 
@@ -165,7 +180,7 @@ int main(void)
 
 		case IN_ANIMAL_POCKET:
 
-			trainer.displayPokemon(&blur_scene);
+			trainer.displayPokemon(&blur_scene, &player, &notification);
 
 			// everything that happens in the animal pocket
 
@@ -173,7 +188,7 @@ int main(void)
 
 		case IN_MEDICINE_POCKET:
 
-			medicine_pocket.displayMedicines(&blur_scene);
+			medicine_pocket.displayMedicines(&blur_scene, &player, &notification);
 
 			break;
 		case TRANSIT_FROM_MAIN_TO_BATTLE:

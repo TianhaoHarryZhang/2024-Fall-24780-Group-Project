@@ -35,7 +35,7 @@ int MedicinePocket::useMedicine(int index)
     return 0;
 }
 
-void MedicinePocket::displayMedicines(void *medicine_scene)
+void MedicinePocket::displayMedicines(void *medicine_scene, YsSoundPlayer *player, YsSoundPlayer::SoundData *sound)
 {
 
     YsRawPngDecoder *png = (YsRawPngDecoder *)medicine_scene;
@@ -60,7 +60,7 @@ void MedicinePocket::displayMedicines(void *medicine_scene)
 
         if (FSKEY_ESC == key)
         {
-            break;
+            exit(0);
         }
 
         int mouseEvent;
@@ -73,14 +73,20 @@ void MedicinePocket::displayMedicines(void *medicine_scene)
             if (140 < mx && mx < 391 && 162 < my && my < 521)
             {
                 cure = useMedicine(0);
+                // play sound
+                player->PlayOneShot(*sound);
             }
             else if (490 < mx && mx < 741 && 162 < my && my < 521)
             {
                 cure = useMedicine(1);
+                // play sound
+                player->PlayOneShot(*sound);
             }
             else if (840 < mx && mx < 1090 && 162 < my && my < 521)
             {
                 cure = useMedicine(2);
+                // play sound
+                player->PlayOneShot(*sound);
             }
             printf("Cure: %d\n", cure);
         }
@@ -112,6 +118,8 @@ void MedicinePocket::displayMedicines(void *medicine_scene)
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glDrawPixels(png->wid, png->hei, GL_RGBA, GL_UNSIGNED_BYTE, png->rgba);
+        glDisable(GL_BLEND);
+        glDisable(GL_DEPTH_TEST);
 
         FsSwapBuffers();
         FsSleep(10);
