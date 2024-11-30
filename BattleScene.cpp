@@ -201,10 +201,10 @@ int PokemonUI::battle(Scene_State *scene_state, YsSoundPlayer *player, YsSoundPl
     int attack_x, attack_y, attack_h, attack_w; // Rendering attribute for the attack button
     int skill1_x, skill1_y, skill1_h, skill1_w; // Rendering attribute for the skill1 button
     int skill2_x, skill2_y, skill2_h, skill2_w; // Rendering attribute for the skill2 button
+    int back_x, back_y, back_h, back_w;         // Rendering attribute for the back button
     int bag_x, bag_y, bag_h, bag_w;                                     // Rendering attribute for the backpack button
     int hp_player_x, hp_player_y, hp_player_h, hp_player_w;             // Player pokemon's hp bar positon
     int hp_NPC_x, hp_NPC_y, hp_NPC_h, hp_NPC_w;                         // NPC pokemon's hp bar positon
-    int back_x, back_y, back_h, back_w;         // Rendering attribute for the back button
     int playerPokemon_x, playerPokemon_y, playerPokemon_direction;
     float playerPokemon_scale;                            // Player pokemon's rendering attribute
     int NPCpokemon_x, NPCpokemon_y, NPCpokemon_direction; // NPC pokemon's rendering attribute
