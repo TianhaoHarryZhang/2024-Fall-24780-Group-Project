@@ -392,23 +392,22 @@ int PokemonUI::battle(Scene_State *scene_state, YsSoundPlayer *player, YsSoundPl
                         // play sound
                         player->PlayOneShot(*sound);
                     }
-                    else
-                    {
-                        user_pokemon_in_animation = true;
-                        user_pokemon_in_skill_animation = true;
-                        // currentPokemon->useSkill(1);
-                        // TODO: Check if the skill is selected, if selected, conduct skill animation change in_skill_slertion to false
-                        // play sound
-                        player->PlayOneShot(*sound);
+                }
+                else
+                {
+                    user_pokemon_in_animation = true;
+                    user_pokemon_in_skill_animation = true;
+                    // currentPokemon->useSkill(1);
+                    // TODO: Check if the skill is selected, if selected, conduct skill animation change in_skill_slertion to false
+                    // play sound
+                    player->PlayOneShot(*sound);
 
-                        // This will reset the state of back to that the attack button has not been pressed
-                        if (mx > back_x && mx < (back_x + back_w) && my < back_y && my > (back_y - back_h))
-                        {
-                            user_pokemon_in_animation = false;
-                            user_pokemon_in_skill_animation = false;
-                            in_skill_selection == false;
-                        }
-                    }
+                    // This will reset the state of back to that the attack button has not been pressed
+                    // if (mx > back_x && mx < (back_x + back_w) && my < back_y && my >(back_y - back_h)) {
+                    // user_pokemon_in_animation = false;
+                    //  user_pokemon_in_skill_animation = false;
+                    // in_skill_selection == false;
+                    //}
                 }
             }
             // NPC's round
@@ -455,5 +454,41 @@ int PokemonUI::battle(Scene_State *scene_state, YsSoundPlayer *player, YsSoundPl
             FsSwapBuffers();
         }
 
-        return 0;
+        if (terminate == true)
+        {
+            break;
+        }
+
+        // Check if any of the pokemons are out of hp
+        if (currentNPCPokemon->hp == 0)
+        {
+            // NPC out of pokemon, victory
+            terminate = true;
+            victory = true;
+        }
+        else if (pokemon1.hp == 0 && pokemon2.hp == 0)
+        {
+            // Player out of pokemons, defeat
+            terminate = true;
+        }
+        else if (pokemon1.hp == 0 || pokemon2.hp == 0)
+        {
+            // One of player's pokemon is out of hp, change to the other pokemon
+            pokemonSelect = !pokemonSelect;
+        }
+
+        // Check the current pokemon selection
+        if (pokemonSelect == true)
+        {
+            currentPokemon = &pokemon1;
+        }
+        else
+        {
+            currentPokemon = &pokemon2;
+        }
+
+        FsSwapBuffers();
     }
+
+    return 0;
+}
