@@ -40,6 +40,9 @@ void Trainer::displayPokemon(void *pokemon_scene, YsSoundPlayer *player, YsSound
 	animal1.Flip();
 	animal2.Flip();
 
+	generate_number_png(60, 28, 28, 20, 214, 202, 172, "number1");
+	generate_number_png(80, 28, 28, 20, 214, 202, 172, "number2");
+
 	for (;;)
 	{
 		FsPollDevice();
@@ -78,11 +81,10 @@ void Trainer::displayPokemon(void *pokemon_scene, YsSoundPlayer *player, YsSound
 		// glRasterPos2d(380, 445);
 		//  TODO: get pokemon's HP
 		//  YsGlDrawFontBitmap16x20("60");
-		generate_number_png(60, 16, 20, 20, 0, 0, 0, "images/number1");
 		YsRawPngDecoder number1;
-		if (YSOK != number1.Decode("images/number1.png"))
+		if (YSOK != number1.Decode("number1.png"))
 		{
-			printf("Failed to open file.\n");
+			printf("Failed to open number1.\n");
 			return;
 		}
 		number1.Flip();
@@ -96,15 +98,14 @@ void Trainer::displayPokemon(void *pokemon_scene, YsSoundPlayer *player, YsSound
 		glDrawPixels(animal1.wid, animal1.hei, GL_RGBA, GL_UNSIGNED_BYTE, animal1.rgba);
 
 		glColor3ub(0, 0, 0);
-		glRasterPos2d(780, 445);
-		// TODO: get pokemon's HP
-		// YsGlDrawFontBitmap16x20("80");
-		// printf("Potion1 Width: %d Height: %d\n", animal1.wid, animal1.hei);
-		generate_number_png(60, 16, 20, 20, 0, 0, 0, "images/number2");
+		// glRasterPos2d(780, 445);
+		//  TODO: get pokemon's HP
+		//  YsGlDrawFontBitmap16x20("80");
+		//  printf("Potion1 Width: %d Height: %d\n", animal1.wid, animal1.hei);
 		YsRawPngDecoder number2;
-		if (YSOK != number2.Decode("images/number2.png"))
+		if (YSOK != number2.Decode("number2.png"))
 		{
-			printf("Failed to open file.\n");
+			printf("Failed to open number2.\n");
 			return;
 		}
 		number2.Flip();
