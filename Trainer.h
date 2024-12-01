@@ -7,6 +7,8 @@
 #include "yspngenc.h"
 #include "People.h"
 #include "Pokemon.h"
+#include "Scene.h"
+
 class Trainer : public People
 {
 private:
@@ -19,5 +21,5 @@ public:
 	void move(float dx, float dy);
 	bool heal();
 	void interactWith(People &otherCharacter);
-	void displayPokemon(void *pokemon_scene, YsSoundPlayer *player, YsSoundPlayer::SoundData *sound);
+	void displayPokemon(Scene_State *scene_state, void *pokemon_scene, YsSoundPlayer *player, YsSoundPlayer::SoundData *sound);
 };

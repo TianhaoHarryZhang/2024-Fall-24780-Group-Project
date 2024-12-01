@@ -1,4 +1,5 @@
 #include "Medicine.h"
+#include "Scene.h"
 
 std::string Medicine::getName()
 {
@@ -35,7 +36,7 @@ int MedicinePocket::useMedicine(int index)
     return 0;
 }
 
-void MedicinePocket::displayMedicines(void *medicine_scene, YsSoundPlayer *player, YsSoundPlayer::SoundData *sound)
+void MedicinePocket::displayMedicines(Scene_State *scene_state, void *medicine_scene, YsSoundPlayer *player, YsSoundPlayer::SoundData *sound)
 {
 
     YsRawPngDecoder *png = (YsRawPngDecoder *)medicine_scene;
@@ -89,6 +90,8 @@ void MedicinePocket::displayMedicines(void *medicine_scene, YsSoundPlayer *playe
                 player->PlayOneShot(*sound);
             }
             printf("Cure: %d\n", cure);
+            *scene_state = IN_BATTLE_SCENE;
+            break;
         }
         // display the medicine image on the screen
         // width range 140 < x < 767 (width of the image is 627, ratio 0.4; 627 * 0.4 = 250)

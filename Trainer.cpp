@@ -25,7 +25,7 @@ void Trainer::interactWith(People &otherCharacter)
 	// add code for conversation
 }
 
-void Trainer::displayPokemon(void *pokemon_scene, YsSoundPlayer *player, YsSoundPlayer::SoundData *sound)
+void Trainer::displayPokemon(Scene_State *scene_state, void *pokemon_scene, YsSoundPlayer *player, YsSoundPlayer::SoundData *sound)
 {
 	YsRawPngDecoder *png = (YsRawPngDecoder *)pokemon_scene;
 	// make an array of medicine images
@@ -65,6 +65,7 @@ void Trainer::displayPokemon(void *pokemon_scene, YsSoundPlayer *player, YsSound
 			{
 				// TODO: get the pokemon's name and the HP
 				printf("Animal1 clicked\n");
+
 				// play sound
 				player->PlayOneShot(*sound);
 			}
@@ -75,6 +76,8 @@ void Trainer::displayPokemon(void *pokemon_scene, YsSoundPlayer *player, YsSound
 				// play sound
 				player->PlayOneShot(*sound);
 			}
+			*scene_state = IN_BATTLE_SCENE;
+			break;
 		}
 
 		glColor3ub(0, 0, 0);
