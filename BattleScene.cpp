@@ -356,7 +356,8 @@ int PokemonUI::battle(Scene_State *scene_state, YsSoundPlayer *player, YsSoundPl
                 printf("Button pressed at %d %d\n", mx, my);
 
                 // check if the user is in skill selection first
-                if (in_skill_selection == false){
+                if (in_skill_selection == false)
+                {
                     // exit button pressed
                     if (mx > exit_x && mx < exit_x + exit_w && my > exit_y && my < exit_y + exit_h)
                     {
@@ -386,6 +387,7 @@ int PokemonUI::battle(Scene_State *scene_state, YsSoundPlayer *player, YsSoundPl
                         // play sound
                         player->PlayOneShot(*sound);
                     }
+                }
                 else
                 {
                     user_pokemon_in_animation = true;
