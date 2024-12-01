@@ -396,11 +396,11 @@ int PokemonUI::battle(Scene_State *scene_state, YsSoundPlayer *player, YsSoundPl
                     player->PlayOneShot(*sound);
 
                     // This will reset the state of back to that the attack button has not been pressed
-                    if (mx > back_x && mx < (back_x + back_w) && my < back_y && my >(back_y - back_h)) {
-                        user_pokemon_in_animation = false;
-                        user_pokemon_in_skill_animation = false;
-                        in_skill_selection == false;
-                    }
+                    //if (mx > back_x && mx < (back_x + back_w) && my < back_y && my >(back_y - back_h)) {
+                       // user_pokemon_in_animation = false;
+                      //  user_pokemon_in_skill_animation = false;
+                       // in_skill_selection == false;
+                    //}
                 }
             }
         }
