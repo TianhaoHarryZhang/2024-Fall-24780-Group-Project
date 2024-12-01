@@ -178,6 +178,27 @@ void PokemonUI::renderBK()
     glDrawPixels(bk.wid, bk.hei, GL_RGBA, GL_UNSIGNED_BYTE, bk.rgba);
 }
 
+void PokemonUI::performAttack(
+    Pokemon* attacker, 
+    Pokemon* defender, 
+    int skillNumber, 
+    int attacker_x, 
+    int attacker_y, 
+    float attacker_scale, 
+    int attacker_direction,
+    int* animation_counter, 
+    bool* attacker_in_animation,
+    int* skill_animation_counter, 
+    bool* attacker_in_skill_animation) 
+{
+    attacker->attackAnimation(attacker_x, attacker_y, attacker_scale, attacker_direction, animation_counter, attacker_in_animation);
+    attacker->useSkill(skillNumber);
+    Skill skill = (skillNumber == 1) ? attacker->skill1 : attacker->skill2;
+    attacker->renderSkillEffect(skill, attacker_x, attacker_y, skill_animation_counter, attacker_in_skill_animation);
+    defender->takeDamage(skill.damage);
+    defender->damageAnimation();
+}
+
 int PokemonUI::battle(Scene_State* scene_state, YsSoundPlayer* player, YsSoundPlayer::SoundData* sound)
 {
     //  Pokemon(std::string name, std::string level, float hp, Skill skill1, Skill skill2);
@@ -309,23 +330,40 @@ int PokemonUI::battle(Scene_State* scene_state, YsSoundPlayer* player, YsSoundPl
         UI.renderTextBox("TEST MSG", 0, 0, 0, 0);
 
         if (user_pokemon_in_attack)
-        {
-            currentPokemon->attackAnimation(playerPokemon_x, playerPokemon_y, playerPokemon_scale, playerPokemon_direction, &animation_counter, &user_pokemon_in_animation);
-            playerRound = !playerRound;
-            if (skill == 1){
-                currentPokemon->renderSkillEffect(currentPokemon->skill2, playerPokemon_x, playerPokemon_y, &skill_animation_counter, &user_pokemon_in_skill_animation);
-            } else {
-                currentPokemon->renderSkillEffect(currentPokemon->skill1, playerPokemon_x, playerPokemon_y, &skill_animation_counter, &user_pokemon_in_skill_animation);
-            }
+        {    
+            performAttack(
+                currentPokemon,         
+                currentNPCPokemon,            
+                skill,                 
+                playerPokemon_x,       
+                playerPokemon_y,       
+                playerPokemon_scale,   
+                playerPokemon_direction, 
+                &animation_counter,    
+                &user_pokemon_in_animation, 
+                &skill_animation_counter,   
+                &user_pokemon_in_skill_animation 
+            );
         }
         else {
             currentPokemon->render(playerPokemon_x, playerPokemon_y, playerPokemon_scale, playerPokemon_direction);
         }
 
         if (NPC_pokemon_in_attack)
-        {
-            currentNPCPokemon->attackAnimation(NPCpokemon_x, NPCpokemon_y, NPCpokemon_scale, NPCpokemon_direction, &animation_counter, &NPC_pokemon_in_animation);
-            currentNPCPokemon->renderSkillEffect(currentNPCPokemon->skill1, NPCpokemon_x, NPCpokemon_y, &skill_animation_counter, &NPC_pokemon_in_skill_animation);
+        {    
+            performAttack(
+                currentNPCPokemon,         
+                currentPokemon,            
+                1,                 
+                NPCpokemon_x,       
+                NPCpokemon_y,       
+                NPCpokemon_scale,   
+                NPCpokemon_direction,       
+                &animation_counter,    
+                &NPC_pokemon_in_animation, 
+                &skill_animation_counter,   
+                &NPC_pokemon_in_skill_animation 
+            );
         }
         else {
             currentNPCPokemon->render(NPCpokemon_x, NPCpokemon_y, NPCpokemon_scale, NPCpokemon_direction);
@@ -413,7 +451,6 @@ int PokemonUI::battle(Scene_State* scene_state, YsSoundPlayer* player, YsSoundPl
         {    
             playerRound = !playerRound;
             NPC_pokemon_in_attack = true;
-            currentPokemon->takeDamage(currentNPCPokemon->skill1.damage);
         }
 
         if (terminate == true)
