@@ -1,5 +1,9 @@
 #ifndef BATTLE_SCENE_H
 #define BATTLE_SCENE_H
+#include "yssimplesound.h"
+#include "Scene.h"
+#include "Pokemon.h"
+#include <string>
 
 #include <string>
 
