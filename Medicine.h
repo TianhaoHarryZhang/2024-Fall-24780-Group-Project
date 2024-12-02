@@ -6,6 +6,7 @@
 #include "ysglfontdata.h"
 #include "yspngenc.h"
 #include "Scene.h"
+#include "Trainer.h"
 
 const int MAX_MEDICINE = 3;
 
@@ -39,5 +40,5 @@ public:
 
     int useMedicine(int index);
 
-    void displayMedicines(Scene_State *scene_state, void *medicine_scene, YsSoundPlayer *player, YsSoundPlayer::SoundData *sound);
+    void displayMedicines(Trainer *trainer, Scene_State *scene_state, void *medicine_scene, YsSoundPlayer *player, YsSoundPlayer::SoundData *sound);
 };

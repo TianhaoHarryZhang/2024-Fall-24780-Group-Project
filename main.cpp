@@ -36,6 +36,8 @@ int main(void)
 
 	Trainer trainer("Ash", 100, 100);
 
+	float NPC_pokemon_hp = 100;
+
 	MedicinePocket medicine_pocket;
 
 	PokemonUI UI;
@@ -99,6 +101,7 @@ int main(void)
 			game_loading(&scene_state);
 
 		case IN_MAIN_SCENE:
+			NPC_pokemon_hp = 100;
 			//  draw the background image
 
 			// glDrawPixels(main_scene.wid, main_scene.hei, GL_RGBA, GL_UNSIGNED_BYTE, main_scene.rgba);
@@ -172,23 +175,21 @@ int main(void)
 
 		case IN_BATTLE_SCENE:
 
-			UI.battle(&scene_state, &player, &notification);
-
+			UI.battle(&trainer, &NPC_pokemon_hp, &scene_state, &player, &notification);
 			// everything that happens in the battle scene
 
 			break;
 
 		case IN_ANIMAL_POCKET:
 
-			trainer.displayPokemon(&scene_state, &blur_scene, &player, &notification);
+			trainer.displayPokemon(&trainer, &scene_state, &blur_scene, &player, &notification);
 
 			// everything that happens in the animal pocket
 
 			break;
 
 		case IN_MEDICINE_POCKET:
-
-			medicine_pocket.displayMedicines(&scene_state, &blur_scene, &player, &notification);
+			medicine_pocket.displayMedicines(&trainer, &scene_state, &blur_scene, &player, &notification);
 
 			break;
 		case TRANSIT_FROM_MAIN_TO_BATTLE:

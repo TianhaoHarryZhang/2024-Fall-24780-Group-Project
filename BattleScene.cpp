@@ -88,7 +88,7 @@ void PokemonUI::renderOptions(int positionX, int positionY, std::string filename
     glDisable(GL_DEPTH_TEST);
 }
 
-void PokemonUI::renderSkillSelection(Pokemon *pokemon)
+void PokemonUI::renderSkillSelection(Pokemon* pokemon, int positionX1, int positionY1, int positionX2, int positionY2)
 {
     YsRawPngDecoder skill1, skill2;
     if (YSOK != skill1.Decode("images/BattleScene/BattleScene_TextBox.png") or
@@ -100,10 +100,6 @@ void PokemonUI::renderSkillSelection(Pokemon *pokemon)
     skill1.Flip();
     skill2.Flip();
     // Render params
-    int positionX1 = 720;
-    int positionY1 = 560;
-    int positionX2 = 720;
-    int positionY2 = 670;
     float ratioX1 = 0.6;
     float ratioY1 = 0.3;
     float ratioX2 = 0.6;
@@ -120,8 +116,8 @@ void PokemonUI::renderSkillSelection(Pokemon *pokemon)
 
     // Display the skills of the Pokémon
     Message messageout;
-    const char *cstr_skill1 = pokemon->skill1.name.c_str();
-    const char *cstr_skill2 = pokemon->skill2.name.c_str();
+    const char* cstr_skill1 = pokemon->skill1.name.c_str();
+    const char* cstr_skill2 = pokemon->skill2.name.c_str();
     int ctsr_skill1_len = strlen(cstr_skill1);
     int ctsr_skill2_len = strlen(cstr_skill2);
     float skill1_center_bias_x = (16 * ctsr_skill1_len) / 2;
@@ -131,6 +127,7 @@ void PokemonUI::renderSkillSelection(Pokemon *pokemon)
 
     messageout.renderText(int(positionX1 + (skill1.wid * ratioX1 / 2) - skill1_center_bias_x), int(positionY1 - (skill1.hei * ratioY1 / 2) + skill1_center_bias_y), cstr_skill1, 0, 0, 0);
     messageout.renderText(int(positionX2 + (skill2.wid * ratioX2 / 2) - skill2_center_bias_x), int(positionY2 - (skill2.hei * ratioY2 / 2) + skill2_center_bias_y), cstr_skill2, 0, 0, 0);
+
 }
 
 void PokemonUI::renderTextBox(const std::string &message, int positionX, int positionY, int width, int height)
@@ -151,7 +148,12 @@ void PokemonUI::renderTextBox(const std::string &message, int positionX, int pos
 
     Message messageout;
     const char *cstr_messgae = message.c_str();
-    messageout.renderText(int(textBox.wid / 2 * ratioX) - 55, 700 - int(textBox.hei / 2 * ratioY) + 10, cstr_messgae, 0, 0, 0);
+    int ctsr_messgae_len = strlen(cstr_messgae);
+    float center_bias_x = (16 * ctsr_messgae_len) / 2 - 10;
+    float center_bias_y = 10;
+    messageout.renderText(int(textBox.wid / 2 * ratioX) - center_bias_x, 700 - int(textBox.hei / 2 * ratioY) + center_bias_y, cstr_messgae, 0, 0, 0);
+
+    // messageout.renderText(int(textBox.wid / 2 * ratioX) - 55, 700 - int(textBox.hei / 2 * ratioY) + 10, cstr_messgae, 0, 0, 0);
 }
 
 void PokemonUI::renderName(std::string name, int positionX, int positionY)
@@ -181,16 +183,46 @@ void PokemonUI::renderBK()
     glDrawPixels(bk.wid, bk.hei, GL_RGBA, GL_UNSIGNED_BYTE, bk.rgba);
 }
 
-int PokemonUI::battle(Scene_State *scene_state, YsSoundPlayer *player, YsSoundPlayer::SoundData *sound)
+void PokemonUI::performAttack(
+    Pokemon* attacker, 
+    Pokemon* defender, 
+    int skillNumber, 
+    int attacker_x, 
+    int attacker_y, 
+    float attacker_scale, 
+    int attacker_direction,
+    int* animation_counter, 
+    bool* attacker_in_animation,
+    int* skill_animation_counter, 
+    bool* attacker_in_skill_animation,
+    bool* attacker_in_attack
+    ) 
 {
-    //  Pokemon(std::string name, std::string level, float hp, Skill skill1, Skill skill2);
-    Pokemon pokemon1("Dog", "Lv. 1", 100, 100, Skill("Bite", 10), Skill("Scratch", 8), "dog");
-    Pokemon pokemon2("Fox", "Lv. 1", 100, 100, Skill("Bite", 10), Skill("Scratch", 8), "fox");
-    Pokemon NPCpokemon("Rabbit", "Lv. 1", 80, 80, Skill("Bite", 10), Skill("Scratch", 8), "rabbit");
+    attacker->attackAnimation(attacker_x, attacker_y, attacker_scale, attacker_direction, animation_counter, attacker_in_animation);
+    attacker->useSkill(skillNumber);
+    Skill skill = (skillNumber == 1) ? attacker->skill1 : attacker->skill2;
+    attacker->renderSkillEffect(skill, attacker_x, attacker_y, skill_animation_counter, attacker_in_skill_animation);
+    if (*skill_animation_counter == 1)
+    {
+        std::cout << "take damage" << std::endl;
+        defender->takeDamage(skill.damage);
+    }
+    // defender->damageAnimation();
+    if (*attacker_in_animation == false && *attacker_in_skill_animation == false)
+    {
+        *attacker_in_attack = false;
+    }
+}
+
+int PokemonUI::battle(Trainer *trainer, float *NPC_pokemon_hp, Scene_State *scene_state, YsSoundPlayer *player, YsSoundPlayer::SoundData *sound)
+{
+    Pokemon &pokemon1 = trainer->pokemon[0];
+    Pokemon &pokemon2 = trainer->pokemon[1];
+    Pokemon NPCpokemon("Fox", "Lv. 1", *NPC_pokemon_hp, 100, Skill("Bite", 50), Skill("Scratch", 8), "fox");
     PokemonUI UI;
 
-    Pokemon *currentPokemon = &pokemon1;      // The pokeemon that is currently selected, defalut is pokemon 1
-    Pokemon *currentNPCPokemon = &NPCpokemon; // The NPC's pokemon
+    Pokemon &currentPokemon = (*trainer).pokemon[trainer->currentPokemonIndex]; // The pokeemon that is currently selected, defalut is pokemon 1
+    Pokemon &currentNPCPokemon = NPCpokemon; // The NPC's pokemon
 
     bool terminate = false;
     bool victory = false;
@@ -211,6 +243,7 @@ int PokemonUI::battle(Scene_State *scene_state, YsSoundPlayer *player, YsSoundPl
     bool playerRound = true;                              // Player always go first
     bool pokemonSelect = true;                            // Default Pokemon is the first pokemon
     int mouseEvent;                                       // Store the mouse event
+    int skill;                                            // Indicate which skill will be used
 
     hp_player_x = 255;
     hp_player_y = 375;
@@ -257,27 +290,37 @@ int PokemonUI::battle(Scene_State *scene_state, YsSoundPlayer *player, YsSoundPl
     pokemon_button_w = 386;
     pokemon_button_h = 70;
 
-    // fight button location: 720, 610 1287*0.3, 233*0.3
-    // width range 720 < x < 1106 (width of the image is 1287, ratio 0.3; 1287 * 0.3 = 386)
-    // height range 610 < y < 843 (height of the image is 233, ratio 0.3; 233 * 0.3 = 70)
+    // skill1 button location: 720, 560, 475*0.6, 308*0.3
+    // width range 720 < x < 1005 (width of the image is 475, ratio 0.6; 475 * 0.6 = 285)
+    // height range 560 < y < 652 (height of the image is 308, ratio 0.3; 308 * 0.3 = 92)
+    skill1_x = 720;
+    skill1_y = 560;
+    skill1_w = 285;
+    skill1_h = 92;
 
-    // pokemon button location: 720, 700 1287*0.3, 233*0.3
-    // width range 720 < x < 1106 (width of the image is 1287, ratio 0.3; 1287 * 0.3 = 386)
-    // height range 700 < y < 933 (height of the image is 233, ratio 0.3; 233 * 0.3 = 70)
+    // skill2 button location: 720, 670, 475*0.6, 308*0.3
+    // width range 720 < x < 1005 (width of the image is 475, ratio 0.6; 475 * 0.6 = 285)
+    // height range 670 < y < 762 (height of the image is 308, ratio 0.3; 308 * 0.3 = 92)
+    skill2_x = 720;
+    skill2_y = 670;
+    skill2_w = 285;
+    skill2_h = 92;
 
     // FsOpenWindow(16, 16, 1225, 700, 1);
+    bool user_pokemon_in_attack = false;
+    bool NPC_pokemon_in_attack = false;
     bool in_skill_selection = false;
-    bool skill_selected = false;
     bool user_pokemon_in_animation = false;
-    bool NPC_pokemon_in_animation = false;
     bool user_pokemon_in_skill_animation = false;
+    bool NPC_pokemon_in_animation = false;
     bool NPC_pokemon_in_skill_animation = false;
-
+    
     int animation_counter = 0;
     int skill_animation_counter = 0;
 
     while (true)
     {
+        Pokemon &currentPokemon = (*trainer).pokemon[trainer->currentPokemonIndex];
         FsPollDevice();
         if (FsInkey() == FSKEY_ESC)
         {
@@ -291,84 +334,101 @@ int PokemonUI::battle(Scene_State *scene_state, YsSoundPlayer *player, YsSoundPl
         // Render pokeemon and their hp bar
 
         UI.renderBK();
-        UI.renderHPBar(currentPokemon->hp, currentPokemon->maxHp, hp_player_x, hp_player_y, hp_player_w, hp_player_h);
-        UI.renderHPBar(currentNPCPokemon->hp, currentNPCPokemon->maxHp, hp_NPC_x, hp_NPC_y, hp_NPC_w, hp_NPC_h);
-        UI.renderName(currentPokemon->name, hp_player_x, hp_player_y + hp_player_h + 30);
-        UI.renderName(currentNPCPokemon->name, hp_NPC_x, hp_NPC_y + hp_NPC_h + 30);
+        UI.renderHPBar(currentPokemon.hp, currentPokemon.maxHp, hp_player_x, hp_player_y, hp_player_w, hp_player_h);
+        UI.renderHPBar(currentNPCPokemon.hp, currentNPCPokemon.maxHp, hp_NPC_x, hp_NPC_y, hp_NPC_w, hp_NPC_h);
+        UI.renderName(currentPokemon.name, hp_player_x, hp_player_y + hp_player_h + 30);
+        UI.renderName(currentNPCPokemon.name, hp_NPC_x, hp_NPC_y + hp_NPC_h + 30);
         if (in_skill_selection)
         {
-            UI.renderSkillSelection(currentPokemon);
+            if (user_pokemon_in_attack == false)
+            {
+                UI.renderTextBox("Select Option", 0, 0, 0, 0);
+            }
+            UI.renderSkillSelection(&currentPokemon, skill1_x, skill1_y, skill2_x, skill2_y);
         }
         else
         {
+            if (user_pokemon_in_attack == false)
+            {
+                UI.renderTextBox("Select Skill", 0, 0, 0, 0);
+            }
             UI.renderOptions(0, 0, "images/BattleScene/BattleScene_BagButton.png");
         }
-        // UI.renderOptions(0, 0, "images/BattleScene/BattleScene_BagButton.png");
-        UI.renderTextBox("TEST MSG", 0, 0, 0, 0);
 
-        if (user_pokemon_in_animation)
-        {
-            currentPokemon->attackAnimation(playerPokemon_x, playerPokemon_y, playerPokemon_scale, playerPokemon_direction, &animation_counter, &user_pokemon_in_animation);
+        // UI.renderTextBox("TEST MSG", 0, 0, 0, 0);
+
+        if (user_pokemon_in_attack)
+        {    
+            UI.renderTextBox("User Attacking", 0, 0, 0, 0);
+            performAttack(
+                &currentPokemon,         
+                &currentNPCPokemon,            
+                skill,                 
+                playerPokemon_x,       
+                playerPokemon_y,       
+                playerPokemon_scale,   
+                playerPokemon_direction, 
+                &animation_counter,    
+                &user_pokemon_in_animation, 
+                &skill_animation_counter,   
+                &user_pokemon_in_skill_animation,
+                &user_pokemon_in_attack
+            );
+            
+            // std::cout << user_pokemon_in_attack << std::endl;
+            if (user_pokemon_in_attack == false)
+            {
+                if (skill == 1){
+                    *NPC_pokemon_hp -= currentPokemon.skill1.damage;
+                }
+                else if (skill == 2)
+                {
+                    *NPC_pokemon_hp -= currentPokemon.skill2.damage;
+                }
+                
+                playerRound = false;
+            }
         }
-        else
-        {
-            currentPokemon->render(playerPokemon_x, playerPokemon_y, playerPokemon_scale, playerPokemon_direction);
+        else {
+            currentPokemon.render(playerPokemon_x, playerPokemon_y, playerPokemon_scale, playerPokemon_direction);
         }
 
-        if (NPC_pokemon_in_animation)
-        {
-            currentNPCPokemon->attackAnimation(NPCpokemon_x, NPCpokemon_y, NPCpokemon_scale, NPCpokemon_direction, &animation_counter, &NPC_pokemon_in_animation);
+        if (NPC_pokemon_in_attack)
+        {    
+            UI.renderTextBox("NPC Attacking", 0, 0, 0, 0);
+            performAttack(
+                &currentNPCPokemon,         
+                &currentPokemon,            
+                1,                 
+                NPCpokemon_x,       
+                NPCpokemon_y,       
+                NPCpokemon_scale,   
+                NPCpokemon_direction,       
+                &animation_counter,    
+                &NPC_pokemon_in_animation, 
+                &skill_animation_counter,   
+                &NPC_pokemon_in_skill_animation,
+                &NPC_pokemon_in_attack
+            );
+            if (NPC_pokemon_in_attack == false)
+            {
+                playerRound = true;
+            }
         }
-        else
-        {
-            currentNPCPokemon->render(NPCpokemon_x, NPCpokemon_y, NPCpokemon_scale, NPCpokemon_direction);
-        }
-
-        if (user_pokemon_in_skill_animation)
-        {
-            // TODO Should know which skill is selected, now default to skill1
-            currentPokemon->renderSkillEffect(currentPokemon->skill2, playerPokemon_x, playerPokemon_y, &skill_animation_counter, &user_pokemon_in_skill_animation);
-        }
-        if (NPC_pokemon_in_skill_animation)
-        {
-            // TODO Should know which skill is selected, now default to skill1
-            currentNPCPokemon->renderSkillEffect(currentNPCPokemon->skill1, NPCpokemon_x, NPCpokemon_y, &skill_animation_counter, &NPC_pokemon_in_skill_animation);
+        else {
+            currentNPCPokemon.render(NPCpokemon_x, NPCpokemon_y, NPCpokemon_scale, NPCpokemon_direction);
         }
 
         // Check if it is player's round
         if (playerRound == true)
         {
-            // Check if any button is pressed
-            //     // First skill pressed
-            //     else if (mx > attack1_x && mx < attack1_x + attack_w && my > attack1_y && my < attack1_y + attack_h)
-            //     {
-            //         playerRound = !playerRound; // Flip the round to NPC
-            //         currentPokemon->attackAnimation();
-            //         currentPokemon->useSkill(1);
-            //         currentNPCPokemon->takeDamage(currentPokemon->skill1.damage);
-            //     }
-            //     // Second skill pressed
-            //     else if (mx > attack2_x && mx < attack2_x + attack_w && my > attack2_y && my < attack2_y + attack_h)
-            //     {
-            //         playerRound = !playerRound; // Flip the round to NPC
-            //         currentPokemon->attackAnimation();
-            //         currentPokemon->useSkill(2);
-            //         currentNPCPokemon->takeDamage(currentPokemon->skill2.damage);
-            //     }
-            // }
+            std::cout << "Player's round" << std::endl;
             if (mouseEvent == FSMOUSEEVENT_LBUTTONDOWN)
             {
                 printf("Button pressed at %d %d\n", mx, my);
-
                 // check if the user is in skill selection first
-                if (in_skill_selection == false)
-                {
-                    // exit button pressed
-                    if (mx > exit_x && mx < exit_x + exit_w && my > exit_y && my < exit_y + exit_h)
-                    {
-                        terminate = true;
-                    }
-                    else if (mx > bag_x && mx < (bag_x + bag_w) && my < bag_y && my > (bag_y - bag_h)) // bag button pressed
+                if (in_skill_selection == false) {
+                    if (mx > bag_x && mx < (bag_x + bag_w) && my < bag_y && my >(bag_y - bag_h)) // bag button pressed
                     {
                         printf("Bag button pressed\n");
                         *scene_state = IN_MEDICINE_POCKET;
@@ -376,7 +436,7 @@ int PokemonUI::battle(Scene_State *scene_state, YsSoundPlayer *player, YsSoundPl
                         player->PlayOneShot(*sound);
                         break;
                     }
-                    else if (mx > pokemon_button_x && mx < (pokemon_button_x + pokemon_button_w) && my < pokemon_button_y && my > (pokemon_button_y - pokemon_button_h)) // change pokemon button pressed
+                    else if (mx > pokemon_button_x && mx < (pokemon_button_x + pokemon_button_w) && my < pokemon_button_y && my >(pokemon_button_y - pokemon_button_h)) // change pokemon button pressed
                     {
                         printf("Pokemon button pressed\n");
                         *scene_state = IN_ANIMAL_POCKET;
@@ -384,7 +444,7 @@ int PokemonUI::battle(Scene_State *scene_state, YsSoundPlayer *player, YsSoundPl
                         player->PlayOneShot(*sound);
                         break;
                     }
-                    else if ((mx > attack_x && mx < (attack_x + attack_w) && my < attack_y && my > (attack_y - attack_h))) // attack button pressed
+                    else if ((mx > attack_x && mx < (attack_x + attack_w) && my < attack_y && my >(attack_y - attack_h))) // attack button pressed
                     {
                         std::cout << "Attack button pressed" << std::endl;
                         // Attack button pressed, switch to skill selection
@@ -395,98 +455,71 @@ int PokemonUI::battle(Scene_State *scene_state, YsSoundPlayer *player, YsSoundPl
                 }
                 else
                 {
-                    user_pokemon_in_animation = true;
-                    user_pokemon_in_skill_animation = true;
-                    // currentPokemon->useSkill(1);
-                    // TODO: Check if the skill is selected, if selected, conduct skill animation change in_skill_slertion to false
-                    // play sound
-                    player->PlayOneShot(*sound);
+                    player->PlayOneShot(*sound);              
+                    // Check which skill is selected
+                    if (mx > skill1_x && mx < (skill1_x + skill1_w) && my < skill1_y && my >(skill1_y - skill1_h)) 
+                    {
+                        skill = 1;
+                        user_pokemon_in_attack = true;
+                        animation_counter = 0;
+                        skill_animation_counter = 0;
+                        user_pokemon_in_animation = true;
+                        user_pokemon_in_skill_animation = true;
 
-                    // This will reset the state of back to that the attack button has not been pressed
-                    // if (mx > back_x && mx < (back_x + back_w) && my < back_y && my >(back_y - back_h)) {
-                    // user_pokemon_in_animation = false;
-                    //  user_pokemon_in_skill_animation = false;
-                    // in_skill_selection == false;
-                    //}
+                        in_skill_selection = false;
+                    } else if (mx > skill2_x && mx < (skill2_x + skill2_w) && my < skill2_y && my >(skill2_y - skill2_h))
+                    {
+                        skill = 2;
+                        user_pokemon_in_attack = true;
+                        animation_counter = 0;
+                        skill_animation_counter = 0;
+                        user_pokemon_in_animation = true;
+                        user_pokemon_in_skill_animation = true;
+
+                        in_skill_selection = false;
+                    }
                 }
             }
-            // NPC's round
-            else
-            {
-                playerRound = !playerRound;
-                NPC_pokemon_in_animation = true;
-                currentPokemon->takeDamage(currentNPCPokemon->skill1.damage);
-            }
-
-            if (terminate == true)
-            {
-                break;
-            }
-
-            // Check if any of the pokemons are out of hp
-            if (currentNPCPokemon->hp == 0)
-            {
-                // NPC out of pokemon, victory
-                terminate = true;
-                victory = true;
-            }
-            else if (pokemon1.hp == 0 && pokemon2.hp == 0)
-            {
-                // Player out of pokemons, defeat
-                terminate = true;
-            }
-            else if (pokemon1.hp == 0 || pokemon2.hp == 0)
-            {
-                // One of player's pokemon is out of hp, change to the other pokemon
-                pokemonSelect = !pokemonSelect;
-            }
-
-            // Check the current pokemon selection
-            if (pokemonSelect == true)
-            {
-                currentPokemon = &pokemon1;
-            }
-            else
-            {
-                currentPokemon = &pokemon2;
-            }
-
-            FsSwapBuffers();
         }
-
-        if (terminate == true)
-        {
-            break;
+        // NPC's round
+        else
+        {    
+            std::cout << "NPC's round" << std::endl;
+            playerRound = !playerRound;
+            NPC_pokemon_in_attack = true;
+            animation_counter = 0;
+            skill_animation_counter = 0;
+            NPC_pokemon_in_animation = true;
+            NPC_pokemon_in_skill_animation = true;
         }
 
         // Check if any of the pokemons are out of hp
-        if (currentNPCPokemon->hp == 0)
+        if (currentNPCPokemon.hp <= 0)
         {
             // NPC out of pokemon, victory
             terminate = true;
             victory = true;
         }
-        else if (pokemon1.hp == 0 && pokemon2.hp == 0)
+        else if (pokemon1.hp <= 0 && pokemon2.hp <= 0)
         {
+            std::cout << "Defeat" << std::endl;
             // Player out of pokemons, defeat
             terminate = true;
-        }
-        else if (pokemon1.hp == 0 || pokemon2.hp == 0)
+        } 
+        else if (pokemon1.hp <= 0)
         {
-            // One of player's pokemon is out of hp, change to the other pokemon
-            pokemonSelect = !pokemonSelect;
+            trainer->currentPokemonIndex = 1;
+        }
+        else if (pokemon2.hp <= 0)
+        {
+            trainer->currentPokemonIndex = 0;
         }
 
-        // Check the current pokemon selection
-        if (pokemonSelect == true)
+        if (terminate)
         {
-            currentPokemon = &pokemon1;
+            *scene_state = IN_MAIN_SCENE;
+            break;
         }
-        else
-        {
-            currentPokemon = &pokemon2;
-        }
-
         FsSwapBuffers();
     }
 
