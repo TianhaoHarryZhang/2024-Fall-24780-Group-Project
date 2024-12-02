@@ -227,12 +227,10 @@ int PokemonUI::battle(Trainer *trainer, float *NPC_pokemon_hp, Scene_State *scen
     bool terminate = false;
     bool victory = false;
     int lb, mb, rb, mx, my;                                                     // Store the position and state of the mouse
-    int exit_x, exit_y, exit_h, exit_w;                                         // Rendering attribute for the exit button
     int pokemon_button_x, pokemon_button_y, pokemon_button_h, pokemon_button_w; // Rendering attribute for the pokemon button
     int attack_x, attack_y, attack_h, attack_w;                                 // Rendering attribute for the attack button
     int skill1_x, skill1_y, skill1_h, skill1_w;                                 // Rendering attribute for the skill1 button
     int skill2_x, skill2_y, skill2_h, skill2_w;                                 // Rendering attribute for the skill2 button
-    int back_x, back_y, back_h, back_w;                                         // Rendering attribute for the back button
     int bag_x, bag_y, bag_h, bag_w;                                             // Rendering attribute for the backpack button
     int hp_player_x, hp_player_y, hp_player_h, hp_player_w;                     // Player pokemon's hp bar positon
     int hp_NPC_x, hp_NPC_y, hp_NPC_h, hp_NPC_w;                                 // NPC pokemon's hp bar positon
