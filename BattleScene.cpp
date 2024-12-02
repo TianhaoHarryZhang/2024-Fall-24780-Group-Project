@@ -130,7 +130,7 @@ void PokemonUI::renderSkillSelection(Pokemon* pokemon, int positionX1, int posit
 
 }
 
-void PokemonUI::renderTextBox(const std::string& message, int positionX, int positionY, int width, int height)
+void PokemonUI::renderTextBox(const std::string &message, int positionX, int positionY, int width, int height)
 {
     // Render a text box with the given message
     YsRawPngDecoder textBox;
@@ -147,7 +147,7 @@ void PokemonUI::renderTextBox(const std::string& message, int positionX, int pos
     glDrawPixels(textBox.wid, textBox.hei, GL_RGBA, GL_UNSIGNED_BYTE, textBox.rgba);
 
     Message messageout;
-    const char* cstr_messgae = message.c_str();
+    const char *cstr_messgae = message.c_str();
     messageout.renderText(int(textBox.wid / 2 * ratioX) - 55, 700 - int(textBox.hei / 2 * ratioY) + 10, cstr_messgae, 0, 0, 0);
 }
 
@@ -155,7 +155,7 @@ void PokemonUI::renderName(std::string name, int positionX, int positionY)
 {
     // Render the name of the Pokémon
     Message messageout;
-    const char* cstr_name = name.c_str();
+    const char *cstr_name = name.c_str();
     messageout.renderText(positionX, positionY, cstr_name, 0, 0, 0);
 }
 
@@ -199,7 +199,7 @@ void PokemonUI::performAttack(
     defender->damageAnimation();
 }
 
-int PokemonUI::battle(Scene_State* scene_state, YsSoundPlayer* player, YsSoundPlayer::SoundData* sound)
+int PokemonUI::battle(Scene_State *scene_state, YsSoundPlayer *player, YsSoundPlayer::SoundData *sound)
 {
     //  Pokemon(std::string name, std::string level, float hp, Skill skill1, Skill skill2);
     Pokemon pokemon1("Dog", "Lv. 1", 100, 100, Skill("Bite", 10), Skill("Scratch", 8), "dog");
@@ -207,20 +207,21 @@ int PokemonUI::battle(Scene_State* scene_state, YsSoundPlayer* player, YsSoundPl
     Pokemon NPCpokemon("Rabbit", "Lv. 1", 80, 80, Skill("Bite", 10), Skill("Scratch", 8), "rabbit");
     PokemonUI UI;
 
-    Pokemon* currentPokemon = &pokemon1;      // The pokeemon that is currently selected, defalut is pokemon 1
-    Pokemon* currentNPCPokemon = &NPCpokemon; // The NPC's pokemon
+    Pokemon *currentPokemon = &pokemon1;      // The pokeemon that is currently selected, defalut is pokemon 1
+    Pokemon *currentNPCPokemon = &NPCpokemon; // The NPC's pokemon
 
     bool terminate = false;
     bool victory = false;
-    int lb, mb, rb, mx, my;                                             // Store the position and state of the mouse
-    int exit_x, exit_y, exit_h, exit_w;                                 // Rendering attribute for the exit button
+    int lb, mb, rb, mx, my;                                                     // Store the position and state of the mouse
+    int exit_x, exit_y, exit_h, exit_w;                                         // Rendering attribute for the exit button
     int pokemon_button_x, pokemon_button_y, pokemon_button_h, pokemon_button_w; // Rendering attribute for the pokemon button
-    int attack_x, attack_y, attack_h, attack_w; // Rendering attribute for the attack button
-    int skill1_x, skill1_y, skill1_h, skill1_w; // Rendering attribute for the skill1 button
-    int skill2_x, skill2_y, skill2_h, skill2_w; // Rendering attribute for the skill2 button
-    int bag_x, bag_y, bag_h, bag_w;                                     // Rendering attribute for the backpack button
-    int hp_player_x, hp_player_y, hp_player_h, hp_player_w;             // Player pokemon's hp bar positon
-    int hp_NPC_x, hp_NPC_y, hp_NPC_h, hp_NPC_w;                         // NPC pokemon's hp bar positon
+    int attack_x, attack_y, attack_h, attack_w;                                 // Rendering attribute for the attack button
+    int skill1_x, skill1_y, skill1_h, skill1_w;                                 // Rendering attribute for the skill1 button
+    int skill2_x, skill2_y, skill2_h, skill2_w;                                 // Rendering attribute for the skill2 button
+    int back_x, back_y, back_h, back_w;                                         // Rendering attribute for the back button
+    int bag_x, bag_y, bag_h, bag_w;                                             // Rendering attribute for the backpack button
+    int hp_player_x, hp_player_y, hp_player_h, hp_player_w;                     // Player pokemon's hp bar positon
+    int hp_NPC_x, hp_NPC_y, hp_NPC_h, hp_NPC_w;                                 // NPC pokemon's hp bar positon
     int playerPokemon_x, playerPokemon_y, playerPokemon_direction;
     float playerPokemon_scale;                            // Player pokemon's rendering attribute
     int NPCpokemon_x, NPCpokemon_y, NPCpokemon_direction; // NPC pokemon's rendering attribute
@@ -307,12 +308,12 @@ int PokemonUI::battle(Scene_State* scene_state, YsSoundPlayer* player, YsSoundPl
             exit(0);
         }
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        
+
         mouseEvent = FsGetMouseEvent(lb, mb, rb, mx, my);
 
         // Load battle scene here
         // Render pokeemon and their hp bar
-        
+
         UI.renderBK();
         UI.renderHPBar(currentPokemon->hp, currentPokemon->maxHp, hp_player_x, hp_player_y, hp_player_w, hp_player_h);
         UI.renderHPBar(currentNPCPokemon->hp, currentNPCPokemon->maxHp, hp_NPC_x, hp_NPC_y, hp_NPC_w, hp_NPC_h);
@@ -445,6 +446,48 @@ int PokemonUI::battle(Scene_State* scene_state, YsSoundPlayer* player, YsSoundPl
                     }
                 }
             }
+            // NPC's round
+            else
+            {
+                playerRound = !playerRound;
+                NPC_pokemon_in_animation = true;
+                currentPokemon->takeDamage(currentNPCPokemon->skill1.damage);
+            }
+
+            if (terminate == true)
+            {
+                break;
+            }
+
+            // Check if any of the pokemons are out of hp
+            if (currentNPCPokemon->hp == 0)
+            {
+                // NPC out of pokemon, victory
+                terminate = true;
+                victory = true;
+            }
+            else if (pokemon1.hp == 0 && pokemon2.hp == 0)
+            {
+                // Player out of pokemons, defeat
+                terminate = true;
+            }
+            else if (pokemon1.hp == 0 || pokemon2.hp == 0)
+            {
+                // One of player's pokemon is out of hp, change to the other pokemon
+                pokemonSelect = !pokemonSelect;
+            }
+
+            // Check the current pokemon selection
+            if (pokemonSelect == true)
+            {
+                currentPokemon = &pokemon1;
+            }
+            else
+            {
+                currentPokemon = &pokemon2;
+            }
+
+            FsSwapBuffers();
         }
         // NPC's round
         else

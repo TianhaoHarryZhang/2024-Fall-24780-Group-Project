@@ -5,9 +5,8 @@
 #include "Pokemon.h"
 #include <string>
 
-#include <string>
-
-class PokemonUI {
+class PokemonUI
+{
 public:
     // Renders the HP bar for a Pokémon
     void renderHPBar(float hp, float maxHp, int positionX, int positionY, int width, int height);
@@ -19,7 +18,7 @@ public:
     void renderSkillSelection(Pokemon* pokemon, int positionX1, int positionY1, int positionX2, int positionY2);
 
     // Renders a text box to display messages, e.g., "Charizard used Fire Blast!"
-    void renderTextBox(const std::string& message, int positionX, int positionY, int width, int height);
+    void renderTextBox(const std::string &message, int positionX, int positionY, int width, int height);
 
     void renderName(std::string name, int positionX, int positionY);
 

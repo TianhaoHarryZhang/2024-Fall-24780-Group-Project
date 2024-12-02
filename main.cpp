@@ -10,29 +10,7 @@
 #include "Trainer.h"
 #include "Medicine.h"
 #include "BattleScene.h"
-
-enum Scene_State
-{
-	IN_MAIN_SCENE,
-
-	IN_BATTLE_SCENE,
-
-	IN_ANIMAL_POCKET,
-
-	IN_MEDICINE_POCKET,
-
-	TRANSIT_FROM_MAIN_TO_BATTLE,
-
-	TRANSIT_FROM_BATTLE_TO_MAIN,
-
-	TRANSIT_FROM_BATTLE_TO_ANIMAL_POCKET,
-
-	TRANSIT_FROM_BATTLE_TO_MEDICINE_POCKET,
-
-	TRANSIT_FROM_MAIN_TO_ANIMAL_POCKET,
-
-	TRANSIT_FROM_MAIN_TO_MEDICINE_POCKET
-};
+#include "Scene.h"
 
 void Render(void *incoming)
 {
@@ -52,16 +30,28 @@ int main(void)
 {
 	FsChangeToProgramDir();
 
-	YsRawPngDecoder main_scene, medicine_scene;
-
-	Trainer trainer;
+	YsRawPngDecoder main_scene, blur_scene;
 
 	Message message;
 
+	Trainer trainer("Ash", 100, 100);
+
 	MedicinePocket medicine_pocket;
 
-	Scene_State scene_state = IN_MAIN_SCENE;
-	// scene_state = IN_MEDICINE_POCKET;
+	PokemonUI UI;
+
+	YsSoundPlayer player;
+	player.MakeCurrent();
+	player.Start();
+	FsChangeToProgramDir();
+
+	YsSoundPlayer::SoundData bkground, notification;
+	load_sound(bkground, "audio/Background.wav");
+	load_sound(notification, "audio/Notification_1.wav");
+
+	player.PlayBackground(bkground);
+
+	Scene_State scene_state = IN_LOAD_SCENE;
 	scene_state = IN_BATTLE_SCENE;
 
 	if (YSOK == main_scene.Decode("images/main_background.png"))
@@ -75,10 +65,10 @@ int main(void)
 		return 1;
 	}
 
-	if (YSOK == medicine_scene.Decode("images/blur_background.png"))
+	if (YSOK == blur_scene.Decode("images/blur_background.png"))
 	{
-		printf("Wid %d Hei %d\n", medicine_scene.wid, medicine_scene.hei);
-		medicine_scene.Flip();
+		printf("Wid %d Hei %d\n", blur_scene.wid, blur_scene.hei);
+		blur_scene.Flip();
 	}
 	else
 	{
@@ -103,6 +93,10 @@ int main(void)
 
 		switch (scene_state)
 		{
+
+		case IN_LOAD_SCENE:
+
+			game_loading(&scene_state);
 
 		case IN_MAIN_SCENE:
 			//  draw the background image
@@ -178,7 +172,7 @@ int main(void)
 
 		case IN_BATTLE_SCENE:
 
-			battle();
+			UI.battle(&scene_state, &player, &notification);
 
 			// everything that happens in the battle scene
 
@@ -186,7 +180,7 @@ int main(void)
 
 		case IN_ANIMAL_POCKET:
 
-			// view_animal_pocket();
+			trainer.displayPokemon(&scene_state, &blur_scene, &player, &notification);
 
 			// everything that happens in the animal pocket
 
@@ -194,7 +188,7 @@ int main(void)
 
 		case IN_MEDICINE_POCKET:
 
-			medicine_pocket.displayMedicines(&medicine_scene);
+			medicine_pocket.displayMedicines(&scene_state, &blur_scene, &player, &notification);
 
 			break;
 		case TRANSIT_FROM_MAIN_TO_BATTLE:
