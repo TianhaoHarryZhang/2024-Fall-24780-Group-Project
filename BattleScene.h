@@ -25,7 +25,7 @@ public:
 
     void renderBK();
 
-    void PokemonUI::performAttack(Pokemon* attacker, Pokemon* defender, int skillNumber, int attacker_x, int attacker_y, float attacker_scale, int attacker_direction,int* animation_counter, bool* attacker_in_animation,int* skill_animation_counter, bool* attacker_in_skill_animation);
+    void performAttack(Pokemon* attacker, Pokemon* defender, int skillNumber, int attacker_x, int attacker_y, float attacker_scale, int attacker_direction,int* animation_counter, bool* attacker_in_animation,int* skill_animation_counter, bool* attacker_in_skill_animation);
     };
 
 int battle();
