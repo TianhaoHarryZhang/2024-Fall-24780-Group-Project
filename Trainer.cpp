@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string>
 #include "Trainer.h"
 #include "Utility.h"
 
@@ -39,9 +40,6 @@ void Trainer::displayPokemon(Scene_State *scene_state, void *pokemon_scene, YsSo
 	// Flip the images once after decoding if needed
 	animal1.Flip();
 	animal2.Flip();
-
-	generate_number_png(60, 28, 28, 20, 214, 202, 172, "number1");
-	generate_number_png(80, 28, 28, 20, 214, 202, 172, "number2");
 
 	for (;;)
 	{
@@ -84,7 +82,10 @@ void Trainer::displayPokemon(Scene_State *scene_state, void *pokemon_scene, YsSo
 		// glRasterPos2d(380, 445);
 		//  TODO: get pokemon's HP
 		//  YsGlDrawFontBitmap16x20("60");
+		int HP1 = pokemon[0].getHP();
 		YsRawPngDecoder number1;
+
+		generate_number_png(HP1, 30, 30, 20, 214, 202, 172, "number1");
 		if (YSOK != number1.Decode("number1.png"))
 		{
 			printf("Failed to open number1.\n");
@@ -105,7 +106,11 @@ void Trainer::displayPokemon(Scene_State *scene_state, void *pokemon_scene, YsSo
 		//  TODO: get pokemon's HP
 		//  YsGlDrawFontBitmap16x20("80");
 		//  printf("Potion1 Width: %d Height: %d\n", animal1.wid, animal1.hei);
+		int HP2 = pokemon[1].getHP();
 		YsRawPngDecoder number2;
+
+		generate_number_png(HP2, 30, 30, 20, 214, 202, 172, "number2");
+
 		if (YSOK != number2.Decode("number2.png"))
 		{
 			printf("Failed to open number2.\n");

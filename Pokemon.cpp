@@ -12,18 +12,22 @@ Pokemon::Pokemon(std::string name, std::string level, float hp, float maxHP, Ski
     : name(name), level(level), hp(hp), maxHp(maxHP), skill1(skill1), skill2(skill2), fname(fname) {}
 
 // Render function
-void Pokemon::render(int positionX, int positionY, float scale, int direction) {
+void Pokemon::render(int positionX, int positionY, float scale, int direction)
+{
     YsRawPngDecoder pokemon_fig;
     std::string fname_total;
-    if (direction == 1){
+    if (direction == 1)
+    {
         fname_total = "images/monster/" + fname + "_right.png";
-    }else if (direction == 2)
+    }
+    else if (direction == 2)
     {
         fname_total = "images/monster/" + fname + "_left.png";
     }
-    
-    const char* cstr_fname_total = fname_total.c_str();
-    if (YSOK != pokemon_fig.Decode(cstr_fname_total)) {
+
+    const char *cstr_fname_total = fname_total.c_str();
+    if (YSOK != pokemon_fig.Decode(cstr_fname_total))
+    {
         std::cout << "Failed to open file." << std::endl;
         return;
     }
@@ -39,49 +43,66 @@ void Pokemon::render(int positionX, int positionY, float scale, int direction) {
 }
 
 // Attack animation function
-void Pokemon::attackAnimation(int positionX, int positionY, float scale, int direction, int *animation_counter, bool *in_animation) {
+void Pokemon::attackAnimation(int positionX, int positionY, float scale, int direction, int *animation_counter, bool *in_animation)
+{
     // std::cout << name << " performs an attack animation!" << std::endl;
-    if (*animation_counter < 20) {
+    if (*animation_counter < 20)
+    {
         int randX = rand() % 20 - 10;
         positionX += randX;
         Pokemon::render(positionX, positionY, scale, direction);
         (*animation_counter)++;
-    } else{
+    }
+    else
+    {
         *in_animation = false;
     }
 }
 
 // Take damage function
-void Pokemon::takeDamage(float damage) {
+void Pokemon::takeDamage(float damage)
+{
     hp -= damage;
-    if (hp < 0) hp = 0;
+    if (hp < 0)
+        hp = 0;
     std::cout << name << " takes " << damage << " damage! Current HP: " << hp << std::endl;
     damageAnimation();
 }
 
 // Damage animation function
-void Pokemon::damageAnimation() {
+void Pokemon::damageAnimation()
+{
     std::cout << name << " displays a damage animation (Not implemented)!" << std::endl;
 }
 
 // Use skill function
-void Pokemon::useSkill(int skillIndex) {
-    if (skillIndex == 1) {
+void Pokemon::useSkill(int skillIndex)
+{
+    if (skillIndex == 1)
+    {
         std::cout << name << " uses " << skill1.name << " causing " << skill1.damage << " damage!" << std::endl;
-    } else if (skillIndex == 2) {
+    }
+    else if (skillIndex == 2)
+    {
         std::cout << name << " uses " << skill2.name << " causing " << skill2.damage << " damage!" << std::endl;
-    } else {
+    }
+    else
+    {
         std::cout << "Invalid skill index." << std::endl;
     }
 }
 
 // Render skill effect function
-void Pokemon::renderSkillEffect(const Skill& skill, int positionX, int positionY, int *skill_animation_counter, bool *in_skill_animation) {
-    if (skill.name == "Bite") {
-        if (*skill_animation_counter < 20) {
+void Pokemon::renderSkillEffect(const Skill &skill, int positionX, int positionY, int *skill_animation_counter, bool *in_skill_animation)
+{
+    if (skill.name == "Bite")
+    {
+        if (*skill_animation_counter < 20)
+        {
             std::cout << "Bite effect is displayed!" << std::endl;
             YsRawPngDecoder bite_up, bite_down;
-            if (YSOK != bite_up.Decode("images/BattleScene/Skills/Bite_up.png") or YSOK != bite_down.Decode("images/BattleScene/Skills/Bite_down.png")) {
+            if (YSOK != bite_up.Decode("images/BattleScene/Skills/Bite_up.png") or YSOK != bite_down.Decode("images/BattleScene/Skills/Bite_down.png"))
+            {
                 std::cout << "Failed to open file." << std::endl;
                 return;
             }
@@ -106,14 +127,20 @@ void Pokemon::renderSkillEffect(const Skill& skill, int positionX, int positionY
             glDisable(GL_BLEND);
             glDisable(GL_DEPTH_TEST);
             (*skill_animation_counter)++;
-        } else {
+        }
+        else
+        {
             *in_skill_animation = false;
         }
-    } else if (skill.name == "Scratch") {
-        if (*skill_animation_counter < 20) {
+    }
+    else if (skill.name == "Scratch")
+    {
+        if (*skill_animation_counter < 20)
+        {
             std::cout << "Scratch effect is displayed!" << std::endl;
             YsRawPngDecoder scratch;
-            if (YSOK != scratch.Decode("images/BattleScene/Skills/Scratch.png")) {
+            if (YSOK != scratch.Decode("images/BattleScene/Skills/Scratch.png"))
+            {
                 std::cout << "Failed to open file." << std::endl;
                 return;
             }
@@ -129,10 +156,20 @@ void Pokemon::renderSkillEffect(const Skill& skill, int positionX, int positionY
             glDisable(GL_BLEND);
             glDisable(GL_DEPTH_TEST);
             (*skill_animation_counter)++;
-        } else {
+        }
+        else
+        {
             *in_skill_animation = false;
         }
-    } else {
+    }
+    else
+    {
         std::cout << "Skill effect is not implemented!" << std::endl;
     }
+}
+
+// Get HP function
+int Pokemon::getHP()
+{
+    return hp;
 }
