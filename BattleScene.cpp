@@ -91,7 +91,7 @@ void PokemonUI::renderOptions(int positionX, int positionY, std::string filename
 void PokemonUI::renderSkillSelection(Pokemon* pokemon, int positionX1, int positionY1, int positionX2, int positionY2)
 {
     YsRawPngDecoder skill1, skill2;
-    if (YSOK != skill1.Decode("images/BattleScene/BattleScene_TextBox.png") or
+    if (YSOK != skill1.Decode("images/BattleScene/BattleScene_TextBox.png") ||
         YSOK != skill2.Decode("images/BattleScene/BattleScene_TextBox.png"))
     {
         printf("Failed to open file.\n");
