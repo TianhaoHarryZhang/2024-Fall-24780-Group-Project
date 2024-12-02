@@ -49,8 +49,8 @@ void PokemonUI::renderOptions(int positionX, int positionY, std::string filename
 {
     // Display basic options for Pokémon battle
     YsRawPngDecoder Bag, Fight, Pokemon;
-    if (YSOK != Bag.Decode("images/common/bag_box.png") or
-        YSOK != Fight.Decode("images/common/fight_button.png") or
+    if (YSOK != Bag.Decode("images/common/bag_box.png") ||
+        YSOK != Fight.Decode("images/common/fight_button.png") ||
         YSOK != Pokemon.Decode("images/common/pokemon_box.png"))
     {
         printf("Failed to open file.\n");
