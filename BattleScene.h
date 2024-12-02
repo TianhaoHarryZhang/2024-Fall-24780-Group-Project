@@ -26,8 +26,8 @@ public:
     void renderBK();
 
     void performAttack(Pokemon* attacker, Pokemon* defender, int skillNumber, int attacker_x, int attacker_y, float attacker_scale, int attacker_direction,int* animation_counter, bool* attacker_in_animation,int* skill_animation_counter, bool* attacker_in_skill_animation);
-    };
 
     int battle(Scene_State* scene_state, YsSoundPlayer* player, YsSoundPlayer::SoundData* sound);
+};
 
 #endif
