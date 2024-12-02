@@ -52,7 +52,7 @@ int main(void)
 	player.PlayBackground(bkground);
 
 	Scene_State scene_state = IN_LOAD_SCENE;
-	// scene_state = IN_BATTLE_SCENE;
+	scene_state = IN_BATTLE_SCENE;
 
 	if (YSOK == main_scene.Decode("images/new_version.png"))
 	{
@@ -184,7 +184,7 @@ int main(void)
 
 		case IN_ANIMAL_POCKET:
 
-			trainer.displayPokemon(&blur_scene, &player, &notification);
+			trainer.displayPokemon(&scene_state, &blur_scene, &player, &notification);
 
 			// everything that happens in the animal pocket
 
@@ -192,7 +192,7 @@ int main(void)
 
 		case IN_MEDICINE_POCKET:
 
-			medicine_pocket.displayMedicines(&blur_scene, &player, &notification);
+			medicine_pocket.displayMedicines(&scene_state, &blur_scene, &player, &notification);
 
 			break;
 		case TRANSIT_FROM_MAIN_TO_BATTLE:
