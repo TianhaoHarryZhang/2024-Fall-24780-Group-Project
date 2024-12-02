@@ -36,7 +36,7 @@ int MedicinePocket::useMedicine(int index)
     return 0;
 }
 
-void MedicinePocket::displayMedicines(Scene_State *scene_state, void *medicine_scene, YsSoundPlayer *player, YsSoundPlayer::SoundData *sound)
+void MedicinePocket::displayMedicines(Trainer *trainer, Scene_State *scene_state, void *medicine_scene, YsSoundPlayer *player, YsSoundPlayer::SoundData *sound)
 {
 
     YsRawPngDecoder *png = (YsRawPngDecoder *)medicine_scene;
@@ -89,6 +89,9 @@ void MedicinePocket::displayMedicines(Scene_State *scene_state, void *medicine_s
                 // play sound
                 player->PlayOneShot(*sound);
             }
+            std::cout << "Health before heal: " << trainer->pokemon[trainer->currentPokemonIndex].hp << std::endl;
+            trainer->pokemon[trainer->currentPokemonIndex].hp = std::min(trainer->pokemon[trainer->currentPokemonIndex].hp + cure, 100.0f);
+            std::cout << "Health after heal: " << trainer->pokemon[trainer->currentPokemonIndex].hp << std::endl;
             printf("Cure: %d\n", cure);
             *scene_state = IN_BATTLE_SCENE;
             break;

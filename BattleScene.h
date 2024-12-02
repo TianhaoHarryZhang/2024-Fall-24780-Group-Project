@@ -3,6 +3,7 @@
 #include "yssimplesound.h"
 #include "Scene.h"
 #include "Pokemon.h"
+#include "Trainer.h"
 #include <string>
 
 class PokemonUI
@@ -26,7 +27,7 @@ public:
 
     void performAttack(Pokemon* attacker, Pokemon* defender, int skillNumber, int attacker_x, int attacker_y, float attacker_scale, int attacker_direction,int* animation_counter, bool* attacker_in_animation,int* skill_animation_counter, bool* attacker_in_skill_animation, bool* attacker_in_attack);
 
-    int battle(Scene_State* scene_state, YsSoundPlayer* player, YsSoundPlayer::SoundData* sound);
+    int battle(Trainer* trainer, float* NPC_pokemon_hp, Scene_State* scene_state, YsSoundPlayer* player, YsSoundPlayer::SoundData* sound);
 };
 
 #endif

@@ -204,6 +204,7 @@ void PokemonUI::performAttack(
     attacker->renderSkillEffect(skill, attacker_x, attacker_y, skill_animation_counter, attacker_in_skill_animation);
     if (*skill_animation_counter == 1)
     {
+        std::cout << "take damage" << std::endl;
         defender->takeDamage(skill.damage);
     }
     // defender->damageAnimation();
@@ -213,16 +214,15 @@ void PokemonUI::performAttack(
     }
 }
 
-int PokemonUI::battle(Scene_State *scene_state, YsSoundPlayer *player, YsSoundPlayer::SoundData *sound)
+int PokemonUI::battle(Trainer *trainer, float *NPC_pokemon_hp, Scene_State *scene_state, YsSoundPlayer *player, YsSoundPlayer::SoundData *sound)
 {
-    //  Pokemon(std::string name, std::string level, float hp, Skill skill1, Skill skill2);
-    Pokemon pokemon1("Dog", "Lv. 1", 100, 100, Skill("Bite", 10), Skill("Scratch", 8), "dog");
-    Pokemon pokemon2("Fox", "Lv. 1", 100, 100, Skill("Bite", 10), Skill("Scratch", 8), "fox");
-    Pokemon NPCpokemon("Rabbit", "Lv. 1", 80, 80, Skill("Bite", 10), Skill("Scratch", 8), "rabbit");
+    Pokemon &pokemon1 = trainer->pokemon[0];
+    Pokemon &pokemon2 = trainer->pokemon[1];
+    Pokemon NPCpokemon("Fox", "Lv. 1", *NPC_pokemon_hp, 100, Skill("Bite", 50), Skill("Scratch", 8), "fox");
     PokemonUI UI;
 
-    Pokemon *currentPokemon = &pokemon1;      // The pokeemon that is currently selected, defalut is pokemon 1
-    Pokemon *currentNPCPokemon = &NPCpokemon; // The NPC's pokemon
+    Pokemon &currentPokemon = (*trainer).pokemon[trainer->currentPokemonIndex]; // The pokeemon that is currently selected, defalut is pokemon 1
+    Pokemon &currentNPCPokemon = NPCpokemon; // The NPC's pokemon
 
     bool terminate = false;
     bool victory = false;
@@ -320,6 +320,7 @@ int PokemonUI::battle(Scene_State *scene_state, YsSoundPlayer *player, YsSoundPl
 
     while (true)
     {
+        Pokemon &currentPokemon = (*trainer).pokemon[trainer->currentPokemonIndex];
         FsPollDevice();
         if (FsInkey() == FSKEY_ESC)
         {
@@ -333,17 +334,17 @@ int PokemonUI::battle(Scene_State *scene_state, YsSoundPlayer *player, YsSoundPl
         // Render pokeemon and their hp bar
 
         UI.renderBK();
-        UI.renderHPBar(currentPokemon->hp, currentPokemon->maxHp, hp_player_x, hp_player_y, hp_player_w, hp_player_h);
-        UI.renderHPBar(currentNPCPokemon->hp, currentNPCPokemon->maxHp, hp_NPC_x, hp_NPC_y, hp_NPC_w, hp_NPC_h);
-        UI.renderName(currentPokemon->name, hp_player_x, hp_player_y + hp_player_h + 30);
-        UI.renderName(currentNPCPokemon->name, hp_NPC_x, hp_NPC_y + hp_NPC_h + 30);
+        UI.renderHPBar(currentPokemon.hp, currentPokemon.maxHp, hp_player_x, hp_player_y, hp_player_w, hp_player_h);
+        UI.renderHPBar(currentNPCPokemon.hp, currentNPCPokemon.maxHp, hp_NPC_x, hp_NPC_y, hp_NPC_w, hp_NPC_h);
+        UI.renderName(currentPokemon.name, hp_player_x, hp_player_y + hp_player_h + 30);
+        UI.renderName(currentNPCPokemon.name, hp_NPC_x, hp_NPC_y + hp_NPC_h + 30);
         if (in_skill_selection)
         {
             if (user_pokemon_in_attack == false)
             {
                 UI.renderTextBox("Select Option", 0, 0, 0, 0);
             }
-            UI.renderSkillSelection(currentPokemon, skill1_x, skill1_y, skill2_x, skill2_y);
+            UI.renderSkillSelection(&currentPokemon, skill1_x, skill1_y, skill2_x, skill2_y);
         }
         else
         {
@@ -360,8 +361,8 @@ int PokemonUI::battle(Scene_State *scene_state, YsSoundPlayer *player, YsSoundPl
         {    
             UI.renderTextBox("User Attacking", 0, 0, 0, 0);
             performAttack(
-                currentPokemon,         
-                currentNPCPokemon,            
+                &currentPokemon,         
+                &currentNPCPokemon,            
                 skill,                 
                 playerPokemon_x,       
                 playerPokemon_y,       
@@ -373,22 +374,31 @@ int PokemonUI::battle(Scene_State *scene_state, YsSoundPlayer *player, YsSoundPl
                 &user_pokemon_in_skill_animation,
                 &user_pokemon_in_attack
             );
+            
             // std::cout << user_pokemon_in_attack << std::endl;
             if (user_pokemon_in_attack == false)
             {
+                if (skill == 1){
+                    *NPC_pokemon_hp -= currentPokemon.skill1.damage;
+                }
+                else if (skill == 2)
+                {
+                    *NPC_pokemon_hp -= currentPokemon.skill2.damage;
+                }
+                
                 playerRound = false;
             }
         }
         else {
-            currentPokemon->render(playerPokemon_x, playerPokemon_y, playerPokemon_scale, playerPokemon_direction);
+            currentPokemon.render(playerPokemon_x, playerPokemon_y, playerPokemon_scale, playerPokemon_direction);
         }
 
         if (NPC_pokemon_in_attack)
         {    
             UI.renderTextBox("NPC Attacking", 0, 0, 0, 0);
             performAttack(
-                currentNPCPokemon,         
-                currentPokemon,            
+                &currentNPCPokemon,         
+                &currentPokemon,            
                 1,                 
                 NPCpokemon_x,       
                 NPCpokemon_y,       
@@ -406,7 +416,7 @@ int PokemonUI::battle(Scene_State *scene_state, YsSoundPlayer *player, YsSoundPl
             }
         }
         else {
-            currentNPCPokemon->render(NPCpokemon_x, NPCpokemon_y, NPCpokemon_scale, NPCpokemon_direction);
+            currentNPCPokemon.render(NPCpokemon_x, NPCpokemon_y, NPCpokemon_scale, NPCpokemon_direction);
         }
 
         // Check if it is player's round
@@ -453,7 +463,6 @@ int PokemonUI::battle(Scene_State *scene_state, YsSoundPlayer *player, YsSoundPl
                         user_pokemon_in_attack = true;
                         animation_counter = 0;
                         skill_animation_counter = 0;
-                        // ! HERE
                         user_pokemon_in_animation = true;
                         user_pokemon_in_skill_animation = true;
 
@@ -464,7 +473,6 @@ int PokemonUI::battle(Scene_State *scene_state, YsSoundPlayer *player, YsSoundPl
                         user_pokemon_in_attack = true;
                         animation_counter = 0;
                         skill_animation_counter = 0;
-                        // ! HERE
                         user_pokemon_in_animation = true;
                         user_pokemon_in_skill_animation = true;
 
@@ -481,36 +489,30 @@ int PokemonUI::battle(Scene_State *scene_state, YsSoundPlayer *player, YsSoundPl
             NPC_pokemon_in_attack = true;
             animation_counter = 0;
             skill_animation_counter = 0;
-            // ! HERE
             NPC_pokemon_in_animation = true;
             NPC_pokemon_in_skill_animation = true;
-        }        
+        }
+
         // Check if any of the pokemons are out of hp
-        if (currentNPCPokemon->hp == 0)
+        if (currentNPCPokemon.hp <= 0)
         {
             // NPC out of pokemon, victory
             terminate = true;
             victory = true;
         }
-        else if (pokemon1.hp == 0 && pokemon2.hp == 0)
+        else if (pokemon1.hp <= 0 && pokemon2.hp <= 0)
         {
+            std::cout << "Defeat" << std::endl;
             // Player out of pokemons, defeat
             terminate = true;
-        }
-        else if (pokemon1.hp == 0 || pokemon2.hp == 0)
+        } 
+        else if (pokemon1.hp <= 0)
         {
-            // One of player's pokemon is out of hp, change to the other pokemon
-            pokemonSelect = !pokemonSelect;
+            trainer->currentPokemonIndex = 1;
         }
-
-        // Check the current pokemon selection
-        if (pokemonSelect == true)
+        else if (pokemon2.hp <= 0)
         {
-            currentPokemon = &pokemon1;
-        }
-        else
-        {
-            currentPokemon = &pokemon2;
+            trainer->currentPokemonIndex = 0;
         }
 
         if (terminate)

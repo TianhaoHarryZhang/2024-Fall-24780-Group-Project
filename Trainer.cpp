@@ -26,7 +26,7 @@ void Trainer::interactWith(People &otherCharacter)
 	// add code for conversation
 }
 
-void Trainer::displayPokemon(Scene_State *scene_state, void *pokemon_scene, YsSoundPlayer *player, YsSoundPlayer::SoundData *sound)
+void Trainer::displayPokemon(Trainer *trainer, Scene_State *scene_state, void *pokemon_scene, YsSoundPlayer *player, YsSoundPlayer::SoundData *sound)
 {
 	YsRawPngDecoder *png = (YsRawPngDecoder *)pokemon_scene;
 	// make an array of medicine images
@@ -66,6 +66,7 @@ void Trainer::displayPokemon(Scene_State *scene_state, void *pokemon_scene, YsSo
 
 				// play sound
 				player->PlayOneShot(*sound);
+				trainer->currentPokemonIndex = 0;
 			}
 			else if (mx > 700 && mx < 950 && my > 161 && my < 521)
 			{
@@ -73,6 +74,7 @@ void Trainer::displayPokemon(Scene_State *scene_state, void *pokemon_scene, YsSo
 				printf("Animal2 clicked\n");
 				// play sound
 				player->PlayOneShot(*sound);
+				trainer->currentPokemonIndex = 1;
 			}
 			*scene_state = IN_BATTLE_SCENE;
 			break;
