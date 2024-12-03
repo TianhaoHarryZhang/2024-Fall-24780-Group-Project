@@ -13,7 +13,7 @@ Tsung Yeh Hsieh (tsungyeh@andrew.cmu.edu)
 | Kaifeng Hu    | Developed battling logic and animation in battling scene |
 | Tsung Yeh Hsieh    | Developed battling logic and animation in battling scene    |
 | Dylan Leong    | Developed main scene (village) including trainer moving and conversation with doctor and computer trainer |
-| Rachell Lee    | Designed all roles, animals, medicine and village background image. Developed scenes of animal & medicine bags  |
+| Rachell Lee    | Designed all roles, animals, medicine and background images. Developed scenes of animal & medicine bags  |
 
 ### Introduction
 As the group project required by CMU 24780 Engineering Computation, Codeemon is developed by five CMU graduate students. It is a 2D adventure inspired by classic Pokémon, offering a fresh twist with redesigned characters, unique animals, new adventure map and battle scenes. Built primarily using OpenGL/C++ with some Python integration, it blends creativity and technical expertise to provide an experience that is both nostalgic and refreshingly innovative. 
