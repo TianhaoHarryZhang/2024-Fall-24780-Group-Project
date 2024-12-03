@@ -328,6 +328,11 @@ int PokemonUI::battle(Trainer *trainer, float *NPC_pokemon_hp, Scene_State *scen
 
         mouseEvent = FsGetMouseEvent(lb, mb, rb, mx, my);
 
+        // If the pokemon is overhealed, reset hp back to maxhp
+        if (currentPokemon.hp > currentPokemon.maxHp) {
+            currentPokemon.hp = currentPokemon.maxHp;
+        }
+
         // Load battle scene here
         // Render pokeemon and their hp bar
 
