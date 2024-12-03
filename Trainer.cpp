@@ -31,7 +31,7 @@ void Trainer::displayPokemon(Trainer *trainer, Scene_State *scene_state, void *p
 	YsRawPngDecoder *png = (YsRawPngDecoder *)pokemon_scene;
 	// make an array of medicine images
 	YsRawPngDecoder animal1, animal2;
-	if (YSOK != animal1.Decode("images/monster/dog.png") or YSOK != animal2.Decode("images/monster/rabbit.png"))
+	if (YSOK != animal1.Decode("images/monster/dog.png") || YSOK != animal2.Decode("images/monster/rabbit.png"))
 	{
 		printf("Failed to open file.\n");
 		return;
