@@ -37,5 +37,5 @@ test.app/Contents/MacOS/exe
 
 ### Windows Compiling Commands (Using Microsoft Visual C++ Compiler)
 ```bash
-cl /EHsc /Felauncher.exe main.cpp fssimplewindow.cpp yssimplesound.cpp yspng.cpp yspngenc.cpp ysglfontdata.c BattleScene.cpp Medicine.cpp People.cpp Pokemon.cpp Trainer.cpp Utility.cpp /link opengl32.lib user32.lib gdi32.lib winmm.lib
+cl /EHsc /Felauncher.exe main.cpp fssimplewindow.cpp yssimplesound_windows.cpp yspng.cpp yspngenc.cpp ysglfontdata.c BattleScene.cpp Medicine.cpp People.cpp Pokemon.cpp Trainer.cpp Utility.cpp /link opengl32.lib user32.lib gdi32.lib winmm.lib
 ```
