@@ -218,7 +218,7 @@ int PokemonUI::battle(Trainer *trainer, float *NPC_pokemon_hp, Scene_State *scen
 {
     Pokemon &pokemon1 = trainer->pokemon[0];
     Pokemon &pokemon2 = trainer->pokemon[1];
-    Pokemon NPCpokemon("Fox", "Lv. 1", *NPC_pokemon_hp, 100, Skill("Bite", 50), Skill("Scratch", 8), "fox");
+    Pokemon NPCpokemon("Fox", "Lv. 1", *NPC_pokemon_hp, 100, Skill("Bite", 10), Skill("Scratch", 8), "fox");
     PokemonUI UI;
 
     Pokemon &currentPokemon = (*trainer).pokemon[trainer->currentPokemonIndex]; // The pokeemon that is currently selected, defalut is pokemon 1
