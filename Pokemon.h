@@ -3,14 +3,16 @@
 
 #include <string>
 
-struct Skill {
+struct Skill
+{
     std::string name;
     float damage;
 
     Skill(std::string name, float damage);
 };
 
-class Pokemon {
+class Pokemon
+{
 public:
     // Attributes
     std::string name;
@@ -31,7 +33,10 @@ public:
     void attackAnimation(int positionX, int positionY, float scale, int direction, int *animation_counter, bool *in_animation);
     void takeDamage(float damage);
     void useSkill(int skillIndex);
-    void renderSkillEffect(const Skill& skill, int positionX, int positionY, int *skill_animation_counter, bool *in_skill_animation);
+    void renderSkillEffect(const Skill &skill, int positionX, int positionY, int *skill_animation_counter, bool *in_skill_animation);
+
+    // get skills
+    int getHP();
 
 private:
     void damageAnimation();

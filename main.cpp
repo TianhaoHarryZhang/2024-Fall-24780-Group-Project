@@ -42,6 +42,8 @@ int main(void)
 	nurse.loadPeople("images/trainer/nurse.png");
 	comp.loadPeople("images/trainer/computer.png");
 
+	float NPC_pokemon_hp = 100;
+
 	//MedicinePocket medicine_pocket;
 
 	//PokemonUI UI;
@@ -105,6 +107,7 @@ int main(void)
 		//	game_loading(&scene_state);
 
 		case IN_MAIN_SCENE:
+			NPC_pokemon_hp = 100;
 			//  draw the background image
 			glRasterPos2i(0, main_scene.hei - 1);
 			glDrawPixels(main_scene.wid, main_scene.hei, GL_RGBA, GL_UNSIGNED_BYTE, main_scene.rgba);
@@ -188,26 +191,33 @@ int main(void)
 
 			nurse.drawPeople();
 			comp.drawPeople();
+			break;
+
+		case IN_BATTLE_SCENE:
+
+			UI.battle(&trainer, &NPC_pokemon_hp, &scene_state, &player, &notification);
+			// everything that happens in the battle scene
+
+		case IN_ANIMAL_POCKET:
+
+			trainer.displayPokemon(&trainer, &scene_state, &blur_scene, &player, &notification);
+			// everything that happens in the animal pocket
 
 			break;
 
-		//case IN_BATTLE_SCENE:
-
-		//	UI.battle(&scene_state, &player, &notification);
-
-		//	// everything that happens in the battle scene
-
-		//	break;
-
-		//case IN_ANIMAL_POCKET:
-
-		//	trainer.displayPokemon(&scene_state, &blur_scene, &player, &notification);
+		case IN_MEDICINE_POCKET:
+			medicine_pocket.displayMedicines(&trainer, &scene_state, &blur_scene, &player, &notification);
+			medicine_pocket.displayMedicines(&scene_state, &blur_scene, &player, &notification);
+			break;
+		case TRANSIT_FROM_MAIN_TO_BATTLE:
 
 		//	// everything that happens in the animal pocket
 
-		//	break;
+			break;
+		}
 
-		//case IN_MEDICINE_POCKET:
+		/*DYNAMIC MESSAGE TYPING*/
+		/*Need to move this part to a member function of Trainer class*/
 
 		//	medicine_pocket.displayMedicines(&scene_state, &blur_scene, &player, &notification);
 

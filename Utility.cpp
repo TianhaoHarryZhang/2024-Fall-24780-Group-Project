@@ -11,9 +11,88 @@
 #include "yssimplesound.h"
 
 
+void battle_start (void)
+{
+    YsRawPngDecoder bg, user, computer;
+
+    int n = 0;
+
+    float user_x = 910.f;
+    float computer_x = 50.f;
+    float v = 5.f;
+
+    if (YSOK != bg.Decode("images/battle_start/fight_bg.png") || YSOK != user.Decode("images/battle_start/fight_user.png") || YSOK != computer.Decode("images/battle_start/fight_computer.png"))
+    {
+        printf("Failed to open image files.\n");
+        //*scene_state = IN_MAIN_SCENE;
+        return;
+    }
+    else
+    {
+        bg.Flip();
+        user.Flip();
+        computer.Flip();
+    }
+
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    for (;;)
+    {
+        FsPollDevice();
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        
+        if (FsInkey() == FSKEY_ESC)
+        {
+            exit(0);
+        }
+ 
+
+        //display computer trainer image
+        glRasterPos2d(computer_x, (double)(610.f));
+        
+        glDrawPixels(computer.wid, computer.hei, GL_RGBA, GL_UNSIGNED_BYTE, computer.rgba);
+        
+
+
+        //display user trainer image
+        glRasterPos2d(user_x, (double)(610.f));
+        glDrawPixels(user.wid, user.hei, GL_RGBA, GL_UNSIGNED_BYTE, user.rgba);
+        //glEnable(GL_DEPTH_TEST);
+        //glEnable(GL_BLEND);
+        //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+        //display battle-starting background image
+        glRasterPos2d(130.0, (double)(620));
+        glDrawPixels(bg.wid, bg.hei, GL_RGBA, GL_UNSIGNED_BYTE, bg.rgba);
+
+
+        FsSwapBuffers();
+
+        if (n==30) //
+        {
+            FsSleep(16000);
+            break;
+        }
+
+        n += 1;
+        user_x -= v;
+        computer_x += v;
+
+        FsSleep(10);
+    }
+
+    return;
+
+
+}
+
+
 void game_loading (Scene_State* scene_state)
 {
-	YsRawPngDecoder loading_image, running_trainer;
+
+    YsRawPngDecoder loading_image, running_trainer;
 
 	if (YSOK != loading_image.Decode("images/loading/Loading.png") || YSOK != running_trainer.Decode("images/loading/running_trainer.png"))
     {
