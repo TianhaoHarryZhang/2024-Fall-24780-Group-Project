@@ -34,11 +34,11 @@ int main(void)
 
 	Message message;
 
-	//Trainer trainer("Ash", 68, 102);
+	// Trainer trainer("Ash", 68, 102);
 	Trainer trainer("Ash", 442, 238);
 	People nurse("Nurse Joy", 480, 255);
 	People comp("Gary", 755, 629);
-	
+
 	nurse.loadPeople("images/trainer/nurse.png");
 	comp.loadPeople("images/trainer/computer.png");
 
@@ -48,16 +48,16 @@ int main(void)
 
 	PokemonUI UI;
 
-	//YsSoundPlayer player;
-	//player.MakeCurrent();
-	//player.Start();
-	//FsChangeToProgramDir();
+	YsSoundPlayer player;
+	player.MakeCurrent();
+	player.Start();
+	FsChangeToProgramDir();
 
-	//YsSoundPlayer::SoundData bkground, notification;
-	//load_sound(bkground, "audio/Background.wav");
-	//load_sound(notification, "audio/Notification_1.wav");
+	YsSoundPlayer::SoundData bkground, notification;
+	load_sound(bkground, "audio/Background.wav");
+	load_sound(notification, "audio/Notification_1.wav");
 
-	//player.PlayBackground(bkground);
+	player.PlayBackground(bkground);
 
 	Scene_State scene_state = IN_LOAD_SCENE;
 	scene_state = IN_MAIN_SCENE;
@@ -94,6 +94,10 @@ int main(void)
 
 		auto key = FsInkey();
 
+		int grid_size = 34;
+		int w = main_scene.wid;
+		int h = main_scene.hei;
+
 		if (FSKEY_ESC == key)
 		{
 			break;
@@ -105,15 +109,13 @@ int main(void)
 		case IN_LOAD_SCENE:
 
 			game_loading(&scene_state);
+			break;
 
 		case IN_MAIN_SCENE:
 			NPC_pokemon_hp = 100;
 			//  draw the background image
 			glRasterPos2i(0, main_scene.hei - 1);
 			glDrawPixels(main_scene.wid, main_scene.hei, GL_RGBA, GL_UNSIGNED_BYTE, main_scene.rgba);
-			int w = main_scene.wid;
-			int h = main_scene.hei;
-			int grid_size = 34;
 
 			nurse.initializeMessages();
 			comp.initializeMessages();
@@ -197,6 +199,7 @@ int main(void)
 
 			UI.battle(&trainer, &NPC_pokemon_hp, &scene_state, &player, &notification);
 			// everything that happens in the battle scene
+			break;
 
 		case IN_ANIMAL_POCKET:
 
