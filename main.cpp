@@ -117,9 +117,6 @@ int main(void)
 			glRasterPos2i(0, main_scene.hei - 1);
 			glDrawPixels(main_scene.wid, main_scene.hei, GL_RGBA, GL_UNSIGNED_BYTE, main_scene.rgba);
 
-			nurse.initializeMessages();
-			comp.initializeMessages();
-
 			// move the trainer
 			if (trainer.moving == true)
 			{

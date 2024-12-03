@@ -32,7 +32,7 @@ const int Trainer::grid[22][38] = {
 	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 };
 
-Trainer::Trainer(const char *name, float x, float y) : People(name), x(x), y(y), facing_direction(2), moving(true), needHeal(false), inConversation(false)
+Trainer::Trainer(const char *name, float x, float y) : People(name), x(x), y(y), facing_direction(2), moving(true), inConversation(false)
 {
 	loadTrainer_png("images/trainer/trainer_front.png");
 }
@@ -165,13 +165,6 @@ void Trainer::move_south(int map_hei, int grid_size)
 	}
 }
 
-bool Trainer::heal()
-{
-	// toggle healing action
-	needHeal = !needHeal;
-	// add code to increase health points to full
-	return needHeal;
-}
 
 bool Trainer::isFacing(const People &person, int gridSize) const
 {
@@ -195,7 +188,7 @@ bool Trainer::isFacing(const People &person, int gridSize) const
 	}
 }
 
-void Trainer::interactWith(People &otherCharacter, YsRawPngDecoder &main_scene, People &nurse, People &comp)
+void Trainer::interactWith(People& otherCharacter, YsRawPngDecoder& main_scene, People& nurse, People& comp)
 {
 	inConversation = true;
 	moving = false;
@@ -203,9 +196,37 @@ void Trainer::interactWith(People &otherCharacter, YsRawPngDecoder &main_scene, 
 	int screenWidth = main_scene.wid;
 	int screenHeight = main_scene.hei;
 
+	// nurse conversation and healing logic
+	if (strcmp(otherCharacter.getName(), "Nurse Joy") == 0)
+	{
+		nurse.clearMessages();
+
+		bool needsHealing = false;
+		if (pokemon[0].getHP() != 100 || pokemon[1].getHP() != 80)
+		{
+			needsHealing = true;
+		}
+
+		if (needsHealing)
+		{
+			nurse.addMessage("Oh no! Your Codeemon are injured!");
+			nurse.addMessage("Let me heal them for you...");
+			nurse.addMessage("Your Codeemon are now fully healed!");
+
+			pokemon[0].takeDamage(-(pokemon[0].getHP() - 100));
+			pokemon[1].takeDamage(-(pokemon[1].getHP() - 80));
+		}
+		else
+		{
+			nurse.addMessage("Your Codeemon are at full health.");
+			nurse.addMessage("Take care!");
+		}
+	}
+
+	// render dynamic conversation text
 	for (int i = 0; i < 10; ++i)
 	{
-		const char *message = otherCharacter.getMessage(i);
+		const char* message = otherCharacter.getMessage(i);
 		if (message == nullptr)
 			break;
 
@@ -237,16 +258,19 @@ void Trainer::interactWith(People &otherCharacter, YsRawPngDecoder &main_scene, 
 			glEnd();
 
 			Message msg;
-			msg.type_character(const_cast<char *>(message), 20, screenHeight - 50, 0, j);
+			msg.type_character(const_cast<char*>(message), 20, screenHeight - 50, 0, j);
 
 			FsSwapBuffers();
 			FsSleep(50);
 		}
 		FsSleep(1000);
 	}
+
 	inConversation = false;
 	moving = true;
 }
+
+
 
 void Trainer::displayPokemon(Trainer *trainer, Scene_State *scene_state, void *pokemon_scene, YsSoundPlayer *player, YsSoundPlayer::SoundData *sound)
 {

@@ -58,21 +58,12 @@ void People::addMessage(const char* message) {
     }
 }
 
-void People::initializeMessages()
+void People::clearMessages()
 {
-    if (!messagesInitialized)
+    for (int i = 0; i < 10; ++i)
     {
-        if (strcmp(name, "Nurse Joy") == 0)
-        {
-            addMessage("Welcome to the Pokemon Center!");
-            addMessage("Would you like to heal your Pokemon?");
-            addMessage("Take care!");
-        }
-        else if (strcmp(name, "Gary") == 0)
-        {
-            addMessage("I am a computer.");
-            addMessage("Accessing Pokemon storage system.");
-        }
-        messagesInitialized = true;
+        conversationMessages[i][0] = '\0';
     }
+    messageCount = 0;
+    messagesInitialized = false;
 }

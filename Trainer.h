@@ -42,9 +42,6 @@ public:
 	void move_north(int map_hei, int grid_size);
 	void move_south(int map_hei, int grid_size);
 
-	bool needHeal;
-	bool heal();
-
 	bool isFacing(const People &person, int gridSize) const;
 	void interactWith(People &otherCharacter, YsRawPngDecoder &backgroundImage, People &nurse, People &comp);
 

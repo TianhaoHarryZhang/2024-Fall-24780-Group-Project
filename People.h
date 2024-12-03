@@ -21,6 +21,7 @@ public:
     char name[50];
     const char* getName() const;
     const char* getMessage(int index) const;
-    void addMessage(const char* message);
-    void initializeMessages();
+    void addMessage(const char* message); 
+    void clearMessages();
+
 };

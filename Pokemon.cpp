@@ -101,7 +101,7 @@ void Pokemon::renderSkillEffect(const Skill &skill, int positionX, int positionY
         {
             std::cout << "Bite effect is displayed!" << std::endl;
             YsRawPngDecoder bite_up, bite_down;
-            if (YSOK != bite_up.Decode("images/BattleScene/Skills/Bite_up.png") or YSOK != bite_down.Decode("images/BattleScene/Skills/Bite_down.png"))
+            if (YSOK != bite_up.Decode("images/BattleScene/Skills/Bite_up.png") || YSOK != bite_down.Decode("images/BattleScene/Skills/Bite_down.png"))
             {
                 std::cout << "Failed to open file." << std::endl;
                 return;
