@@ -201,6 +201,9 @@ void Trainer::interactWith(People& otherCharacter, YsRawPngDecoder& main_scene, 
 	{
 		nurse.clearMessages();
 
+		std::string introduction = "Hi! My name is " + std::string(nurse.getName()) + ".";
+		nurse.addMessage(introduction.c_str());
+
 		if (pokemon[0].getHP() != 100 || pokemon[1].getHP() != 80)
 		{
 			nurse.addMessage("Oh no! Your Codeemon are injured!");
@@ -222,15 +225,18 @@ void Trainer::interactWith(People& otherCharacter, YsRawPngDecoder& main_scene, 
 	{
 		comp.clearMessages();
 
+		std::string introduction = "I am " + std::string(comp.getName()) + ".";
+		comp.addMessage(introduction.c_str());
+		comp.addMessage("You look like a challenger.");
+
 		if (pokemon[0].getHP() == 0 && pokemon[1].getHP() == 0)
 		{
 			comp.addMessage("Both your Codeemon are fainted!");
-			comp.addMessage("You can't initiate a battle without healthy Codeemon.");
+			comp.addMessage("Come back when your Codeemon are healed.");
 		}
 		else
 		{
-			comp.addMessage("Your Codeemon look ready for a battle!");
-			comp.addMessage("Get ready to fight!");
+			comp.addMessage("Get ready for battle!");
 			Scene_State scene_state = TRANSIT_FROM_MAIN_TO_BATTLE;
 		}
 	}
