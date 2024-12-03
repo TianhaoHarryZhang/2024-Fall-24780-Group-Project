@@ -39,3 +39,30 @@ test.app/Contents/MacOS/exe
 ```bash
 cl /EHsc /Felauncher.exe main.cpp fssimplewindow.cpp yssimplesound_windows.cpp yspng.cpp yspngenc.cpp ysglfontdata.c BattleScene.cpp Medicine.cpp People.cpp Pokemon.cpp Trainer.cpp Utility.cpp /link opengl32.lib user32.lib gdi32.lib winmm.lib
 ```
+
+### Windows Compiling and Execution (Using windows powershell)
+#### Script.sp1 (Need to define PATH_OF_PROJECT)
+```bash
+$gppath = "C:\msys64\ucrt64\bin\g++.exe"
+$mainfile = "C:\PATH_OF_PROJECT\main.cpp"
+$outputFile = "C:\PATH_OF_PROJECT\main.exe"
+$libraries = "-L 'C:\Program Files (x86)\Windows Kits\10\Lib\10.0.22621.0\um\x86' -lOpenGL32 -lgdi32 -limm32 -lglu32 -ldsound -luuid -lole32"
+
+# Run the compilation
+$command = "& `$gppath -fdiagnostics-color=always -g $mainfile fssimplewindow.cpp yssimplesound_windows.cpp BattleScene.cpp Medicine.cpp Pokemon.cpp Trainer.cpp Utility.cpp ysglfontdata.c yspng.cpp yspngenc.cpp People.cpp $libraries -o $outputFile"
+Invoke-Expression $command
+
+# Check if the file exists and run it
+if (Test-Path $outputFile) {
+    Write-Host "Running the program..."
+    & $outputFile
+} else {
+    Write-Host "Compilation failed."
+}
+
+```
+
+#### To run script
+```bash
+.\Script.ps1
+```
