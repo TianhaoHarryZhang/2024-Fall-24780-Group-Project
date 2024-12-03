@@ -18,7 +18,7 @@ Tsung Yeh Hsieh (tsungyeh@andrew.cmu.edu)
 ### Introduction
 As the group project required by CMU 24780 Engineering Computation, Codeemon is developed by five CMU graduate students. It is a 2D adventure inspired by classic Pokémon, offering a fresh twist with redesigned characters, unique animals, new adventure map and battle scenes. Built primarily using OpenGL/C++ with some Python integration, it blends creativity and technical expertise to provide an experience that is both nostalgic and refreshingly innovative. 
 
-
+![Loading](https://github.com/user-attachments/assets/91e9fe9a-99ff-4be5-a588-8ada27f2ce1f)
 
 
 ### Installation (Python 3.11 recommended)
