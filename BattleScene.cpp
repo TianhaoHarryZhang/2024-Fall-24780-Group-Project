@@ -345,7 +345,7 @@ int PokemonUI::battle(Trainer *trainer, float *NPC_pokemon_hp, Scene_State *scen
         {
             if (user_pokemon_in_attack == false)
             {
-                UI.renderTextBox("Select Option", 0, 0, 0, 0);
+                UI.renderTextBox("Select an Option", 0, 0, 0, 0);
             }
             UI.renderSkillSelection(&currentPokemon, skill1_x, skill1_y, skill2_x, skill2_y);
         }
@@ -353,7 +353,7 @@ int PokemonUI::battle(Trainer *trainer, float *NPC_pokemon_hp, Scene_State *scen
         {
             if (user_pokemon_in_attack == false)
             {
-                UI.renderTextBox("Select Skill", 0, 0, 0, 0);
+                UI.renderTextBox("Select a Skill", 0, 0, 0, 0);
             }
             UI.renderOptions(0, 0, "images/BattleScene/BattleScene_BagButton.png");
         }
