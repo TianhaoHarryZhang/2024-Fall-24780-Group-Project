@@ -1,4 +1,4 @@
-## Codeemon
+## Codeemon (2024 Fall 24780 Group Project)
 
 ### Contributors: 
 Tianhao Zhang (tianhao3@andrew.cmu.edu)  
