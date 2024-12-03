@@ -5,6 +5,8 @@ void generate_number_png(int number, int width, int height, int font_size, int R
 
 void game_loading(Scene_State *scene_state);
 
+void battle_start (void);
+
 class Message
 {
 
