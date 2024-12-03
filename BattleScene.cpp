@@ -141,7 +141,7 @@ void PokemonUI::renderTextBox(const std::string &message, int positionX, int pos
     }
     textBox.Flip();
     glRasterPos2i(10, 700 - 1);
-    float ratioX = 0.8;
+    float ratioX = 1.2;
     float ratioY = 0.8;
     glPixelZoom(ratioX, ratioY);
     glDrawPixels(textBox.wid, textBox.hei, GL_RGBA, GL_UNSIGNED_BYTE, textBox.rgba);
