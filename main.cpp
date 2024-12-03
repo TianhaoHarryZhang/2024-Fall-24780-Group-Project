@@ -34,8 +34,8 @@ int main(void)
 
 	Message message;
 
-	// Trainer trainer("Ash", 68, 102);
-	Trainer trainer("Ash", 442, 238);
+	// Trainer trainer("Ash", 68, 102); // trainer start location
+	Trainer trainer("Ash", 714, 629);
 	People nurse("Nurse Joy", 480, 255);
 	People comp("Gary", 755, 629);
 
@@ -182,14 +182,9 @@ int main(void)
 				}
 			}
 
-			// 	if (people->name == "computer trainer")
-			// 	{
-			// 		scene_state = IN_BATTLE_SCENE;
-			// 	}
-			// }
-
 			nurse.drawPeople();
 			comp.drawPeople();
+
 			break;
 
 		case IN_BATTLE_SCENE:

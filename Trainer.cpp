@@ -196,18 +196,12 @@ void Trainer::interactWith(People& otherCharacter, YsRawPngDecoder& main_scene, 
 	int screenWidth = main_scene.wid;
 	int screenHeight = main_scene.hei;
 
-	// nurse conversation and healing logic
+	//nurse conversation logic
 	if (strcmp(otherCharacter.getName(), "Nurse Joy") == 0)
 	{
 		nurse.clearMessages();
 
-		bool needsHealing = false;
 		if (pokemon[0].getHP() != 100 || pokemon[1].getHP() != 80)
-		{
-			needsHealing = true;
-		}
-
-		if (needsHealing)
 		{
 			nurse.addMessage("Oh no! Your Codeemon are injured!");
 			nurse.addMessage("Let me heal them for you...");
@@ -223,7 +217,25 @@ void Trainer::interactWith(People& otherCharacter, YsRawPngDecoder& main_scene, 
 		}
 	}
 
-	// render dynamic conversation text
+	// computer conversation logic
+	else if (strcmp(otherCharacter.getName(), "Gary") == 0)
+	{
+		comp.clearMessages();
+
+		if (pokemon[0].getHP() == 0 && pokemon[1].getHP() == 0)
+		{
+			comp.addMessage("Both your Codeemon are fainted!");
+			comp.addMessage("You can't initiate a battle without healthy Codeemon.");
+		}
+		else
+		{
+			comp.addMessage("Your Codeemon look ready for a battle!");
+			comp.addMessage("Get ready to fight!");
+			Scene_State scene_state = TRANSIT_FROM_MAIN_TO_BATTLE;
+		}
+	}
+
+	// render conversation text
 	for (int i = 0; i < 10; ++i)
 	{
 		const char* message = otherCharacter.getMessage(i);
@@ -269,6 +281,7 @@ void Trainer::interactWith(People& otherCharacter, YsRawPngDecoder& main_scene, 
 	inConversation = false;
 	moving = true;
 }
+
 
 
 
