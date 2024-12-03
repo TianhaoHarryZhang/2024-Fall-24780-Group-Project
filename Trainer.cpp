@@ -195,28 +195,58 @@ bool Trainer::isFacing(const People& person, int gridSize) const
 	}
 }
 
-void Trainer::interactWith(People& otherCharacter)
+void Trainer::interactWith(People& otherCharacter, YsRawPngDecoder& main_scene, People& nurse, People& comp)
 {
 	inConversation = true;
 	moving = false;
 
-	printf("Trainer: Hello, %s!\n", otherCharacter.getName());
+	int screenWidth = main_scene.wid;
+	int screenHeight = main_scene.hei;
 
 	for (int i = 0; i < 10; ++i)
 	{
 		const char* message = otherCharacter.getMessage(i);
 		if (message == nullptr) break;
 
-		printf("%s: %s\n", otherCharacter.getName(), message);
+		for (int j = 1; j <= strlen(message); ++j)
+		{
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+			glDisable(GL_BLEND);
+			glRasterPos2i(0, screenHeight - 1);
+			glDrawPixels(main_scene.wid, main_scene.hei, GL_RGBA, GL_UNSIGNED_BYTE, main_scene.rgba);
+			drawTrainer();
+			nurse.drawPeople();
+			comp.drawPeople();
+
+			glColor3ub(0, 0, 0);
+			glBegin(GL_QUADS);
+			glVertex2i(5, screenHeight - 105);
+			glVertex2i(screenWidth - 5, screenHeight - 105);
+			glVertex2i(screenWidth - 5, screenHeight - 5);
+			glVertex2i(5, screenHeight - 5);
+			glEnd();
+
+			glColor3ub(255, 255, 255);
+			glBegin(GL_QUADS);
+			glVertex2i(10, screenHeight - 100);
+			glVertex2i(screenWidth - 10, screenHeight - 100);
+			glVertex2i(screenWidth - 10, screenHeight - 10);
+			glVertex2i(10, screenHeight - 10);
+			glEnd();
+
+			Message msg;
+			msg.type_character(const_cast<char*>(message), 20, screenHeight - 50, 0, j);
+
+			FsSwapBuffers();
+			FsSleep(50);
+		}
 		FsSleep(1000);
 	}
-
-	printf("Trainer: Goodbye, %s!\n", otherCharacter.getName());
-
 	inConversation = false;
 	moving = true;
 }
+
 
 //void Trainer::displayPokemon(Scene_State *scene_state, void *pokemon_scene, YsSoundPlayer *player, YsSoundPlayer::SoundData *sound)
 //{

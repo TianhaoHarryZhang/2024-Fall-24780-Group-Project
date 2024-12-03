@@ -104,12 +104,12 @@ void generate_number_png(int number, int width, int height, int font_size, int R
     system(command);
 }
 
-void load_sound(YsSoundPlayer::SoundData &sound, const char *filename) {
-    if(YSOK!=sound.LoadWav(filename))
-    {
-        std::cout << "Error!  Cannot load file: " << filename << std::endl;
-    }
-}
+//void load_sound(YsSoundPlayer::SoundData &sound, const char *filename) {
+//    if(YSOK!=sound.LoadWav(filename))
+//    {
+//        std::cout << "Error!  Cannot load file: " << filename << std::endl;
+//    }
+//}
 
 //render text message
 void Message::renderText(float x, float y, const char text[], int R, int G, int B){
@@ -157,19 +157,13 @@ void Message::print_static_message(const char message[], float start_x, float st
 
 //used to dynamically type messages with one letter being printed per frame
 void Message::type_character(char* message_pointer, float start_x, float start_y, int start, int numChars)
-	{
-	
-		char characters_to_type[numChars+1];
+{
+    std::vector<char> characters_to_type(numChars + 1);
+    getSubset(message_pointer, start, numChars, characters_to_type.data());
 
-		getSubset(message_pointer, start, numChars, characters_to_type);
+    renderText(start_x, start_y, characters_to_type.data(), 0, 0, 0);
+}
 
-		const char* const_characters_to_type = characters_to_type;
-
-		renderText(start_x, start_y, const_characters_to_type, 0,0,0);
-
-		return;
-		
-	}
 
 
 //get a subset of message string. Used for typing message, dynamically.

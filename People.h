@@ -8,6 +8,7 @@ private:
 
     char conversationMessages[10][100];
     int messageCount;
+    bool messagesInitialized = false;
     YsRawPngDecoder People_png;
 
 public:
@@ -21,4 +22,5 @@ public:
     const char* getName() const;
     const char* getMessage(int index) const;
     void addMessage(const char* message);
+    void initializeMessages();
 };

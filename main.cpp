@@ -36,8 +36,8 @@ int main(void)
 
 	//Trainer trainer("Ash", 68, 102);
 	Trainer trainer("Ash", 442, 238);
-	People nurse("Nurse", 480, 255);
-	People comp("Comp", 755, 629);
+	People nurse("Nurse Joy", 480, 255);
+	People comp("Gary", 755, 629);
 	
 	nurse.loadPeople("images/trainer/nurse.png");
 	comp.loadPeople("images/trainer/computer.png");
@@ -112,12 +112,8 @@ int main(void)
 			int h = main_scene.hei;
 			int grid_size = 34;
 
-			nurse.addMessage("Welcome to the Pokemon Center!");
-			nurse.addMessage("Would you like to heal your Pokemon?");
-			nurse.addMessage("Take care!");
-
-			comp.addMessage("I am a computer.");
-			comp.addMessage("Accessing Pokemon storage system.");
+			nurse.initializeMessages();
+			comp.initializeMessages();
 
 			// move the trainer
 			if (trainer.moving == true)
@@ -176,11 +172,11 @@ int main(void)
 			{
 				if (trainer.isFacing(nurse, grid_size))
 				{
-					trainer.interactWith(nurse);
+					trainer.interactWith(nurse, main_scene, nurse, comp);
 				}
 				else if (trainer.isFacing(comp, grid_size))
 				{
-					trainer.interactWith(comp);
+					trainer.interactWith(comp, main_scene, nurse, comp);
 				}
 			}
 
@@ -222,29 +218,6 @@ int main(void)
 
 		//	break;
 		}
-
-		/*DYNAMIC MESSAGE TYPING*/
-		/*Need to move this part to a member function of Trainer class*/
-
-		//if (message.typing_dynamic_message)
-		//{
-		//	message.num_words_typed += 1;
-
-		//	if (message.num_words_typed > std::strlen(message.message_to_type))
-		//	{
-		//		message.typing_dynamic_message = false;
-		//		message.num_words_typed = 0;
-
-		//		// chat_box.show_typed_message = true;
-		//		// player.Stop(type);
-		//	}
-		//	else
-		//	{
-		//		// void type_character(char* message_pointer, float start_x, float start_y, int start, int numChars);
-		//		message.type_character(message.message_to_type, 100, 100, 0, message.num_words_typed);
-		//		// chat_box.move_cursor();
-		//	}
-		//}
 
 		FsSwapBuffers();
 

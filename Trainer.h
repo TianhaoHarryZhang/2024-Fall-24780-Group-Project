@@ -46,7 +46,7 @@ public:
     bool heal();
 
     bool isFacing(const People& person, int gridSize) const;
-    void interactWith(People& otherCharacter);
+    void interactWith(People& otherCharacter, YsRawPngDecoder& backgroundImage, People& nurse, People& comp);
 
     //void displayPokemon(Scene_State* scene_state, void* pokemon_scene, YsSoundPlayer* player, YsSoundPlayer::SoundData* sound);
 };

@@ -24,4 +24,4 @@ public:
 	void getSubset(char *source, int m, int numChars, char *result);
 };
 
-void load_sound(YsSoundPlayer::SoundData &sound, const char *filename);
+//void load_sound(YsSoundPlayer::SoundData &sound, const char *filename);
