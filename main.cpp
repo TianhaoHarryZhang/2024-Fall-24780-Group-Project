@@ -8,8 +8,8 @@
 #include "yspngenc.h"
 #include "utility.h"
 #include "Trainer.h"
-//#include "Medicine.h"
-//#include "BattleScene.h"
+#include "Medicine.h"
+#include "BattleScene.h"
 #include "Scene.h"
 
 void Render(void *incoming)
@@ -44,9 +44,9 @@ int main(void)
 
 	float NPC_pokemon_hp = 100;
 
-	//MedicinePocket medicine_pocket;
+	MedicinePocket medicine_pocket;
 
-	//PokemonUI UI;
+	PokemonUI UI;
 
 	//YsSoundPlayer player;
 	//player.MakeCurrent();
@@ -102,9 +102,9 @@ int main(void)
 		switch (scene_state)
 		{
 
-		//case IN_LOAD_SCENE:
+		case IN_LOAD_SCENE:
 
-		//	game_loading(&scene_state);
+			game_loading(&scene_state);
 
 		case IN_MAIN_SCENE:
 			NPC_pokemon_hp = 100;
@@ -206,27 +206,14 @@ int main(void)
 			break;
 
 		case IN_MEDICINE_POCKET:
+
 			medicine_pocket.displayMedicines(&trainer, &scene_state, &blur_scene, &player, &notification);
-			medicine_pocket.displayMedicines(&scene_state, &blur_scene, &player, &notification);
+
 			break;
+
 		case TRANSIT_FROM_MAIN_TO_BATTLE:
 
-		//	// everything that happens in the animal pocket
-
 			break;
-		}
-
-		/*DYNAMIC MESSAGE TYPING*/
-		/*Need to move this part to a member function of Trainer class*/
-
-		//	medicine_pocket.displayMedicines(&scene_state, &blur_scene, &player, &notification);
-
-		//	break;
-		//case TRANSIT_FROM_MAIN_TO_BATTLE:
-
-		//	// there should be some animation here
-
-		//	break;
 		}
 
 		FsSwapBuffers();
