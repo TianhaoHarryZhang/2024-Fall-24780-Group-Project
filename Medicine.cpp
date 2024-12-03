@@ -42,7 +42,7 @@ void MedicinePocket::displayMedicines(Trainer *trainer, Scene_State *scene_state
     YsRawPngDecoder *png = (YsRawPngDecoder *)medicine_scene;
     // make an array of medicine images
     YsRawPngDecoder potion1, potion2, potion3;
-    if (YSOK != potion1.Decode("images/medicine/potion1.png") or YSOK != potion2.Decode("images/medicine/potion2.png") or YSOK != potion3.Decode("images/medicine/potion3.png"))
+    if (YSOK != potion1.Decode("images/medicine/potion1.png") || YSOK != potion2.Decode("images/medicine/potion2.png") || YSOK != potion3.Decode("images/medicine/potion3.png"))
     {
         printf("Failed to open file.\n");
         return;
