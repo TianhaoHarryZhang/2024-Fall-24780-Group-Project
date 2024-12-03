@@ -12,22 +12,22 @@ const int Trainer::grid[22][38] = {
 	{0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0},
 	{0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0},
 	{0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0},
-	{1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0},
-	{1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0},
-	{1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0},
+	{1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0},
+	{1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0},
+	{1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0},
 	{0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0},
 	{1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
 	{1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
 	{1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
 	{0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
 	{0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-	{0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+	{0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
 	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0},
 	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0},
-	{1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0},
-	{0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0},
+	{1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0},
+	{0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0},
 	{0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0},
-	{0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0},
+	{0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0},
 	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 };
 
@@ -173,123 +173,157 @@ bool Trainer::heal()
 	return needHeal;
 }
 
+bool Trainer::isFacing(const People& person, int gridSize) const
+{
+	int trainerGridX = static_cast<int>(x / gridSize);
+	int trainerGridY = static_cast<int>(y / gridSize);
+	int personGridX = static_cast<int>(person.x / gridSize);
+	int personGridY = static_cast<int>(person.y / gridSize);
+
+	switch (facing_direction)
+	{
+	case 1:
+		return trainerGridX == personGridX && trainerGridY - 1 == personGridY;	//facing north
+	case 2:
+		return trainerGridX == personGridX && trainerGridY + 2 == personGridY;	//facing south
+	case 3:
+		return ((trainerGridY == personGridY || trainerGridY + 1 == personGridY) && trainerGridX - 1 == personGridX);	//facing west
+	case 4:
+		return ((trainerGridY == personGridY || trainerGridY + 1 == personGridY) && trainerGridX + 1 == personGridX);	//facing east
+	default:
+		return false;
+	}
+}
+
 void Trainer::interactWith(People& otherCharacter)
 {
-	//add code to initiate conversation
-
-	//add code for conversation
 	inConversation = true;
 	moving = false;
 
+	printf("Trainer: Hello, %s!\n", otherCharacter.getName());
+
+	for (int i = 0; i < 10; ++i)
+	{
+		const char* message = otherCharacter.getMessage(i);
+		if (message == nullptr) break;
+
+		printf("%s: %s\n", otherCharacter.getName(), message);
+
+		FsSleep(1000);
+	}
+
+	printf("Trainer: Goodbye, %s!\n", otherCharacter.getName());
+
 	inConversation = false;
+	moving = true;
 }
 
-void Trainer::displayPokemon(Scene_State *scene_state, void *pokemon_scene, YsSoundPlayer *player, YsSoundPlayer::SoundData *sound)
-{
-	YsRawPngDecoder *png = (YsRawPngDecoder *)pokemon_scene;
-	// make an array of medicine images
-	YsRawPngDecoder animal1, animal2;
-	if (YSOK != animal1.Decode("images/monster/dog.png") or YSOK != animal2.Decode("images/monster/rabbit.png"))
-	{
-		printf("Failed to open file.\n");
-		return;
-	}
-
-	// Flip the images once after decoding if needed
-	animal1.Flip();
-	animal2.Flip();
-
-	generate_number_png(60, 28, 28, 20, 214, 202, 172, "number1");
-	generate_number_png(80, 28, 28, 20, 214, 202, 172, "number2");
-
-	for (;;)
-	{
-		FsPollDevice();
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		auto key = FsInkey();
-
-		if (FSKEY_ESC == key)
-		{
-			exit(0);
-		}
-
-		int mouseEvent;
-		int lb, mb, rb, mx, my;
-		int cure = 0;
-		mouseEvent = FsGetMouseEvent(lb, mb, rb, mx, my);
-		if (FSMOUSEEVENT_LBUTTONDOWN == mouseEvent)
-		{
-			printf("Mouse down at %d %d\n", mx, my);
-			if (mx > 300 && mx < 550 && my > 161 && my < 521)
-			{
-				// TODO: get the pokemon's name and the HP
-				printf("Animal1 clicked\n");
-
-				// play sound
-				player->PlayOneShot(*sound);
-			}
-			else if (mx > 700 && mx < 950 && my > 161 && my < 521)
-			{
-				// TODO: get the pokemon's name and the HP
-				printf("Animal2 clicked\n");
-				// play sound
-				player->PlayOneShot(*sound);
-			}
-			*scene_state = IN_BATTLE_SCENE;
-			break;
-		}
-
-		glColor3ub(0, 0, 0);
-		// glRasterPos2d(380, 445);
-		//  TODO: get pokemon's HP
-		//  YsGlDrawFontBitmap16x20("60");
-		YsRawPngDecoder number1;
-		if (YSOK != number1.Decode("number1.png"))
-		{
-			printf("Failed to open number1.\n");
-			return;
-		}
-		number1.Flip();
-		glPixelZoom(1, 1);
-		glRasterPos2i(380, 445);
-		glDrawPixels(number1.wid, number1.hei, GL_RGBA, GL_UNSIGNED_BYTE, number1.rgba);
-		// width range  300 < x < 550 (width of the image is 623, ratio 0.4; 627 * 0.4 = 250)
-		// height range 520 < y < 1413 (height of the image is 898, ratio 0.4; 893 * 0.4 = 359)
-		glRasterPos2i(300, 520); // Example position for animal1
-		glPixelZoom(0.4, 0.4);
-		glDrawPixels(animal1.wid, animal1.hei, GL_RGBA, GL_UNSIGNED_BYTE, animal1.rgba);
-
-		glColor3ub(0, 0, 0);
-		// glRasterPos2d(780, 445);
-		//  TODO: get pokemon's HP
-		//  YsGlDrawFontBitmap16x20("80");
-		//  printf("Potion1 Width: %d Height: %d\n", animal1.wid, animal1.hei);
-		YsRawPngDecoder number2;
-		if (YSOK != number2.Decode("number2.png"))
-		{
-			printf("Failed to open number2.\n");
-			return;
-		}
-		number2.Flip();
-		glPixelZoom(1, 1);
-		glRasterPos2d(780, 445);
-		glDrawPixels(number2.wid, number2.hei, GL_RGBA, GL_UNSIGNED_BYTE, number2.rgba);
-		// width range 700 < x < 950 (width of the image is 627, ratio 0.4; 627 * 0.4 = 250)
-		// height range 520 < y < 1415 (height of the image is 898, ratio 0.4; 898 * 0.4 = 359)
-		glRasterPos2i(700, 520); // Example position for potion2
-		glPixelZoom(0.4, 0.4);
-		glDrawPixels(animal2.wid, animal2.hei, GL_RGBA, GL_UNSIGNED_BYTE, animal2.rgba);
-
-		// printf("Potion2 Width: %d Height: %d\n", animal2.wid, animal2.hei);
-
-		glPixelZoom(1, 1);
-		glRasterPos2i(0, png->hei - 1);
-		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glDrawPixels(png->wid, png->hei, GL_RGBA, GL_UNSIGNED_BYTE, png->rgba);
-
-		FsSwapBuffers();
-		FsSleep(10);
-	}
-}
+//void Trainer::displayPokemon(Scene_State *scene_state, void *pokemon_scene, YsSoundPlayer *player, YsSoundPlayer::SoundData *sound)
+//{
+//	YsRawPngDecoder *png = (YsRawPngDecoder *)pokemon_scene;
+//	// make an array of medicine images
+//	YsRawPngDecoder animal1, animal2;
+//	if (YSOK != animal1.Decode("images/monster/dog.png") or YSOK != animal2.Decode("images/monster/rabbit.png"))
+//	{
+//		printf("Failed to open file.\n");
+//		return;
+//	}
+//
+//	// Flip the images once after decoding if needed
+//	animal1.Flip();
+//	animal2.Flip();
+//
+//	generate_number_png(60, 28, 28, 20, 214, 202, 172, "number1");
+//	generate_number_png(80, 28, 28, 20, 214, 202, 172, "number2");
+//
+//	for (;;)
+//	{
+//		FsPollDevice();
+//		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//		auto key = FsInkey();
+//
+//		if (FSKEY_ESC == key)
+//		{
+//			exit(0);
+//		}
+//
+//		int mouseEvent;
+//		int lb, mb, rb, mx, my;
+//		int cure = 0;
+//		mouseEvent = FsGetMouseEvent(lb, mb, rb, mx, my);
+//		if (FSMOUSEEVENT_LBUTTONDOWN == mouseEvent)
+//		{
+//			printf("Mouse down at %d %d\n", mx, my);
+//			if (mx > 300 && mx < 550 && my > 161 && my < 521)
+//			{
+//				// TODO: get the pokemon's name and the HP
+//				printf("Animal1 clicked\n");
+//
+//				// play sound
+//				player->PlayOneShot(*sound);
+//			}
+//			else if (mx > 700 && mx < 950 && my > 161 && my < 521)
+//			{
+//				// TODO: get the pokemon's name and the HP
+//				printf("Animal2 clicked\n");
+//				// play sound
+//				player->PlayOneShot(*sound);
+//			}
+//			*scene_state = IN_BATTLE_SCENE;
+//			break;
+//		}
+//
+//		glColor3ub(0, 0, 0);
+//		// glRasterPos2d(380, 445);
+//		//  TODO: get pokemon's HP
+//		//  YsGlDrawFontBitmap16x20("60");
+//		YsRawPngDecoder number1;
+//		if (YSOK != number1.Decode("number1.png"))
+//		{
+//			printf("Failed to open number1.\n");
+//			return;
+//		}
+//		number1.Flip();
+//		glPixelZoom(1, 1);
+//		glRasterPos2i(380, 445);
+//		glDrawPixels(number1.wid, number1.hei, GL_RGBA, GL_UNSIGNED_BYTE, number1.rgba);
+//		// width range  300 < x < 550 (width of the image is 623, ratio 0.4; 627 * 0.4 = 250)
+//		// height range 520 < y < 1413 (height of the image is 898, ratio 0.4; 893 * 0.4 = 359)
+//		glRasterPos2i(300, 520); // Example position for animal1
+//		glPixelZoom(0.4, 0.4);
+//		glDrawPixels(animal1.wid, animal1.hei, GL_RGBA, GL_UNSIGNED_BYTE, animal1.rgba);
+//
+//		glColor3ub(0, 0, 0);
+//		// glRasterPos2d(780, 445);
+//		//  TODO: get pokemon's HP
+//		//  YsGlDrawFontBitmap16x20("80");
+//		//  printf("Potion1 Width: %d Height: %d\n", animal1.wid, animal1.hei);
+//		YsRawPngDecoder number2;
+//		if (YSOK != number2.Decode("number2.png"))
+//		{
+//			printf("Failed to open number2.\n");
+//			return;
+//		}
+//		number2.Flip();
+//		glPixelZoom(1, 1);
+//		glRasterPos2d(780, 445);
+//		glDrawPixels(number2.wid, number2.hei, GL_RGBA, GL_UNSIGNED_BYTE, number2.rgba);
+//		// width range 700 < x < 950 (width of the image is 627, ratio 0.4; 627 * 0.4 = 250)
+//		// height range 520 < y < 1415 (height of the image is 898, ratio 0.4; 898 * 0.4 = 359)
+//		glRasterPos2i(700, 520); // Example position for potion2
+//		glPixelZoom(0.4, 0.4);
+//		glDrawPixels(animal2.wid, animal2.hei, GL_RGBA, GL_UNSIGNED_BYTE, animal2.rgba);
+//
+//		// printf("Potion2 Width: %d Height: %d\n", animal2.wid, animal2.hei);
+//
+//		glPixelZoom(1, 1);
+//		glRasterPos2i(0, png->hei - 1);
+//		glEnable(GL_DEPTH_TEST);
+//		glEnable(GL_BLEND);
+//		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+//		glDrawPixels(png->wid, png->hei, GL_RGBA, GL_UNSIGNED_BYTE, png->rgba);
+//
+//		FsSwapBuffers();
+//		FsSleep(10);
+//	}
+//}

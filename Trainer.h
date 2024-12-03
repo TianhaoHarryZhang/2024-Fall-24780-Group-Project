@@ -17,20 +17,15 @@ private:
     static const int grid[22][38];
     YsRawPngDecoder Trainer_png;
     bool inConversation;
-    Pokemon pokemon[2] = {Pokemon("Dog", "Lv. 1", 100, 100, Skill("Bite", 10), Skill("Scratch", 8), "dog"), Pokemon("Rabbit", "Lv. 1", 80, 80, Skill("Bite", 10), Skill("Scratch", 8), "rabbit")};
+    //Pokemon pokemon[2] = {Pokemon("Dog", "Lv. 1", 100, 100, Skill("Bite", 10), Skill("Scratch", 8), "dog"), Pokemon("Rabbit", "Lv. 1", 80, 80, Skill("Bite", 10), Skill("Scratch", 8), "rabbit")};
 
 public:
 	Trainer(const char *name, float x = 0.0, float y = 0.0);
-	void move(float dx, float dy);
-	bool heal();
-	void interactWith(People &otherCharacter);
-	void displayPokemon(Scene_State *scene_state, void *pokemon_scene, YsSoundPlayer *player, YsSoundPlayer::SoundData *sound);
 
     int map_wid;
     int map_hei;
     int grid_size;
 
-    Trainer(const char* name, float x = 0.0, float y = 0.0);
     bool moving;
     bool isMoving();
 
@@ -50,7 +45,8 @@ public:
     bool needHeal;
     bool heal();
 
+    bool isFacing(const People& person, int gridSize) const;
     void interactWith(People& otherCharacter);
 
-    void displayPokemon(void *pokemon_scene);
+    //void displayPokemon(Scene_State* scene_state, void* pokemon_scene, YsSoundPlayer* player, YsSoundPlayer::SoundData* sound);
 };

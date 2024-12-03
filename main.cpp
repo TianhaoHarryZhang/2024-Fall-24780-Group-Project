@@ -8,8 +8,8 @@
 #include "yspngenc.h"
 #include "utility.h"
 #include "Trainer.h"
-#include "Medicine.h"
-#include "BattleScene.h"
+//#include "Medicine.h"
+//#include "BattleScene.h"
 #include "Scene.h"
 
 void Render(void *incoming)
@@ -34,25 +34,31 @@ int main(void)
 
 	Message message;
 
-	Trainer trainer("Ash", 68, 34);
+	//Trainer trainer("Ash", 68, 102);
+	Trainer trainer("Ash", 442, 238);
+	People nurse("Nurse", 480, 255);
+	People comp("Comp", 755, 629);
+	
+	nurse.loadPeople("images/trainer/nurse.png");
+	comp.loadPeople("images/trainer/computer.png");
 
-	MedicinePocket medicine_pocket;
+	//MedicinePocket medicine_pocket;
 
-	PokemonUI UI;
+	//PokemonUI UI;
 
-	YsSoundPlayer player;
-	player.MakeCurrent();
-	player.Start();
-	FsChangeToProgramDir();
+	//YsSoundPlayer player;
+	//player.MakeCurrent();
+	//player.Start();
+	//FsChangeToProgramDir();
 
-	YsSoundPlayer::SoundData bkground, notification;
-	load_sound(bkground, "audio/Background.wav");
-	load_sound(notification, "audio/Notification_1.wav");
+	//YsSoundPlayer::SoundData bkground, notification;
+	//load_sound(bkground, "audio/Background.wav");
+	//load_sound(notification, "audio/Notification_1.wav");
 
-	player.PlayBackground(bkground);
+	//player.PlayBackground(bkground);
 
 	Scene_State scene_state = IN_LOAD_SCENE;
-	scene_state = IN_BATTLE_SCENE;
+	scene_state = IN_MAIN_SCENE;
 
 	if (YSOK == main_scene.Decode("images/new_version.png"))
 	{
@@ -94,9 +100,9 @@ int main(void)
 		switch (scene_state)
 		{
 
-		case IN_LOAD_SCENE:
+		//case IN_LOAD_SCENE:
 
-			game_loading(&scene_state);
+		//	game_loading(&scene_state);
 
 		case IN_MAIN_SCENE:
 			//  draw the background image
@@ -105,6 +111,13 @@ int main(void)
 			int w = main_scene.wid;
 			int h = main_scene.hei;
 			int grid_size = 34;
+
+			nurse.addMessage("Welcome to the Pokemon Center!");
+			nurse.addMessage("Would you like to heal your Pokemon?");
+			nurse.addMessage("Take care!");
+
+			comp.addMessage("I am a computer.");
+			comp.addMessage("Accessing Pokemon storage system.");
 
 			// move the trainer
 			if (trainer.moving == true)
@@ -159,71 +172,79 @@ int main(void)
 				trainer.drawTrainer();
 			}
 
-			// if (key == FSKEY_SPACE)
-			// {
-			// 	trainer.isMoving == false; // disable moving during the conversation
-
-			// 	People *people = identify_people_faced_by_trainer(trainer);
-
-			// 	trainer.conversation(people); // Inside the trainer class definition, there should be a while loop for the conversation
+			if (key == FSKEY_SPACE)
+			{
+				if (trainer.isFacing(nurse, grid_size))
+				{
+					trainer.interactWith(nurse);
+				}
+				else if (trainer.isFacing(comp, grid_size))
+				{
+					trainer.interactWith(comp);
+				}
+			}
 
 			// 	if (people->name == "computer trainer")
 			// 	{
 			// 		scene_state = IN_BATTLE_SCENE;
 			// 	}
 			// }
-			break;
 
-		case IN_BATTLE_SCENE:
-
-			UI.battle(&scene_state, &player, &notification);
-
-			// everything that happens in the battle scene
+			nurse.drawPeople();
+			comp.drawPeople();
 
 			break;
 
-		case IN_ANIMAL_POCKET:
+		//case IN_BATTLE_SCENE:
 
-			trainer.displayPokemon(&scene_state, &blur_scene, &player, &notification);
+		//	UI.battle(&scene_state, &player, &notification);
 
-			// everything that happens in the animal pocket
+		//	// everything that happens in the battle scene
 
-			break;
+		//	break;
 
-		case IN_MEDICINE_POCKET:
+		//case IN_ANIMAL_POCKET:
 
-			medicine_pocket.displayMedicines(&scene_state, &blur_scene, &player, &notification);
+		//	trainer.displayPokemon(&scene_state, &blur_scene, &player, &notification);
 
-			break;
-		case TRANSIT_FROM_MAIN_TO_BATTLE:
+		//	// everything that happens in the animal pocket
 
-			// there should be some animation here
+		//	break;
 
-			break;
+		//case IN_MEDICINE_POCKET:
+
+		//	medicine_pocket.displayMedicines(&scene_state, &blur_scene, &player, &notification);
+
+		//	break;
+		//case TRANSIT_FROM_MAIN_TO_BATTLE:
+
+		//	// there should be some animation here
+
+		//	break;
 		}
 
 		/*DYNAMIC MESSAGE TYPING*/
 		/*Need to move this part to a member function of Trainer class*/
 
-		if (message.typing_dynamic_message)
-		{
-			message.num_words_typed += 1;
+		//if (message.typing_dynamic_message)
+		//{
+		//	message.num_words_typed += 1;
 
-			if (message.num_words_typed > std::strlen(message.message_to_type))
-			{
-				message.typing_dynamic_message = false;
-				message.num_words_typed = 0;
+		//	if (message.num_words_typed > std::strlen(message.message_to_type))
+		//	{
+		//		message.typing_dynamic_message = false;
+		//		message.num_words_typed = 0;
 
-				// chat_box.show_typed_message = true;
-				// player.Stop(type);
-			}
-			else
-			{
-				// void type_character(char* message_pointer, float start_x, float start_y, int start, int numChars);
-				message.type_character(message.message_to_type, 100, 100, 0, message.num_words_typed);
-				// chat_box.move_cursor();
-			}
-		}
+		//		// chat_box.show_typed_message = true;
+		//		// player.Stop(type);
+		//	}
+		//	else
+		//	{
+		//		// void type_character(char* message_pointer, float start_x, float start_y, int start, int numChars);
+		//		message.type_character(message.message_to_type, 100, 100, 0, message.num_words_typed);
+		//		// chat_box.move_cursor();
+		//	}
+		//}
 
 		FsSwapBuffers();
 
