@@ -188,7 +188,7 @@ bool Trainer::isFacing(const People &person, int gridSize) const
 	}
 }
 
-void Trainer::interactWith(People& otherCharacter, YsRawPngDecoder& main_scene, People& nurse, People& comp)
+void Trainer::interactWith(People& otherCharacter, YsRawPngDecoder& main_scene, People& nurse, People& comp, Scene_State* scene_state)
 {
 	inConversation = true;
 	moving = false;
@@ -237,7 +237,6 @@ void Trainer::interactWith(People& otherCharacter, YsRawPngDecoder& main_scene, 
 		else
 		{
 			comp.addMessage("Get ready for battle!");
-			Scene_State scene_state = TRANSIT_FROM_MAIN_TO_BATTLE;
 		}
 	}
 
@@ -282,6 +281,13 @@ void Trainer::interactWith(People& otherCharacter, YsRawPngDecoder& main_scene, 
 			FsSleep(50);
 		}
 		FsSleep(1000);
+	}
+
+	// render transition scene
+	if (strcmp(otherCharacter.getName(), "Gary") == 0 && pokemon[0].getHP() > 0 && pokemon[1].getHP() > 0)
+	{
+		battle_start();
+		*scene_state = IN_BATTLE_SCENE;
 	}
 
 	inConversation = false;

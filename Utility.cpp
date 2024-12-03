@@ -67,7 +67,7 @@ void battle_start(void)
 
         if (n == 30) //
         {
-            FsSleep(16000);
+            FsSleep(6000);
             break;
         }
 

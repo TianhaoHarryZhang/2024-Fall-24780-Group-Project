@@ -174,11 +174,11 @@ int main(void)
 			{
 				if (trainer.isFacing(nurse, grid_size))
 				{
-					trainer.interactWith(nurse, main_scene, nurse, comp);
+					trainer.interactWith(nurse, main_scene, nurse, comp, &scene_state);
 				}
 				else if (trainer.isFacing(comp, grid_size))
 				{
-					trainer.interactWith(comp, main_scene, nurse, comp);
+					trainer.interactWith(comp, main_scene, nurse, comp, &scene_state);
 				}
 			}
 
