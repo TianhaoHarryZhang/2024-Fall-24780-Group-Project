@@ -70,7 +70,7 @@ if (Test-Path $outputFile) {
 #### Village Scene
 ![image (4)](https://github.com/user-attachments/assets/3505a663-d5ce-4fda-8e43-95dae27cca41)
 
-The game's first scene is where you can see the trainer, doctor, and the rival character(computer). To navigate the trainer, use `<⌃>⌄`. The trainer can initiate a talk with the doctor or the rival by pressing space key. You only need to press space key ONCE as the all messages will continuously be displayed in the box
+The game's first scene is where you can see the trainer, doctor, and the rival character(computer). To navigate the trainer, use `<⌃>⌄`. The trainer can initiate a talk with the doctor or the rival by pressing space key. You only need to press space key ONCE as the all messages continue to be sequentially displayed in the box
 
 #### Battle Scene
 ![image (1)](https://github.com/user-attachments/assets/24e0b2ab-3005-4eb5-81dc-6eb455107cf8)
