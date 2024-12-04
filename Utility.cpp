@@ -55,7 +55,7 @@ void battle_finish(bool UserWin)
             exit(0);
         }
  
-
+        glPixelZoom(1, 1);
         //display computer trainer image
         glRasterPos2d(computer_x, (double)(610.f));
 
@@ -68,7 +68,8 @@ void battle_finish(bool UserWin)
             glDrawPixels(computer.wid, computer.hei, GL_RGBA, GL_UNSIGNED_BYTE, computer.rgba);
         }
         
-        
+
+        glPixelZoom(1, 1);
         //display user trainer image
         glRasterPos2d(user_x, (double)(610.f));
 
@@ -81,7 +82,7 @@ void battle_finish(bool UserWin)
         }
         
         
-
+        glPixelZoom(1, 1);
         //display battle-starting background image
         glRasterPos2d(130.0, (double)(620));
         glDrawPixels(bg.wid, bg.hei, GL_RGBA, GL_UNSIGNED_BYTE, bg.rgba);
@@ -92,7 +93,7 @@ void battle_finish(bool UserWin)
         if (n==30) //
         {
 
-            FsSleep(6000);
+            FsSleep(3000);
             break;
         }
 
@@ -155,15 +156,18 @@ void battle_start (void)
             exit(0);
         }
 
+        glPixelZoom(1, 1);
         // display computer trainer image
         glRasterPos2d(computer_x, (double)(610.f));
         glDrawPixels(computer.wid, computer.hei, GL_RGBA, GL_UNSIGNED_BYTE, computer.rgba);
 
+        glPixelZoom(1, 1);
         // display user trainer image
         glRasterPos2d(user_x, (double)(610.f));
         glDrawPixels(user.wid, user.hei, GL_RGBA, GL_UNSIGNED_BYTE, user.rgba);
         
 
+        glPixelZoom(1, 1);
         // display battle-starting background image
         glRasterPos2d(130.0, (double)(620));
         glDrawPixels(bg.wid, bg.hei, GL_RGBA, GL_UNSIGNED_BYTE, bg.rgba);
@@ -172,7 +176,7 @@ void battle_start (void)
 
         if (n == 30) //
         {
-            FsSleep(6000);
+            FsSleep(3000);
             break;
         }
 
@@ -252,13 +256,13 @@ void game_loading(Scene_State *scene_state)
 
         FsSwapBuffers();
 
-        if (n == 2000) //
+        if (n == 1000) //
         {
             break;
         }
 
         n += 1;
-        x += 0.605f;
+        x += 1.210f;
     }
 
     *scene_state = IN_MAIN_SCENE;
