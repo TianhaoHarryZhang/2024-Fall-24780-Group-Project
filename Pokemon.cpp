@@ -109,7 +109,14 @@ void Pokemon::renderSkillEffect(const Skill &skill, int positionX, int positionY
             bite_up.Flip();
             bite_down.Flip();
             glPixelZoom(0.5, 0.5);
-            positionX = positionX + 150;
+            if (positionX > (1225/2))
+            {
+                positionX = positionX - 150;
+            }
+            else
+            {
+                positionX = positionX + 150;
+            }
             positionY = positionY - 50;
             glRasterPos2i(positionX, positionY);
             glEnable(GL_DEPTH_TEST);
