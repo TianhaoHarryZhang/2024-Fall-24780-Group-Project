@@ -10,9 +10,11 @@
 #include "Scene.h"
 #include "yssimplesound.h"
 
-void battle_start(void)
+
+void battle_finish(bool UserWin)
 {
-    YsRawPngDecoder bg, user, computer;
+
+    YsRawPngDecoder bg, user, computer, user_defeated, computer_defeated;
 
     int n = 0;
 
@@ -20,7 +22,11 @@ void battle_start(void)
     float computer_x = 50.f;
     float v = 5.f;
 
-    if (YSOK != bg.Decode("images/battle_start/fight_bg.png") || YSOK != user.Decode("images/battle_start/fight_user.png") || YSOK != computer.Decode("images/battle_start/fight_computer.png"))
+    if (YSOK != bg.Decode("images/battle_start/fight_bg.png") 
+        || YSOK != user.Decode("images/battle_start/fight_user.png") 
+        || YSOK != computer.Decode("images/battle_start/fight_computer.png")
+        || YSOK != computer_defeated.Decode("images/battle_start/fight_computer_defeated.png")
+        || YSOK != user_defeated.Decode("images/battle_start/fight_user_defeated.png"))
     {
         printf("Failed to open image files.\n");
         //*scene_state = IN_MAIN_SCENE;
@@ -31,6 +37,108 @@ void battle_start(void)
         bg.Flip();
         user.Flip();
         computer.Flip();
+        user_defeated.Flip();
+        computer_defeated.Flip();
+    }
+
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    for (;;)
+    {
+        FsPollDevice();
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        
+        if (FsInkey() == FSKEY_ESC)
+        {
+            exit(0);
+        }
+ 
+
+        //display computer trainer image
+        glRasterPos2d(computer_x, (double)(610.f));
+
+        if (!UserWin && n==30)
+        {
+            glDrawPixels(computer_defeated.wid, computer_defeated.hei, GL_RGBA, GL_UNSIGNED_BYTE, computer_defeated.rgba);
+        }
+        else
+        {
+            glDrawPixels(computer.wid, computer.hei, GL_RGBA, GL_UNSIGNED_BYTE, computer.rgba);
+        }
+        
+        
+        //display user trainer image
+        glRasterPos2d(user_x, (double)(610.f));
+
+        if (UserWin && n==30)
+        {
+            glDrawPixels(user_defeated.wid, user_defeated.hei, GL_RGBA, GL_UNSIGNED_BYTE, user_defeated.rgba);
+        }
+        else{
+            glDrawPixels(user.wid, user.hei, GL_RGBA, GL_UNSIGNED_BYTE, user.rgba);
+        }
+        
+        
+
+        //display battle-starting background image
+        glRasterPos2d(130.0, (double)(620));
+        glDrawPixels(bg.wid, bg.hei, GL_RGBA, GL_UNSIGNED_BYTE, bg.rgba);
+
+
+        FsSwapBuffers();
+
+        if (n==30) //
+        {
+
+            FsSleep(6000);
+            break;
+        }
+
+        n += 1;
+        user_x -= v;
+        computer_x += v;
+
+        FsSleep(10);
+    }
+
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_BLEND);
+
+    return;
+
+}
+
+
+
+
+void battle_start (void)
+{
+    YsRawPngDecoder bg, user, computer;
+
+    int n = 0;
+
+    float user_x = 910.f;
+    float computer_x = 50.f;
+    float v = 5.f;
+
+    if (YSOK != bg.Decode("images/battle_start/fight_bg.png") 
+        || YSOK != user.Decode("images/battle_start/fight_user.png") 
+        || YSOK != computer.Decode("images/battle_start/fight_computer.png"))
+        //|| YSOK != computer.Decode("images/battle_start/fight_computer_defeated.png")
+        //|| YSOK != computer.Decode("images/battle_start/fight_user_defeated.png"))
+    {
+        printf("Failed to open image files.\n");
+        //*scene_state = IN_MAIN_SCENE;
+        return;
+    }
+    else
+    {
+        bg.Flip();
+        user.Flip();
+        computer.Flip();
+        
     }
 
     glEnable(GL_DEPTH_TEST);
@@ -49,15 +157,12 @@ void battle_start(void)
 
         // display computer trainer image
         glRasterPos2d(computer_x, (double)(610.f));
-
         glDrawPixels(computer.wid, computer.hei, GL_RGBA, GL_UNSIGNED_BYTE, computer.rgba);
 
         // display user trainer image
         glRasterPos2d(user_x, (double)(610.f));
         glDrawPixels(user.wid, user.hei, GL_RGBA, GL_UNSIGNED_BYTE, user.rgba);
-        // glEnable(GL_DEPTH_TEST);
-        // glEnable(GL_BLEND);
-        // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        
 
         // display battle-starting background image
         glRasterPos2d(130.0, (double)(620));
@@ -77,6 +182,9 @@ void battle_start(void)
 
         FsSleep(10);
     }
+
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_BLEND);
 
     return;
 }
