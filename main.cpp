@@ -114,6 +114,7 @@ int main(void)
 		case IN_MAIN_SCENE:
 			NPC_pokemon_hp = 100;
 			//  draw the background image
+			glPixelZoom(1, 1);
 			glRasterPos2i(0, main_scene.hei - 1);
 			glDrawPixels(main_scene.wid, main_scene.hei, GL_RGBA, GL_UNSIGNED_BYTE, main_scene.rgba);
 
