@@ -46,7 +46,7 @@ void Pokemon::render(int positionX, int positionY, float scale, int direction)
 void Pokemon::attackAnimation(int positionX, int positionY, float scale, int direction, int *animation_counter, bool *in_animation)
 {
     // std::cout << name << " performs an attack animation!" << std::endl;
-    if (*animation_counter < 20)
+    if (*animation_counter < 10)
     {
         int randX = rand() % 20 - 10;
         positionX += randX;
@@ -97,7 +97,7 @@ void Pokemon::renderSkillEffect(const Skill &skill, int positionX, int positionY
 {
     if (skill.name == "Bite")
     {
-        if (*skill_animation_counter < 20)
+        if (*skill_animation_counter < 10)
         {
             std::cout << "Bite effect is displayed!" << std::endl;
             YsRawPngDecoder bite_up, bite_down;
@@ -142,7 +142,7 @@ void Pokemon::renderSkillEffect(const Skill &skill, int positionX, int positionY
     }
     else if (skill.name == "Scratch")
     {
-        if (*skill_animation_counter < 20)
+        if (*skill_animation_counter < 10)
         {
             std::cout << "Scratch effect is displayed!" << std::endl;
             YsRawPngDecoder scratch;
