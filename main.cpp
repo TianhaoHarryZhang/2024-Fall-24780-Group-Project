@@ -60,7 +60,6 @@ int main(void)
 	player.PlayBackground(bkground);
 
 	Scene_State scene_state = IN_LOAD_SCENE;
-	scene_state = IN_MAIN_SCENE;
 
 	if (YSOK == main_scene.Decode("images/new_version.png"))
 	{
@@ -206,10 +205,6 @@ int main(void)
 		case IN_MEDICINE_POCKET:
 
 			medicine_pocket.displayMedicines(&trainer, &scene_state, &blur_scene, &player, &notification);
-
-			break;
-
-		case TRANSIT_FROM_MAIN_TO_BATTLE:
 
 			break;
 		}

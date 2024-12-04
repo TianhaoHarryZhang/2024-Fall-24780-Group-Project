@@ -210,8 +210,8 @@ void Trainer::interactWith(People& otherCharacter, YsRawPngDecoder& main_scene, 
 			nurse.addMessage("Let me heal them for you...");
 			nurse.addMessage("Your Codeemon are now fully healed!");
 
-			pokemon[0].takeDamage(-(pokemon[0].getHP() - 100));
-			pokemon[1].takeDamage(-(pokemon[1].getHP() - 80));
+			pokemon[0].hp = 100;
+			pokemon[1].hp = 80;
 		}
 		else
 		{
