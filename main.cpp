@@ -60,8 +60,9 @@ int main(void)
 	player.PlayBackground(bkground);
 
 	Scene_State scene_state = IN_LOAD_SCENE;
+	// scene_state = IN_MAIN_SCENE;
 
-	if (YSOK == main_scene.Decode("images/new_version.png"))
+	if (YSOK == main_scene.Decode("images/new_version_resized.png"))
 	{
 		printf("Wid %d Hei %d\n", main_scene.wid, main_scene.hei);
 		main_scene.Flip();
@@ -83,9 +84,9 @@ int main(void)
 		return 1;
 	}
 
-	FsOpenWindow(0, 0, main_scene.wid, main_scene.hei, 1);
+	FsOpenWindow(0, 0, blur_scene.wid, blur_scene.hei, 1);
 
-	//battle_start();
+	// battle_start();
 
 	for (;;)
 	{
