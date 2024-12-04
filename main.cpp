@@ -80,7 +80,7 @@ int main(void)
 
 	FsOpenWindow(0, 0, main_scene.wid, main_scene.hei, 1);
 
-	battle_start();
+	//battle_start();
 
 	for (;;)
 	{
