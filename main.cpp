@@ -34,8 +34,7 @@ int main(void)
 
 	Message message;
 
-	// Trainer trainer("Ash", 68, 102); // trainer start location
-	Trainer trainer("Ash", 714, 629);
+	Trainer trainer("Ash", 646, 408); // trainer start location
 	People nurse("Nurse Joy", 480, 255);
 	People comp("Gary", 755, 629);
 
@@ -62,7 +61,7 @@ int main(void)
 	Scene_State scene_state = IN_LOAD_SCENE;
 	// scene_state = IN_MAIN_SCENE;
 
-	if (YSOK == main_scene.Decode("images/new_version_resized.png"))
+	if (YSOK == main_scene.Decode("images/main_scene_final_edit.png"))
 	{
 		printf("Wid %d Hei %d\n", main_scene.wid, main_scene.hei);
 		main_scene.Flip();
