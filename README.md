@@ -25,7 +25,7 @@ As the group project required by CMU 24780 Engineering Computation, Codeemon is 
 pip install Pillow==9.4.0
 ```
 
-### MacOS Compiling Commands
+### MacOS Compiling Commands (PLEASE REDO THE COMPILATION EVEN THE EXE EXISTS IN THE FOLDER)
 
 ```bash
 mkdir -p test.app/Contents/MacOS
