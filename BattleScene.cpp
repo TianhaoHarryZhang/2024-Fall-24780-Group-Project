@@ -509,6 +509,7 @@ int PokemonUI::battle(Trainer *trainer, float *NPC_pokemon_hp, Scene_State *scen
         {
             std::cout << "Defeat" << std::endl;
             // Player out of pokemons, defeat
+            victory = false;
             terminate = true;
         }
         else if (pokemon1.hp <= 0)
@@ -522,6 +523,7 @@ int PokemonUI::battle(Trainer *trainer, float *NPC_pokemon_hp, Scene_State *scen
 
         if (terminate)
         {
+            battle_finish(victory);
             *scene_state = IN_MAIN_SCENE;
             break;
         }
