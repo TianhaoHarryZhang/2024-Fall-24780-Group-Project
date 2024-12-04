@@ -20,7 +20,6 @@ As the group project required by CMU 24780 Engineering Computation, Codeemon is 
 
 ![Loading](https://github.com/user-attachments/assets/91e9fe9a-99ff-4be5-a588-8ada27f2ce1f)
 
-
 ### Installation (Python 3.11 recommended)
 ```bash
 pip install Pillow==9.4.0
@@ -66,3 +65,26 @@ if (Test-Path $outputFile) {
 ```bash
 .\Script.ps1
 ```
+
+### How to play (Controls)
+#### Village Scene
+![image (4)](https://github.com/user-attachments/assets/3505a663-d5ce-4fda-8e43-95dae27cca41)
+
+The game's first scene is where you can see the trainer, doctor, and the rival character(computer). To navigate the trainer, use `<⌃>⌄`. The trainer can initiate a talk with the doctor or the rival by approaching.
+
+#### Battle Scene
+![image (1)](https://github.com/user-attachments/assets/24e0b2ab-3005-4eb5-81dc-6eb455107cf8)
+
+Once the battle starts, there are 3 options that the trainer can make, `Fight`, `Bag`, or `Pokemon`. To make a selection, click on the button using the mouse.
+`Fight` button will attack the opponent using the pokemon's special skill. `Bag` button shows the list of medicines that the trainer can use to heal the Pokemon. `Pokemon` shows Pokemons that the trainer currently has. 
+
+#### Animal Bag
+![image (2)](https://github.com/user-attachments/assets/4f6c7b9a-b970-44d9-a9fe-b6eec3cd6107)
+
+This scene shows the Pokemon that the trainer has and the Pokemon's current HP and features. Either Pokemon can be selected by clicking on it and it will return to the battle scene.
+
+#### Medicine Bag
+![image (3)](https://github.com/user-attachments/assets/f97ac890-e8ea-41eb-9ab1-c8a70db5a2d5)
+
+This scene shows the medicine that the trainer can use to heal the Pokemon. Click on the potion for usage. It will heal the Pokemon by its recovery point.
+
