@@ -7,6 +7,8 @@ void game_loading(Scene_State *scene_state);
 
 void battle_start (void);
 
+void battle_finish(bool UserWin);
+
 class Message
 {
 

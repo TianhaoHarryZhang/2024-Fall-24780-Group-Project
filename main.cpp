@@ -54,7 +54,7 @@ int main(void)
 	player.PlayBackground(bkground);
 
 	Scene_State scene_state = IN_LOAD_SCENE;
-	scene_state = IN_BATTLE_SCENE;
+	//scene_state = IN_BATTLE_SCENE;
 
 	if (YSOK == main_scene.Decode("images/main_background.png"))
 	{
@@ -79,6 +79,8 @@ int main(void)
 	}
 
 	FsOpenWindow(0, 0, main_scene.wid, main_scene.hei, 1);
+
+	battle_start();
 
 	for (;;)
 	{
