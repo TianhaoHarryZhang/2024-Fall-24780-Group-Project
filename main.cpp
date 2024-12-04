@@ -183,6 +183,10 @@ int main(void)
 					trainer.interactWith(comp, main_scene, nurse, comp, &scene_state);
 				}
 			}
+			if (key == FSKEY_ESC)
+			{
+				exit(0);
+			}
 
 			nurse.drawPeople();
 			comp.drawPeople();

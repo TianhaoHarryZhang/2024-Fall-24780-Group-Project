@@ -92,7 +92,7 @@ void battle_finish(bool UserWin)
         if (n==30) //
         {
 
-            FsSleep(6000);
+            FsSleep(3000);
             break;
         }
 
@@ -172,7 +172,7 @@ void battle_start (void)
 
         if (n == 30) //
         {
-            FsSleep(6000);
+            FsSleep(3000);
             break;
         }
 
@@ -252,13 +252,13 @@ void game_loading(Scene_State *scene_state)
 
         FsSwapBuffers();
 
-        if (n == 2000) //
+        if (n == 1000) //
         {
             break;
         }
 
         n += 1;
-        x += 0.605f;
+        x += 0.605f * 2;
     }
 
     *scene_state = IN_MAIN_SCENE;
