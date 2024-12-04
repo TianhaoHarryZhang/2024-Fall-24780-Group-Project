@@ -34,7 +34,13 @@ int main(void)
 
 	Message message;
 
-	Trainer trainer("Ash", 100, 100);
+	// Trainer trainer("Ash", 68, 102); // trainer start location
+	Trainer trainer("Ash", 714, 629);
+	People nurse("Nurse Joy", 480, 255);
+	People comp("Gary", 755, 629);
+
+	nurse.loadPeople("images/trainer/nurse.png");
+	comp.loadPeople("images/trainer/computer.png");
 
 	float NPC_pokemon_hp = 100;
 
@@ -54,9 +60,9 @@ int main(void)
 	player.PlayBackground(bkground);
 
 	Scene_State scene_state = IN_LOAD_SCENE;
-	scene_state = IN_BATTLE_SCENE;
+	scene_state = IN_MAIN_SCENE;
 
-	if (YSOK == main_scene.Decode("images/main_background.png"))
+	if (YSOK == main_scene.Decode("images/new_version.png"))
 	{
 		printf("Wid %d Hei %d\n", main_scene.wid, main_scene.hei);
 		main_scene.Flip();
@@ -88,6 +94,10 @@ int main(void)
 
 		auto key = FsInkey();
 
+		int grid_size = 34;
+		int w = main_scene.wid;
+		int h = main_scene.hei;
+
 		if (FSKEY_ESC == key)
 		{
 			break;
@@ -99,127 +109,107 @@ int main(void)
 		case IN_LOAD_SCENE:
 
 			game_loading(&scene_state);
+			break;
 
 		case IN_MAIN_SCENE:
 			NPC_pokemon_hp = 100;
 			//  draw the background image
+			glPixelZoom(1, 1);
+			glRasterPos2i(0, main_scene.hei - 1);
+			glDrawPixels(main_scene.wid, main_scene.hei, GL_RGBA, GL_UNSIGNED_BYTE, main_scene.rgba);
 
-			// glDrawPixels(main_scene.wid, main_scene.hei, GL_RGBA, GL_UNSIGNED_BYTE, main_scene.rgba);
+			// move the trainer
+			if (trainer.moving == true)
+			{
+				if (key == FSKEY_LEFT)
+				{
+					if (trainer.facing_direction != 3)
+					{
+						trainer.face_west(); // 1: north, 2: south, 3: west, 4:east
+					}
+					else
+					{
+						trainer.move_west(w, grid_size);
+					}
+				}
 
-			// // move the trainer
-			// if (trainer.isMoving == true)
-			// {
-			// 	if (key == FSKEY_LEFT)
-			// 	{
-			// 		if (trainer.facing_direction != 3)
-			// 		{
-			// 			trainer.face_west(); // 1: north, 2: south, 3: west, 4:east
-			// 		}
-			// 		else
-			// 		{
-			// 			trainer.move_west();
-			// 		}
-			// 	}
+				if (key == FSKEY_RIGHT)
+				{
+					if (trainer.facing_direction != 4)
+					{
+						trainer.face_east(); // 1: north, 2: south, 3: west, 4:east
+					}
+					else
+					{
+						trainer.move_east(w, grid_size);
+					}
+				}
 
-			// 	if (key == FSKEY_RIGHT)
-			// 	{
-			// 		if (trainer.facing_direction != 4)
-			// 		{
-			// 			trainer.face_east(); // 1: north, 2: south, 3: west, 4:east
-			// 		}
-			// 		else
-			// 		{
-			// 			trainer.move_east();
-			// 		}
-			// 	}
+				if (key == FSKEY_UP)
+				{
+					if (trainer.facing_direction != 1)
+					{
+						trainer.face_north(); // 1: north, 2: south, 3: west, 4:east
+					}
+					else
+					{
+						trainer.move_north(h, grid_size);
+					}
+				}
 
-			// 	if (key == FSKEY_UP)
-			// 	{
-			// 		if (trainer.facing_direction != 1)
-			// 		{
-			// 			trainer.face_north(); // 1: north, 2: south, 3: west, 4:east
-			// 		}
-			// 		else
-			// 		{
-			// 			trainer.move_north();
-			// 		}
-			// 	}
+				if (key == FSKEY_DOWN)
+				{
+					if (trainer.facing_direction != 2)
+					{
+						trainer.face_south(); // 1: north, 2: south, 3: west, 4:east
+					}
+					else
+					{
+						trainer.move_south(h, grid_size);
+					}
+				}
+				trainer.drawTrainer();
+			}
 
-			// 	if (key == FSKEY_DOWN)
-			// 	{
-			// 		if (trainer.facing_direction != 2)
-			// 		{
-			// 			trainer.face_south(); // 1: north, 2: south, 3: west, 4:east
-			// 		}
-			// 		else
-			// 		{
-			// 			trainer.move_south();
-			// 		}
-			// 	}
-			// }
+			if (key == FSKEY_SPACE)
+			{
+				if (trainer.isFacing(nurse, grid_size))
+				{
+					trainer.interactWith(nurse, main_scene, nurse, comp, &scene_state);
+				}
+				else if (trainer.isFacing(comp, grid_size))
+				{
+					trainer.interactWith(comp, main_scene, nurse, comp, &scene_state);
+				}
+			}
 
-			// if (key == FSKEY_SPACE)
-			// {
-			// 	trainer.isMoving == false; // disable moving during the conversation
+			nurse.drawPeople();
+			comp.drawPeople();
 
-			// 	People *people = identify_people_faced_by_trainer(trainer);
-
-			// 	trainer.conversation(people); // Inside the trainer class definition, there should be a while loop for the conversation
-
-			// 	if (people->name == "computer trainer")
-			// 	{
-			// 		scene_state = IN_BATTLE_SCENE;
-			// 	}
-			// }
 			break;
 
 		case IN_BATTLE_SCENE:
 
 			UI.battle(&trainer, &NPC_pokemon_hp, &scene_state, &player, &notification);
 			// everything that happens in the battle scene
-
 			break;
 
 		case IN_ANIMAL_POCKET:
 
 			trainer.displayPokemon(&trainer, &scene_state, &blur_scene, &player, &notification);
-
 			// everything that happens in the animal pocket
 
 			break;
 
 		case IN_MEDICINE_POCKET:
+
 			medicine_pocket.displayMedicines(&trainer, &scene_state, &blur_scene, &player, &notification);
 
 			break;
+
 		case TRANSIT_FROM_MAIN_TO_BATTLE:
 
-			// there should be some animation here
-
 			break;
-		}
-
-		/*DYNAMIC MESSAGE TYPING*/
-		/*Need to move this part to a member function of Trainer class*/
-
-		if (message.typing_dynamic_message)
-		{
-			message.num_words_typed += 1;
-
-			if (message.num_words_typed > std::strlen(message.message_to_type))
-			{
-				message.typing_dynamic_message = false;
-				message.num_words_typed = 0;
-
-				// chat_box.show_typed_message = true;
-				// player.Stop(type);
-			}
-			else
-			{
-				// void type_character(char* message_pointer, float start_x, float start_y, int start, int numChars);
-				message.type_character(message.message_to_type, 100, 100, 0, message.num_words_typed);
-				// chat_box.move_cursor();
-			}
 		}
 
 		FsSwapBuffers();
